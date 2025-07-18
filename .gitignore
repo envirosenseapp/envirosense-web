@@ -53,6 +53,4 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
-=======
-404: Not Found
->>>>>>> 46666a6 (add .gitignore file)
+
