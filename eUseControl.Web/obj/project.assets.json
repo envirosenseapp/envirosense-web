@@ -1,0 +1,143 @@
+{
+  "version": 3,
+  "targets": {
+    "net9.0": {
+      "eUseControl.BussinesLogic/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "eUseControl.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/eUseControl.BussinesLogic.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/eUseControl.BussinesLogic.dll": {}
+        }
+      },
+      "eUseControl.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/eUseControl.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/eUseControl.Domain.dll": {}
+        }
+      },
+      "eUseControl.Helpers/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "eUseControl.BussinesLogic": "1.0.0",
+          "eUseControl.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/eUseControl.Helpers.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/eUseControl.Helpers.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "eUseControl.BussinesLogic/1.0.0": {
+      "type": "project",
+      "path": "../eUseControl.BussinesLogic/eUseControl.BussinesLogic.csproj",
+      "msbuildProject": "../eUseControl.BussinesLogic/eUseControl.BussinesLogic.csproj"
+    },
+    "eUseControl.Domain/1.0.0": {
+      "type": "project",
+      "path": "../eUseControl.Domain/eUseControl.Domain.csproj",
+      "msbuildProject": "../eUseControl.Domain/eUseControl.Domain.csproj"
+    },
+    "eUseControl.Helpers/1.0.0": {
+      "type": "project",
+      "path": "../eUseControl.Helpers/eUseControl.Helpers.csproj",
+      "msbuildProject": "../eUseControl.Helpers/eUseControl.Helpers.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net9.0": [
+      "eUseControl.BussinesLogic >= 1.0.0",
+      "eUseControl.Domain >= 1.0.0",
+      "eUseControl.Helpers >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/home/nicu/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/home/nicu/Documents/envirosense-web/eUseControl.Web/eUseControl.Web.csproj",
+      "projectName": "eUseControl.Web",
+      "projectPath": "/home/nicu/Documents/envirosense-web/eUseControl.Web/eUseControl.Web.csproj",
+      "packagesPath": "/home/nicu/.nuget/packages/",
+      "outputPath": "/home/nicu/Documents/envirosense-web/eUseControl.Web/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/home/nicu/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net9.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "projectReferences": {
+            "/home/nicu/Documents/envirosense-web/eUseControl.BussinesLogic/eUseControl.BussinesLogic.csproj": {
+              "projectPath": "/home/nicu/Documents/envirosense-web/eUseControl.BussinesLogic/eUseControl.BussinesLogic.csproj"
+            },
+            "/home/nicu/Documents/envirosense-web/eUseControl.Domain/eUseControl.Domain.csproj": {
+              "projectPath": "/home/nicu/Documents/envirosense-web/eUseControl.Domain/eUseControl.Domain.csproj"
+            },
+            "/home/nicu/Documents/envirosense-web/eUseControl.Helpers/eUseControl.Helpers.csproj": {
+              "projectPath": "/home/nicu/Documents/envirosense-web/eUseControl.Helpers/eUseControl.Helpers.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.100"
+    },
+    "frameworks": {
+      "net9.0": {
+        "targetAlias": "net9.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/home/nicu/dotnet/sdk/9.0.102/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
