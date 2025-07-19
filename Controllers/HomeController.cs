@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using eUseControl.Web.Models;
+using EnviroSense.Web.Models;
 
-namespace eUseControl.Web.Controllers;
+namespace EnviroSense.Web.Controllers;
 
 public class HomeController : Controller
 {
