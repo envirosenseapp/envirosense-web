@@ -1,2 +1,2 @@
 ALTER TABLE accesses
-Rename COLUMN ressource TO resource;
+    Rename COLUMN ressource TO resource;
