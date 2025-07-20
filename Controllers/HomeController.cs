@@ -1,21 +1,32 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using EnviroSense.Web.Models;
+using EnviroSense.Web.Services;
+using EnviroSense.Web.ViewModels.Home;
 
 namespace EnviroSense.Web.Controllers;
 
 public class HomeController : Controller
 {
+    private readonly IAccessService _accessService;
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(IAccessService accessService, ILogger<HomeController> logger)
     {
+        _accessService = accessService;
         _logger = logger;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var createdAccess = await _accessService.Create();
+        var accessCount = await _accessService.Count();
+        
+        return View(new IndexViewModel
+        {
+            AccessId = createdAccess.Id.ToString(),
+            TotalAccesses = accessCount,
+        });
     }
 
     public IActionResult Privacy()
