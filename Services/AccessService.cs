@@ -25,7 +25,6 @@ public class AccessService : IAccessService
             IpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
             Client = httpContext.Request.Headers["User-Agent"].ToString(),
             Resource = httpContext.Request.Path
-           
         };
 
         var createdAccess = await _accessRepository.CreateAsync(access);
