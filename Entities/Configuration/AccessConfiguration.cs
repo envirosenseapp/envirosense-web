@@ -26,7 +26,7 @@ public class AccessConfiguration: IEntityTypeConfiguration<Access>
             .HasColumnName("client");
 
         builder.Property(e => e.Resource)
-            .HasColumnName("ressource");   
+            .HasColumnName("resource");   
 
            // "ressource" is intentionally misspelled with two 's' so it doesn't turn blue in the SQL script in V2
               

@@ -2,7 +2,6 @@ using EnviroSense.Web.Entities;
 using EnviroSense.Web.Repositories;
 
 namespace EnviroSense.Web.Services;
-
 public class AccessService : IAccessService
 {
     private readonly IAccessRepository _accessRepository;
@@ -15,8 +14,6 @@ public class AccessService : IAccessService
         _httpContextAccesor = httpContextAccesor;
     }
 
-
-
     public async Task<Access> Create()
     {
         var httpContext = _httpContextAccesor.HttpContext;
@@ -28,8 +25,7 @@ public class AccessService : IAccessService
             IpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
             Client = httpContext.Request.Headers["User-Agent"].ToString(),
             Resource = httpContext.Request.Path
-            // Currently, I have tested in the DB, and the "resource" field is already filled with the "/" value
-            // I don't know why
+           
         };
 
         var createdAccess = await _accessRepository.CreateAsync(access);
