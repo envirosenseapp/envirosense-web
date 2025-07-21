@@ -2,6 +2,7 @@ using EnviroSense.Web.Entities;
 using EnviroSense.Web.Repositories;
 
 namespace EnviroSense.Web.Services;
+
 public class AccessService : IAccessService
 {
     private readonly IAccessRepository _accessRepository;
@@ -27,9 +28,9 @@ public class AccessService : IAccessService
             Resource = httpContext.Request.Path
         };
 
-        
+        var createdAccess = await _accessRepository.CreateAsync(access);
 
-        return access;
+        return createdAccess;
     }
 
     public Task<int> Count()
