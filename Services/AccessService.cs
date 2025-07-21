@@ -37,4 +37,9 @@ public class AccessService : IAccessService
     {
         return _accessRepository.Count();
     }
+
+    public Task<List<Access>> TakeRecordings()
+    {
+        return _accessRepository.TakeRecordings();
+    }
 }

@@ -7,4 +7,6 @@ public interface IAccessRepository
     Task<Access> CreateAsync(Access access);
 
     Task<int> Count();
+
+    Task<List<Access>> TakeRecordings();
 }

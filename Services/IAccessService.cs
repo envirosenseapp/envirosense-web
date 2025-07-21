@@ -6,4 +6,6 @@ public interface IAccessService
 {
     Task<Access> Create();
     Task<int> Count();
+
+    Task<List<Access>> TakeRecordings();
 }
