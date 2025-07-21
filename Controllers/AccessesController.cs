@@ -3,6 +3,7 @@ using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Accesses;
 
 namespace EnviroSense.Web.Controllers;
+
 public class AccessesController : Controller
 {
     private readonly IAccessService _accessService;
@@ -14,7 +15,7 @@ public class AccessesController : Controller
     {
         var accessList = await _accessService.List();
 
-        var ViewModelList = accessList.Select(a => new AccessesViewModel
+        var viewModelList = accessList.Select(a => new AccessesViewModel
         {
             Id = a.Id,
             CreatedAt = a.CreatedAt,
@@ -24,7 +25,7 @@ public class AccessesController : Controller
 
         }).ToList();
 
-        return View(ViewModelList);
+        return View(viewModelList);
     }
 
 }
