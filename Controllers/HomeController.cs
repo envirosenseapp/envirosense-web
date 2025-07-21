@@ -11,20 +11,20 @@ public class HomeController : Controller
     private readonly IAccessService _accessService;
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(IAccessService accessService, ILogger<HomeController> logger)
     {
-
+        _accessService = accessService;
         _logger = logger;
     }
 
     public async Task<IActionResult> Index()
     {
-
-        var accessCount = Convert.ToInt32(HttpContext.Items["totalAccess"]);
+        var createdAccess = await _accessService.Create();
+        var accessCount = await _accessService.Count();
 
         return View(new IndexViewModel
         {
-
+            AccessId = createdAccess.Id.ToString(),
             TotalAccesses = accessCount,
         });
     }

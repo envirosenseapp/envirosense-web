@@ -1,23 +1,20 @@
-using EnviroSense.Web.Services;
-using Microsoft.AspNetCore.Mvc.Filters;
-using EnviroSense.Web.Repositories;
 using EnviroSense.Web.Entities;
+using EnviroSense.Web.Repositories;
 
-namespace EnviroSense.Web.Filters;
-
-public class AccessTrackingFilter : IAsyncActionFilter
+namespace EnviroSense.Web.Services;
+public class AccessService : IAccessService
 {
     private readonly IAccessRepository _accessRepository;
 
     private readonly IHttpContextAccessor _httpContextAccesor;
 
-    public AccessTrackingFilter(IAccessRepository accessRepository, IHttpContextAccessor httpContextAccesor)
+    public AccessService(IAccessRepository accessRepository, IHttpContextAccessor httpContextAccesor)
     {
         _accessRepository = accessRepository;
         _httpContextAccesor = httpContextAccesor;
     }
 
-    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    public async Task<Access> Create()
     {
         var httpContext = _httpContextAccesor.HttpContext;
 
@@ -30,11 +27,13 @@ public class AccessTrackingFilter : IAsyncActionFilter
             Resource = httpContext.Request.Path
         };
 
-        await _accessRepository.CreateAsync(access);
-     
+        
 
-        await next();
+        return access;
     }
 
-
+    public Task<int> Count()
+    {
+        return _accessRepository.Count();
+    }
 }
