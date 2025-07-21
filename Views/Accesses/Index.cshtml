@@ -1,0 +1,27 @@
+@model List< EnviroSense.Web.ViewModels.Accesses.AccessesViewModel>
+@{
+    ViewData["Title"] = "Accesses Page";
+}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>IP</th>
+            <th>Client</th>
+            <th>Resource</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var access in Model)
+        {
+            <tr>
+                <td>@access.Id</td>
+                <td>@access.CreatedAt</td>
+                <td>@access.IpAddress</td>
+                <td>@access.Client</td>
+                <td>@access.Resource</td>
+            </tr>
+        }
+    </tbody>
+</table>

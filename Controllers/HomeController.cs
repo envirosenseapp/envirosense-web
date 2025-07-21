@@ -10,25 +10,20 @@ public class HomeController : Controller
 {
     private readonly IAccessService _accessService;
     private readonly ILogger<HomeController> _logger;
-
     public HomeController(IAccessService accessService, ILogger<HomeController> logger)
     {
         _accessService = accessService;
         _logger = logger;
     }
-
     public async Task<IActionResult> Index()
     {
-       
         var accessCount = await _accessService.Count();
 
         return View(new IndexViewModel
         {
-        
             TotalAccesses = accessCount,
         });
     }
-
     public IActionResult Privacy()
     {
         return View();
