@@ -2,19 +2,15 @@ using EnviroSense.Web.Entities;
 using EnviroSense.Web.Repositories;
 
 namespace EnviroSense.Web.Services;
-
 public class AccessService : IAccessService
 {
     private readonly IAccessRepository _accessRepository;
-
     private readonly IHttpContextAccessor _httpContextAccesor;
-
     public AccessService(IAccessRepository accessRepository, IHttpContextAccessor httpContextAccesor)
     {
         _accessRepository = accessRepository;
         _httpContextAccesor = httpContextAccesor;
     }
-
     public async Task<Access> Create()
     {
         var httpContext = _httpContextAccesor.HttpContext;
@@ -32,14 +28,12 @@ public class AccessService : IAccessService
 
         return createdAccess;
     }
-
     public Task<int> Count()
     {
         return _accessRepository.Count();
     }
-
-    public Task<List<Access>> TakeRecordings()
+    public Task<List<Access>> List()
     {
-        return _accessRepository.TakeRecordings();
+        return _accessRepository.ListAsync();
     }
 }

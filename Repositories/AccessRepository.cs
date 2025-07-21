@@ -7,13 +7,10 @@ namespace EnviroSense.Web.Repositories;
 public class AccessRepository : IAccessRepository
 {
     private readonly AppDbContext _context;
-
     public AccessRepository(AppDbContext context)
     {
         _context = context;
     }
-
-
     public async Task<Access> CreateAsync(Access access)
     {
         var createdAccess = await _context.Accesses.AddAsync(access);
@@ -21,13 +18,11 @@ public class AccessRepository : IAccessRepository
 
         return createdAccess.Entity;
     }
-
     public Task<int> Count()
     {
         return _context.Accesses.CountAsync();
     }
-
-    public async Task<List<Access>> TakeRecordings()
+    public async Task<List<Access>> ListAsync()
     {
         return await _context.Accesses.OrderByDescending(a => a.CreatedAt).ToListAsync();
 

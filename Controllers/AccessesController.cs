@@ -3,7 +3,6 @@ using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Accesses;
 
 namespace EnviroSense.Web.Controllers;
-
 public class AccessesController : Controller
 {
     private readonly IAccessService _accessService;
@@ -11,10 +10,9 @@ public class AccessesController : Controller
     {
         _accessService = accessService;
     }
-
-    public async Task<IActionResult> AccessPage()
+    public async Task<IActionResult> Index()
     {
-        var accessList = await _accessService.TakeRecordings();
+        var accessList = await _accessService.List();
 
         var ViewModelList = accessList.Select(a => new AccessesViewModel
         {
@@ -28,7 +26,5 @@ public class AccessesController : Controller
 
         return View(ViewModelList);
     }
-
-
 
 }
