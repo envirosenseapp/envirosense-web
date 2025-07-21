@@ -3,6 +3,7 @@ using EnviroSense.Web.Migrations;
 using EnviroSense.Web.Repositories;
 using EnviroSense.Web.Services;
 using Microsoft.EntityFrameworkCore;
+using EnviroSense.Web.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,11 @@ builder.Services.AddDbContext<AppDbContext>(opts =>
     opts.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
 builder.Services.AddScoped<Migrator>();
+builder.Services.AddControllersWithViews(opts =>
+{
+    opts.Filters.Add<AccessTrackingFilter>();
+
+});
 
 var app = builder.Build();
 

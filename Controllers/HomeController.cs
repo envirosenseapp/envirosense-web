@@ -19,12 +19,12 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var createdAccess = await _accessService.Create();
+       
         var accessCount = await _accessService.Count();
-        
+
         return View(new IndexViewModel
         {
-            AccessId = createdAccess.Id.ToString(),
+        
             TotalAccesses = accessCount,
         });
     }
