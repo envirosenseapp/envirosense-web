@@ -10,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<IAccessRepository, AccessRepository>();
 builder.Services.AddScoped<IAccessService, AccessService>();
+builder.Services.AddScoped<IDeciveRepository, DeviceRepository>();
+builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<AppDbContext>(opts =>
