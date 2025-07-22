@@ -26,5 +26,19 @@ namespace EnviroSense.Web.Controllers
 
             return View(viewModelList);
         }
+        public async Task<ActionResult> Details(Guid Id)
+        {
+            var deviceDetails = await _deviceService.Get(Id);
+
+            var viewModeDetails = new DeviceViewModel
+            {
+                Id = deviceDetails.Id,
+                Name = deviceDetails.Name,
+                UpdatedAt = deviceDetails.UpdatedAt,
+                CreatedAt =deviceDetails.CreatedAt
+            };
+
+            return View(viewModeDetails);
+        }
     }
 }
