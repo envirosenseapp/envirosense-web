@@ -30,15 +30,21 @@ namespace EnviroSense.Web.Controllers
         {
             var deviceDetails = await _deviceService.Get(Id);
 
-            var viewModeDetails = new DeviceViewModel
+            if (deviceDetails != null)
             {
-                Id = deviceDetails.Id,
-                Name = deviceDetails.Name,
-                UpdatedAt = deviceDetails.UpdatedAt,
-                CreatedAt =deviceDetails.CreatedAt
-            };
+                var viewModeDetails = new DeviceViewModel
+                {
+                    Id = deviceDetails.Id,
+                    Name = deviceDetails.Name,
+                    UpdatedAt = deviceDetails.UpdatedAt,
+                    CreatedAt = deviceDetails.CreatedAt
+                };
 
-            return View(viewModeDetails);
+                return View(viewModeDetails);
+            }
+            ViewBag.Message = "The device is currently unavailable.";
+
+            return View();
         }
     }
 }
