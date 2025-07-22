@@ -1,6 +1,3 @@
-CREATE
-EXTENSION IF NOT EXISTS "uuid-ossp";
-
 CREATE TABLE devices
 (
     id         uuid      NOT NULL primary key DEFAULT uuid_generate_v1(),

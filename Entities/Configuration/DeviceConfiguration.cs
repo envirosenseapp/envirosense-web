@@ -8,7 +8,7 @@ public class DeviceConfiguration : IEntityTypeConfiguration<Device>
 {
     public void Configure(EntityTypeBuilder<Device> builder)
     {
-        builder.ToTable("device");
+        builder.ToTable("devices");
 
         builder.HasKey(e => e.Id);
 
@@ -20,9 +20,5 @@ public class DeviceConfiguration : IEntityTypeConfiguration<Device>
 
         builder.Property(e => e.CreatedAt).HasColumnName("created_at").HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-        
-
     }
-    
-
 }
