@@ -1,9 +1,7 @@
-using System.Threading.Tasks;
 using EnviroSense.Web.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EnviroSense.Web.Repositories;
-
 public class AccessRepository : IAccessRepository
 {
     private readonly AppDbContext _context;
@@ -25,6 +23,5 @@ public class AccessRepository : IAccessRepository
     public async Task<List<Access>> ListAsync()
     {
         return await _context.Accesses.OrderByDescending(a => a.CreatedAt).ToListAsync();
-
     }
 }
