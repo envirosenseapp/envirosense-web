@@ -14,4 +14,8 @@ public class DeviceService : IDeviceService
     {
         return _deciveRepository.ListAsync();
     }
+    public Task<Device> Get(Guid Id)
+    {
+        return _deciveRepository.GetAsync(Id);
+    }
 }
