@@ -1,16 +1,8 @@
 ﻿@model EnviroSense.Web.ViewModels.Devices.DeviceViewModel
 
-@if (ViewBag.Message != null)
-{
-    <p>"@ViewBag.Message"</p>
-}
-else
-{
-    <div>
-        <p>Device name: @Model.Name</p>
-        <p>Id: @Model.Id</p>
-        <p>Last update: @Model.UpdatedAt</p>
-        <p>Created date: @Model.CreatedAt</p>
-    </div>
-
-}
+<div>
+    <p>Device name: @Model.Name</p>
+    <p>Id: @Model.Id</p>
+    <p>Last update: @Model.UpdatedAt</p>
+    <p>Created date: @Model.CreatedAt</p>
+</div>
