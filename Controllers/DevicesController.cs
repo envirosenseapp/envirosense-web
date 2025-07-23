@@ -67,11 +67,6 @@ namespace EnviroSense.Web.Controllers
         {
             ViewBag.DeviceId = deviceId;
 
-            if (temperature <= -80 || temperature >= 50 || humidity < 0 || humidity > 100)
-            {
-                return View();
-            }
-
             recordingDate = recordingDate.ToUniversalTime();
 
             var newMeasurement = await _measurementService.Create(recordingDate, temperature, humidity, deviceId);
