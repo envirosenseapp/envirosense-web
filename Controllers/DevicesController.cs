@@ -7,9 +7,11 @@ namespace EnviroSense.Web.Controllers
     public class DevicesController : Controller
     {
         private readonly IDeviceService _deviceService;
-        public DevicesController(IDeviceService deviceService)
+        private readonly IMeasurementService _measurementService;
+        public DevicesController(IDeviceService deviceService, IMeasurementService measurementService)
         {
             _deviceService = deviceService;
+            _measurementService = measurementService;
         }
         public async Task<ActionResult> Index()
         {
@@ -53,6 +55,15 @@ namespace EnviroSense.Web.Controllers
             var newDevice = await _deviceService.Create(name);
 
             return RedirectToAction("Details", new { Id = newDevice.Id });
+        }
+        public async Task<ActionResult> AddMeasurements(Guid deviceId, string temperature, string humidity, DateTime recordingDate)
+        {
+            var newMaesurement = await _measurementService.Create(recordingDate, temperature, humidity, deviceId);
+            return RedirectToAction("Mesurements", new {deviceId = newMaesurement.DeviceId});
+        }
+        public async Task<ActionResult> Measurements(Guid deviceID)
+        {
+            return View();
         }
     }
 }
