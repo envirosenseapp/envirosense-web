@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EnviroSense.Web.Entities;
+﻿namespace EnviroSense.Web.Entities;
 
 public class Device
 {
@@ -8,6 +6,6 @@ public class Device
     public required string Name { get; set; }
     public DateTime UpdatedAt { get; set; }
     public DateTime CreatedAt { get; set; }
-    public ICollection<Measurement>? Measurements { get; set; }
+    public required ICollection<Measurement> Measurements { get; set; }
 
 }

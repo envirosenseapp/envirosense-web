@@ -1,6 +1,7 @@
 ﻿using EnviroSense.Web.Entities;
 
 namespace EnviroSense.Web.Services;
+
 public interface IAccessService
 {
     Task<Access> Create();

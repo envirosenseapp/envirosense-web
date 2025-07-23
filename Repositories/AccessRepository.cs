@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace EnviroSense.Web.Repositories;
+
 public class AccessRepository : IAccessRepository
 {
     private readonly AppDbContext _context;

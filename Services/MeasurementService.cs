@@ -7,18 +7,27 @@ namespace EnviroSense.Web.Services;
 public class MeasurementService : IMeasurementService
 {
     private readonly IMeasurementRepository _measureRepository;
-    public MeasurementService(IMeasurementRepository measurementRepository)
+    private readonly IDeciveRepository _deciveRepository;
+    public MeasurementService(IMeasurementRepository measurementRepository, IDeciveRepository deciveRepository)
     {
         _measureRepository = measurementRepository;
+        _deciveRepository = deciveRepository;
     }
-    public async Task<Measurement> Create(DateTime recordingDate, string temperature, string humidity, Guid deviceID)
+    public async Task<Measurement?> Create(DateTime recordingDate, float temperature, float humidity, Guid deviceID)
     {
+        var device = await _deciveRepository.GetAsync(deviceID);
+        if (device == null)
+        {
+            return null;
+        }
         var measurement = new Measurement
         {
             RecordingDate = recordingDate,
             Temperature = temperature,
             Humidity = humidity,
-            DeviceId = deviceID
+            DeviceId = deviceID,
+            Device = device
+
         };
 
         return await _measureRepository.CreateAsync(measurement);

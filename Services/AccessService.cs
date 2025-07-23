@@ -2,6 +2,7 @@
 using EnviroSense.Web.Repositories;
 
 namespace EnviroSense.Web.Services;
+
 public class AccessService : IAccessService
 {
     private readonly IAccessRepository _accessRepository;
