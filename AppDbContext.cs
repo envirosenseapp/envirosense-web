@@ -9,7 +9,7 @@ public class AppDbContext : DbContext
 
     public required DbSet<Access> Accesses { get; set; }
     public required DbSet<Device> Devices { get; set; }
-    public DbSet<Measurement> Measurements { get; set; }
+    public required DbSet<Measurement> Measurements { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
