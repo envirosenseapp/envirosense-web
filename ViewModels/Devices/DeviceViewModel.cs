@@ -1,9 +1,9 @@
-namespace EnviroSense.Web.ViewModels.Devices;
+﻿namespace EnviroSense.Web.ViewModels.Devices;
 
 public class DeviceViewModel
 {
     public Guid Id { get; set; }
-    public string Name { get; set; }
+    public required string Name { get; set; }
     public DateTime UpdatedAt { get; set; }
     public DateTime CreatedAt { get; set; }
 

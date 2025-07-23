@@ -1,6 +1,6 @@
-using EnviroSense.Web.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Devices;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EnviroSense.Web.Controllers
 {

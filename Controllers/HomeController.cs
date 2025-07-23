@@ -1,8 +1,8 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
 using EnviroSense.Web.Models;
 using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Home;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EnviroSense.Web.Controllers;
 

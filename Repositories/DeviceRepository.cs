@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using EnviroSense.Web.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
@@ -16,7 +16,7 @@ public class DeviceRepository : IDeciveRepository
     {
         return await _context.Devices.OrderByDescending(a => a.CreatedAt).ToListAsync();
     }
-    public async Task<Device> GetAsync(Guid Id)
+    public async Task<Device?> GetAsync(Guid Id)
     {
         return await _context.Devices.FirstOrDefaultAsync(d => d.Id == Id);
     }

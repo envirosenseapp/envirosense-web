@@ -1,4 +1,4 @@
-namespace EnviroSense.Web.ViewModels.Home;
+﻿namespace EnviroSense.Web.ViewModels.Home;
 
 public class IndexViewModel
 {

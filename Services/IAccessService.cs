@@ -1,4 +1,4 @@
-using EnviroSense.Web.Entities;
+﻿using EnviroSense.Web.Entities;
 
 namespace EnviroSense.Web.Services;
 public interface IAccessService

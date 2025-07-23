@@ -4,7 +4,12 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
+
+  <Target Name="FormatCode" BeforeTargets="Build">
+    <Exec Command="dotnet format --verbosity diagnostic EnviroSense.Web.csproj" />
+  </Target>
 
   <ItemGroup>
     <PackageReference Include="Evolve" Version="3.2.0" />
