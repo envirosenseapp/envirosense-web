@@ -44,5 +44,15 @@ namespace EnviroSense.Web.Controllers
 
             return View(viewModeDetails);
         }
+        public async Task<ActionResult> Add(string name)
+        {
+            if (name == null)
+            {
+                return View();
+            }
+            var newDevice = await _deviceService.Create(name);
+
+            return RedirectToAction("Details", new { Id = newDevice.Id });
+        }
     }
 }

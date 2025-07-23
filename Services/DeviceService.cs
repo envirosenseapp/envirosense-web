@@ -18,4 +18,15 @@ public class DeviceService : IDeviceService
     {
         return _deciveRepository.GetAsync(Id);
     }
+    public Task<Device> Create(string name)
+    {
+        var device = new Device
+        {
+            Name = name,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        return _deciveRepository.CreateAsync(device);
+    }
 }

@@ -20,4 +20,11 @@ public class DeviceRepository : IDeciveRepository
     {
         return await _context.Devices.FirstOrDefaultAsync(d => d.Id == Id);
     }
+    public async Task<Device> CreateAsync(Device device)
+    {
+        var createDevice = await _context.Devices.AddAsync(device);
+        await _context.SaveChangesAsync();
+
+        return createDevice.Entity;
+    }
 }
