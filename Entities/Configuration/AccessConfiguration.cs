@@ -1,9 +1,9 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EnviroSense.Web.Entities.Configuration;
 
-public class AccessConfiguration: IEntityTypeConfiguration<Access>
+public class AccessConfiguration : IEntityTypeConfiguration<Access>
 {
     public void Configure(EntityTypeBuilder<Access> builder)
     {

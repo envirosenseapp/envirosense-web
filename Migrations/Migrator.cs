@@ -1,4 +1,4 @@
-using EvolveDb;
+﻿using EvolveDb;
 using Microsoft.EntityFrameworkCore;
 
 namespace EnviroSense.Web.Migrations;
@@ -28,7 +28,7 @@ public class Migrator
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex,"Database migration failed.");
+            _logger.LogError(ex, "Database migration failed.");
             throw;
         }
     }

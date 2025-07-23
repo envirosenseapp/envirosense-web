@@ -1,4 +1,4 @@
-using EnviroSense.Web.Entities;
+﻿using EnviroSense.Web.Entities;
 using EnviroSense.Web.Repositories;
 
 namespace EnviroSense.Web.Services;
@@ -14,7 +14,7 @@ public class DeviceService : IDeviceService
     {
         return _deciveRepository.ListAsync();
     }
-    public Task<Device> Get(Guid Id)
+    public Task<Device?> Get(Guid Id)
     {
         return _deciveRepository.GetAsync(Id);
     }

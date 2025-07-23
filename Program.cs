@@ -1,9 +1,9 @@
-using EnviroSense.Web;
+﻿using EnviroSense.Web;
+using EnviroSense.Web.Filters;
 using EnviroSense.Web.Migrations;
 using EnviroSense.Web.Repositories;
 using EnviroSense.Web.Services;
 using Microsoft.EntityFrameworkCore;
-using EnviroSense.Web.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
