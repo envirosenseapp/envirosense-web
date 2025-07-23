@@ -1,2 +1,26 @@
-﻿@{
-}
+﻿@model List< EnviroSense.Web.ViewModels.Devices.MeasurementViewModel>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Devices ID</th>
+            <th>Temperature</th>
+            <th>Humidity</th>
+            <th>Recording date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var measurement in Model)
+        {
+            <tr>
+                <td>@measurement.Id</td>
+                <td>@measurement.DeviceId</td>
+                <td>@measurement.Temperature</td>
+                <td>@measurement.Humidity</td>
+                <td>@measurement.RecordingDate</td>
+
+            </tr>
+        }
+    </tbody>
+</table>

@@ -58,12 +58,34 @@ namespace EnviroSense.Web.Controllers
         }
         public async Task<ActionResult> AddMeasurements(Guid deviceId, string temperature, string humidity, DateTime recordingDate)
         {
+            ViewBag.DeviceId = deviceId;
+            if (temperature == null || humidity == null || recordingDate == null)
+            {
+                return View();
+            }
+            recordingDate = recordingDate.ToUniversalTime();
             var newMaesurement = await _measurementService.Create(recordingDate, temperature, humidity, deviceId);
-            return RedirectToAction("Mesurements", new {deviceId = newMaesurement.DeviceId});
+            return RedirectToAction("Measurements", new { deviceId = newMaesurement.DeviceId });
         }
-        public async Task<ActionResult> Measurements(Guid deviceID)
+        public async Task<ActionResult> Measurements(Guid deviceId)
         {
-            return View();
+            var measurementList = await _measurementService.List(deviceId);
+
+            if (measurementList == null)
+            {
+                return NotFound();
+            }
+
+            var viewModelList = measurementList.Select(m => new MeasurementViewModel
+            {
+                Id = m.Id,
+                DeviceId = m.DeviceId,
+                Temperature = m.Temperature,
+                Humidity = m.Humidity,
+                RecordingDate = m.RecordingDate
+            }).ToList();
+
+            return View(viewModelList);
         }
     }
 }

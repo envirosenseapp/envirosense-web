@@ -1,7 +1,7 @@
 CREATE TABLE measurements
 (
     id         uuid      NOT NULL primary key DEFAULT uuid_generate_v1(),
-    temmperature VARCHAR,
+    temperature VARCHAR,
     humidity VARCHAR,
     recording_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     recording_created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

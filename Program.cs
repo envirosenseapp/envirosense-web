@@ -12,6 +12,8 @@ builder.Services.AddScoped<IAccessRepository, AccessRepository>();
 builder.Services.AddScoped<IAccessService, AccessService>();
 builder.Services.AddScoped<IDeciveRepository, DeviceRepository>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
+builder.Services.AddScoped<IMeasurementRepository, MeasurementRepository>();
+builder.Services.AddScoped<IMeasurementService, MeasurementService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<AppDbContext>(opts =>

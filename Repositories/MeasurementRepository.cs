@@ -1,4 +1,5 @@
-using EnviroSense.Web.Entities;
+﻿using EnviroSense.Web.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EnviroSense.Web.Repositories;
 
@@ -15,5 +16,9 @@ public class MeasurementRepository : IMeasurementRepository
         await _context.SaveChangesAsync();
 
         return createMeasurement.Entity;
+    }
+    public async Task<List<Measurement>> ListAsync(Guid deviceId)
+    {
+        return await _context.Measurements.Where(m => m.DeviceId == deviceId).ToListAsync();
     }
 }

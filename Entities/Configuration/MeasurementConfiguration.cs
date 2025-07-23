@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EnviroSense.Web.Entities.Configuration;
@@ -9,6 +9,7 @@ public class MeasurementConfiguration : IEntityTypeConfiguration<Measurement>
     {
         builder.ToTable("measurements");
         builder.HasKey(m => m.Id);
+        builder.Property(m => m.Id).HasColumnName("id");
         builder.HasOne(d => d.Device).WithMany(m => m.Measurements).HasForeignKey(m => m.DeviceId).OnDelete(DeleteBehavior.Cascade);
         builder.Property(m => m.Temperature).HasColumnName("temperature");
         builder.Property(m => m.Humidity).HasColumnName("humidity");
