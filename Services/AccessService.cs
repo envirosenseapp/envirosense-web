@@ -1,4 +1,5 @@
-﻿using EnviroSense.Web.Entities;
+﻿using System.Net;
+using EnviroSense.Web.Entities;
 using EnviroSense.Web.Repositories;
 
 namespace EnviroSense.Web.Services;
@@ -21,6 +22,7 @@ public class AccessService : IAccessService
             Id = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
             IpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
+            if(Ip)
             Client = httpContext.Request.Headers["User-Agent"].ToString(),
             Resource = httpContext.Request.Path
         };

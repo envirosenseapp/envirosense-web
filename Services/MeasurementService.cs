@@ -1,7 +1,7 @@
 ﻿using System;
 using EnviroSense.Web.Entities;
-using EnviroSense.Web.Repositories;
 using EnviroSense.Web.Exceptions;
+using EnviroSense.Web.Repositories;
 
 namespace EnviroSense.Web.Services;
 
@@ -14,12 +14,12 @@ public class MeasurementService : IMeasurementService
         _measureRepository = measurementRepository;
         _deciveRepository = deciveRepository;
     }
-    public async Task<Measurement?> Create(DateTime recordingDate, float temperature, float humidity, Guid deviceID)
+    public async Task<Measurement> Create(DateTime recordingDate, float temperature, float humidity, Guid deviceID)
     {
         var device = await _deciveRepository.GetAsync(deviceID);
         if (device == null)
         {
-            throw new DeviceNotFound();
+            throw new DeviceNotFoundException();
         }
         var measurement = new Measurement
         {

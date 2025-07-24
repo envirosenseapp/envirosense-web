@@ -1,7 +1,7 @@
-﻿using EnviroSense.Web.Services;
+﻿using EnviroSense.Web.Exceptions;
+using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Devices;
 using Microsoft.AspNetCore.Mvc;
-using EnviroSense.Web.Exceptions;
 
 namespace EnviroSense.Web.Controllers
 {
@@ -77,7 +77,7 @@ namespace EnviroSense.Web.Controllers
                 return RedirectToAction("Measurements", new { deviceId = newMeasurement.DeviceId });
             }
 
-            catch (DeviceNotFound)
+            catch (DeviceNotFoundException)
             {
                 return NotFound();
             }
