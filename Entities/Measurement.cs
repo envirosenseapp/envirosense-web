@@ -9,6 +9,6 @@ public class Measurement
     public required Device Device { get; set; }
     public float? Temperature { get; set; }
     public float? Humidity { get; set; }
-    public DateTime RecordingDate { get; set; }
+    public required DateTime RecordingDate { get; set; }
     public DateTime CreatedAt { get; set; }
 }

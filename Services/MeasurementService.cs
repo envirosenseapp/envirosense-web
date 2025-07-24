@@ -25,7 +25,6 @@ public class MeasurementService : IMeasurementService
             RecordingDate = recordingDate,
             Temperature = temperature,
             Humidity = humidity,
-            DeviceId = deviceID,
             Device = device
 
         };
