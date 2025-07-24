@@ -77,9 +77,9 @@ namespace EnviroSense.Web.Controllers
                 return RedirectToAction("Measurements", new { deviceId = newMeasurement.DeviceId });
             }
 
-            catch (DeviceNotFoundException)
+            catch (DeviceNotFoundException except)
             {
-                return NotFound();
+                return NotFound(new { message = except.Message });
             }
         }
         public async Task<ActionResult> Measurements(Guid deviceId)

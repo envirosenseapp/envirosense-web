@@ -2,5 +2,5 @@
 
 public class DeviceNotFoundException : Exception
 {
-    public DeviceNotFoundException() : base() { }
+    public DeviceNotFoundException(Guid DeviceId) : base($"device with ID {DeviceId} not found") { }
 }

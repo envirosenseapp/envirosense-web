@@ -19,7 +19,7 @@ public class MeasurementService : IMeasurementService
         var device = await _deciveRepository.GetAsync(deviceID);
         if (device == null)
         {
-            throw new DeviceNotFoundException();
+            throw new DeviceNotFoundException(deviceID);
         }
         var measurement = new Measurement
         {
