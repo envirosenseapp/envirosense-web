@@ -1,0 +1,18 @@
+﻿@{
+}
+
+<p>Measurements</p>
+<form asp-action="AddMeasurements" asp-controller="Devices">
+    <input type="hidden" name="deviceId" value="@ViewBag.DeviceId" />
+
+    <label for="temperature">Temperature (°C):</label>
+    <input type="number" name="temperature" id="temperature" min="-80" max="50" step="0.1" required />
+
+    <label for="humidity">Humidity (%):</label>
+    <input type="number" name="humidity" id="humidity" min="0" max="100" step="0.1" required />
+
+    <label for="recordingDate">Recording Date:</label>
+    <input type="datetime-local" name="recordingDate" required />
+
+    <button type="submit">Add</button>
+</form>

@@ -15,6 +15,12 @@
                 <td>@device.Name</td>
                 <td> <a href="@Url.Action("Details", "Devices", new { id = device.Id })" class="btn btn-primary">View</a>
                 </td>
+                <td> <a href="@Url.Action("AddMeasurements", "Devices", new { deviceId = device.Id })"
+                        class="btn btn-primary">New Measurement</a>
+                </td>
+                <td> <a href="@Url.Action("Measurements", "Devices", new { deviceId = device.Id })"
+                        class="btn btn-primary">View Device Measurement</a>
+                </td>
 
             </tr>
         }
@@ -23,4 +29,3 @@
 <button>
     <a asp-controller="Devices" asp-action="Add">Add</a>
 </button>
-

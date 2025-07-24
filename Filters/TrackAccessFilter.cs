@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace EnviroSense.Web.Filters;
+
 public class AccessTrackingFilter : IAsyncActionFilter
 {
     private readonly IAccessService _accessService;

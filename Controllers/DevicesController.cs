@@ -7,9 +7,11 @@ namespace EnviroSense.Web.Controllers
     public class DevicesController : Controller
     {
         private readonly IDeviceService _deviceService;
-        public DevicesController(IDeviceService deviceService)
+        private readonly IMeasurementService _measurementService;
+        public DevicesController(IDeviceService deviceService, IMeasurementService measurementService)
         {
             _deviceService = deviceService;
+            _measurementService = measurementService;
         }
         public async Task<ActionResult> Index()
         {
@@ -53,6 +55,47 @@ namespace EnviroSense.Web.Controllers
             var newDevice = await _deviceService.Create(name);
 
             return RedirectToAction("Details", new { Id = newDevice.Id });
+        }
+        [HttpGet]
+        public IActionResult AddMeasurements(Guid deviceId)
+        {
+            ViewBag.DeviceId = deviceId;
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddMeasurements(Guid deviceId, float temperature, float humidity, DateTime recordingDate)
+        {
+            ViewBag.DeviceId = deviceId;
+
+            recordingDate = recordingDate.ToUniversalTime();
+
+            var newMeasurement = await _measurementService.Create(recordingDate, temperature, humidity, deviceId);
+            if (newMeasurement == null)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("Measurements", new { deviceId = newMeasurement.DeviceId });
+        }
+        public async Task<ActionResult> Measurements(Guid deviceId)
+        {
+            var measurementList = await _measurementService.List(deviceId);
+
+            if (measurementList == null)
+            {
+                return NotFound();
+            }
+
+            var viewModelList = measurementList.Select(m => new MeasurementViewModel
+            {
+                Id = m.Id,
+                DeviceId = m.DeviceId,
+                Temperature = m.Temperature,
+                Humidity = m.Humidity,
+                RecordingDate = m.RecordingDate
+            }).ToList();
+
+            return View(viewModelList);
         }
     }
 }

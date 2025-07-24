@@ -5,4 +5,6 @@
     <p>Id: @Model.Id</p>
     <p>Last update: @Model.UpdatedAt</p>
     <p>Created date: @Model.CreatedAt</p>
+    <td> <a href="@Url.Action("Measurements", "Devices", new { deviceId = Model.Id })"
+                        class="btn btn-primary">View Device Measurement</a>
 </div>

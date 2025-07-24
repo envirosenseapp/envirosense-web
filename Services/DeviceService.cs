@@ -24,7 +24,8 @@ public class DeviceService : IDeviceService
         {
             Name = name,
             CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
+            UpdatedAt = DateTime.UtcNow,
+            Measurements = new List<Measurement>()
         };
 
         return _deciveRepository.CreateAsync(device);
