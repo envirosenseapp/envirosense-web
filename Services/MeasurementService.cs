@@ -1,6 +1,7 @@
 ﻿using System;
 using EnviroSense.Web.Entities;
 using EnviroSense.Web.Repositories;
+using EnviroSense.Web.Exceptions;
 
 namespace EnviroSense.Web.Services;
 
@@ -18,7 +19,7 @@ public class MeasurementService : IMeasurementService
         var device = await _deciveRepository.GetAsync(deviceID);
         if (device == null)
         {
-            return null;
+            throw new DeviceNotFound();
         }
         var measurement = new Measurement
         {
