@@ -20,7 +20,13 @@ public class Migrator
         {
             var evolve = new Evolve(_dbContext.Database.GetDbConnection())
             {
-                Locations = new[] { "Migrations/SQL" },
+                Locations = new[]
+                {
+                    "Migrations/SQL",
+
+                    //TODO: once we set deployment, make seeds applicable per environment
+                    "Migrations/Seeds"
+                },
                 IsEraseDisabled = true,
             };
 
