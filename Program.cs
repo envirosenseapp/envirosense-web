@@ -24,7 +24,6 @@ builder.Services.AddScoped<Migrator>();
 builder.Services.AddControllersWithViews(opts =>
 {
     opts.Filters.Add<AccessTrackingFilter>();
-
 });
 
 var app = builder.Build();
@@ -52,8 +51,8 @@ app.UseAuthorization();
 app.MapStaticAssets();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 app.Run();
