@@ -16,11 +16,11 @@ public class AccessService : IAccessService
     public async Task<Access> Create()
     {
         var httpContext = _httpContextAccesor.HttpContext;
-        var ipAddress = httpContext.Connection.RemoteIpAddress.ToString();
-        if (ipAddress == null)
+        if (httpContext?.Connection?.RemoteIpAddress == null)
         {
             throw new IpAddressNotFoundException();
         }
+        var ipAddress = httpContext.Connection.RemoteIpAddress.ToString();
 
         var access = new Access
         {

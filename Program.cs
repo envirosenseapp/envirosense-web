@@ -31,8 +31,8 @@ var app = builder.Build();
 // Run migrations
 using (var serviceScope = app.Services.CreateScope())
 {
-    var migrator = serviceScope.ServiceProvider.GetService<Migrator>();
-    migrator?.MigrateDatabase();
+    var migrator = serviceScope.ServiceProvider.GetRequiredService<Migrator>();
+    migrator.MigrateDatabase();
 }
 
 // Configure the HTTP request pipeline.
