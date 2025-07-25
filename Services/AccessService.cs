@@ -1,6 +1,6 @@
 ﻿using EnviroSense.Web.Entities;
-using EnviroSense.Web.Repositories;
 using EnviroSense.Web.Exceptions;
+using EnviroSense.Web.Repositories;
 
 namespace EnviroSense.Web.Services;
 
