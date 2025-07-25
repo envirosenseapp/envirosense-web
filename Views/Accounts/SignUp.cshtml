@@ -1,7 +1,7 @@
 ﻿@{
 }
 
-<form asp-controller="Accounts" asp-action="SignUpUser">
+<form asp-controller="Accounts" asp-action="SignUp">
 
     <label for="email">Email</label><br>
     @if (ViewBag.EmailValidator != null)
@@ -10,13 +10,13 @@
     }
     <input type="email" name="email" id="email" required><br>
     <label for="password">password</label><br>
-    <input type="text" name="password" id="password" minlength="8" required><br>
+    <input type="password" name="password" id="password" minlength="8" required><br>
     @if (ViewBag.PasswordDontMatch != null)
     {
         <p style="color: red;">@ViewBag.PasswordDontMatch</p>
     }
     <label for="confirmPassword">Confirm password </label><br>
-    <input type="text" name="confirmPassword" id="confirmPassword" minlength="8" required><br>
+    <input type="password" name="confirmPassword" id="confirmPassword" minlength="8" required><br>
     <button type="submit">SignUp</button>
 
 </form>

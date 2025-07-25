@@ -14,7 +14,7 @@ namespace EnviroSense.Web.Controllers
         }
 
 
-        public ActionResult SignUP()
+        public ActionResult SignUp()
         {
             ViewBag.PasswordDontMatch = TempData["PasswordDontMatch"];
             ViewBag.EmailValidator = TempData["ExistingEmail"];
@@ -22,7 +22,7 @@ namespace EnviroSense.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SignUpUser(string email, string password, string confirmPassword)
+        public async Task<ActionResult> SignUp(string email, string password, string confirmPassword)
         {
             if (password != confirmPassword)
             {
@@ -30,8 +30,8 @@ namespace EnviroSense.Web.Controllers
                 return RedirectToAction("SignUp");
             }
 
-            var validate = await _accountService.Validate(email);
-            if (validate)
+            var IsEmailTaken = await _accountService.Validate(email);
+            if (IsEmailTaken)
             {
                 TempData["ExistingEmail"] = "An user with this email allready exists";
                 return RedirectToAction("SignUp");
