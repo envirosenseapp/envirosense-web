@@ -1,4 +1,5 @@
-﻿using EnviroSense.Web.Services;
+﻿using EnviroSense.Web.Exceptions;
+using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Devices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -65,17 +66,21 @@ namespace EnviroSense.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddMeasurements(Guid deviceId, float temperature, float humidity, DateTime recordingDate)
         {
-            ViewBag.DeviceId = deviceId;
-
-            recordingDate = recordingDate.ToUniversalTime();
-
-            var newMeasurement = await _measurementService.Create(recordingDate, temperature, humidity, deviceId);
-            if (newMeasurement == null)
+            try
             {
-                return NotFound();
+                ViewBag.DeviceId = deviceId;
+
+                recordingDate = recordingDate.ToUniversalTime();
+
+                var newMeasurement = await _measurementService.Create(recordingDate, temperature, humidity, deviceId);
+
+                return RedirectToAction("Measurements", new { deviceId = newMeasurement.DeviceId });
             }
 
-            return RedirectToAction("Measurements", new { deviceId = newMeasurement.DeviceId });
+            catch (DeviceNotFoundException except)
+            {
+                return NotFound(new { message = except.Message });
+            }
         }
         public async Task<ActionResult> Measurements(Guid deviceId)
         {

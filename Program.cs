@@ -31,7 +31,7 @@ var app = builder.Build();
 // Run migrations
 using (var serviceScope = app.Services.CreateScope())
 {
-    var migrator = serviceScope.ServiceProvider.GetService<Migrator>();
+    var migrator = serviceScope.ServiceProvider.GetRequiredService<Migrator>();
     migrator.MigrateDatabase();
 }
 

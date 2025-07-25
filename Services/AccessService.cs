@@ -1,4 +1,5 @@
 ﻿using EnviroSense.Web.Entities;
+using EnviroSense.Web.Exceptions;
 using EnviroSense.Web.Repositories;
 
 namespace EnviroSense.Web.Services;
@@ -15,12 +16,17 @@ public class AccessService : IAccessService
     public async Task<Access> Create()
     {
         var httpContext = _httpContextAccesor.HttpContext;
+        if (httpContext?.Connection?.RemoteIpAddress == null)
+        {
+            throw new IpAddressNotFoundException();
+        }
+        var ipAddress = httpContext.Connection.RemoteIpAddress.ToString();
 
         var access = new Access
         {
             Id = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
-            IpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
+            IpAddress = ipAddress,
             Client = httpContext.Request.Headers["User-Agent"].ToString(),
             Resource = httpContext.Request.Path
         };
