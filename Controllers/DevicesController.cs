@@ -9,11 +9,13 @@ namespace EnviroSense.Web.Controllers
     {
         private readonly IDeviceService _deviceService;
         private readonly IMeasurementService _measurementService;
+
         public DevicesController(IDeviceService deviceService, IMeasurementService measurementService)
         {
             _deviceService = deviceService;
             _measurementService = measurementService;
         }
+
         public async Task<ActionResult> Index()
         {
             var deviceList = await _deviceService.List();
@@ -24,11 +26,11 @@ namespace EnviroSense.Web.Controllers
                 Name = d.Name,
                 UpdatedAt = d.UpdatedAt,
                 CreatedAt = d.CreatedAt
-
             }).ToList();
 
             return View(viewModelList);
         }
+
         public async Task<ActionResult> Details(Guid Id)
         {
             var deviceDetails = await _deviceService.Get(Id);
@@ -37,6 +39,7 @@ namespace EnviroSense.Web.Controllers
             {
                 return NotFound();
             }
+
             var viewModeDetails = new DeviceViewModel
             {
                 Id = deviceDetails.Id,
@@ -47,24 +50,29 @@ namespace EnviroSense.Web.Controllers
 
             return View(viewModeDetails);
         }
-        public async Task<ActionResult> Add(string name)
+
+        public async Task<ActionResult> Add(string? name)
         {
             if (name == null)
             {
                 return View();
             }
+
             var newDevice = await _deviceService.Create(name);
 
-            return RedirectToAction("Details", new { Id = newDevice.Id });
+            return RedirectToAction("Details", new { newDevice.Id });
         }
+
         [HttpGet]
         public IActionResult AddMeasurements(Guid deviceId)
         {
             ViewBag.DeviceId = deviceId;
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> AddMeasurements(Guid deviceId, float temperature, float humidity, DateTime recordingDate)
+        public async Task<IActionResult> AddMeasurements(Guid deviceId, float temperature, float humidity,
+            DateTime recordingDate)
         {
             try
             {
@@ -82,6 +90,7 @@ namespace EnviroSense.Web.Controllers
                 return NotFound(new { message = except.Message });
             }
         }
+
         public async Task<ActionResult> Measurements(Guid deviceId)
         {
             var measurementList = await _measurementService.List(deviceId);

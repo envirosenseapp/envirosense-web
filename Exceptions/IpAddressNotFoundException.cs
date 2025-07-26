@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EnviroSense.Web.Exceptions;
+﻿namespace EnviroSense.Web.Exceptions;
 
 public class IpAddressNotFoundException : Exception
 {

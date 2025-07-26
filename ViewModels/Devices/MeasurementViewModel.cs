@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EnviroSense.Web.ViewModels.Devices;
+﻿namespace EnviroSense.Web.ViewModels.Devices;
 
 public class MeasurementViewModel
 {
@@ -9,5 +7,4 @@ public class MeasurementViewModel
     public float? Temperature { get; set; }
     public float? Humidity { get; set; }
     public DateTime RecordingDate { get; set; }
-
 }

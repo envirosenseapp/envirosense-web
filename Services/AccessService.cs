@@ -8,18 +8,21 @@ public class AccessService : IAccessService
 {
     private readonly IAccessRepository _accessRepository;
     private readonly IHttpContextAccessor _httpContextAccesor;
+
     public AccessService(IAccessRepository accessRepository, IHttpContextAccessor httpContextAccesor)
     {
         _accessRepository = accessRepository;
         _httpContextAccesor = httpContextAccesor;
     }
+
     public async Task<Access> Create()
     {
         var httpContext = _httpContextAccesor.HttpContext;
-        if (httpContext?.Connection?.RemoteIpAddress == null)
+        if (httpContext?.Connection.RemoteIpAddress == null)
         {
             throw new IpAddressNotFoundException();
         }
+
         var ipAddress = httpContext.Connection.RemoteIpAddress.ToString();
 
         var access = new Access
@@ -35,10 +38,12 @@ public class AccessService : IAccessService
 
         return createdAccess;
     }
+
     public Task<int> Count()
     {
         return _accessRepository.Count();
     }
+
     public Task<List<Access>> List()
     {
         return _accessRepository.ListAsync();

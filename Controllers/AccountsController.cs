@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using EnviroSense.Web.Services;
+﻿using EnviroSense.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnviroSense.Web.Controllers
@@ -30,8 +28,8 @@ namespace EnviroSense.Web.Controllers
                 return RedirectToAction("SignUp");
             }
 
-            var IsEmailTaken = await _accountService.Validate(email);
-            if (IsEmailTaken)
+            var isEmailTaken = await _accountService.IsEmailTaken(email);
+            if (isEmailTaken)
             {
                 TempData["ExistingEmail"] = "An user with this email allready exists";
                 return RedirectToAction("SignUp");

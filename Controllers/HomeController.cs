@@ -9,11 +9,9 @@ namespace EnviroSense.Web.Controllers;
 public class HomeController : Controller
 {
     private readonly IAccessService _accessService;
-    private readonly ILogger<HomeController> _logger;
-    public HomeController(IAccessService accessService, ILogger<HomeController> logger)
+    public HomeController(IAccessService accessService)
     {
         _accessService = accessService;
-        _logger = logger;
     }
     public async Task<IActionResult> Index()
     {
