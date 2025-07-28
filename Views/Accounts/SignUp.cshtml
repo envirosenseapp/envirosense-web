@@ -12,10 +12,7 @@
     <input type="email" asp-for="Email" id="email" required><br>
     <label asp-for="Password">password</label><br>
     <input type="password" asp-for="Password" id="password" minlength="8" required><br>
-    @if (ViewBag.PasswordDontMatch != null)
-    {
-        <p style="color: red;">@ViewBag.PasswordDontMatch</p>
-    }
+    <span asp-validation-for="Password" class="text-danger"></span>
     <label asp-for="ConfirmPassword">Confirm password </label><br>
     <input type="password" asp-for="ConfirmPassword" id="confirmPassword" minlength="8" required><br>
     <button type="submit">SignUp</button>
