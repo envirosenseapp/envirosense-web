@@ -1,5 +1,6 @@
 ﻿using EnviroSense.Web.Entities;
 using EnviroSense.Web.Repositories;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace EnviroSense.Web.Services;
 
@@ -15,6 +16,11 @@ public class AccountService : IAccountService
     public async Task<bool> IsEmailTaken(string email)
     {
         return await _accountRepository.IsEmailTaken(email);
+    }
+
+    public string EncryptPassword(string password)
+    {
+        return BCryptNet.HashPassword(password, 10);
     }
 
     public async Task<Account> Add(Account account)

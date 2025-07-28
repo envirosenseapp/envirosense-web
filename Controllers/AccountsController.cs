@@ -2,7 +2,7 @@
 using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Accounts;
 using Microsoft.AspNetCore.Mvc;
-using BCryptNet = BCrypt.Net.BCrypt;
+
 
 namespace EnviroSense.Web.Controllers
 {
@@ -25,25 +25,26 @@ namespace EnviroSense.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SignUp(SignUpViewModel model)
         {
-
             var isEmailTaken = await _accountService.IsEmailTaken(model.Email);
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("SignUp");
             }
+
             if (isEmailTaken)
             {
                 TempData["ExistingEmail"] = "An user with this email allready exists";
                 return RedirectToAction("SignUp");
             }
-            string hashedPassword = BCryptNet.HashPassword(model.Password, 10);
+
             var singUpModel = new Account()
             {
                 Email = model.Email,
-                Password = hashedPassword,
+                Password = model.Password,
                 UpdatedAt = DateTime.UtcNow,
                 CreatedAt = DateTime.UtcNow
             };
+            singUpModel.Password = _accountService.EncryptPassword(singUpModel.Password);
 
             await _accountService.Add(singUpModel);
 
