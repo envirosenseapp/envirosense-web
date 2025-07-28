@@ -20,12 +20,12 @@ public class AccessConfiguration : IEntityTypeConfiguration<Access>
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
         builder.Property(e => e.IpAddress)
-            .HasColumnName("ip_address");
+            .HasColumnName("ip_address").HasMaxLength(45);
 
         builder.Property(e => e.Client)
-            .HasColumnName("client");
+            .HasColumnName("client").HasMaxLength(512);
 
         builder.Property(e => e.Resource)
-            .HasColumnName("resource");
+            .HasColumnName("resource").HasMaxLength(1024);
     }
 }

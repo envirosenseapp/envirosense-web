@@ -1,10 +1,10 @@
-﻿using System;
-using EnviroSense.Web.Entities;
+﻿using EnviroSense.Web.Entities;
 
 namespace EnviroSense.Web.Services;
 
 public interface IMeasurementService
 {
-    Task<Measurement> Create(DateTime recordingDate, float temperature, float humidity, Guid deviceId);
-    Task<List<Measurement>> List(Guid deviceId);
+    Task<Device> Get(Guid deviceId);
+    Task<Measurement> Create(Measurement measurement);
+    Task<List<Measurement>?> List(Guid deviceId);
 }

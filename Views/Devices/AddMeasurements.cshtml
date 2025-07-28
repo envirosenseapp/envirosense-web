@@ -1,18 +1,19 @@
-﻿@{
+﻿@model EnviroSense.Web.ViewModels.Devices.MeasurementViewModel
+@{
 }
 
 <p>Measurements</p>
-<form asp-action="AddMeasurements" asp-controller="Devices">
-    <input type="hidden" name="deviceId" value="@ViewBag.DeviceId" />
+<form asp-action="AddMeasurements" asp-controller="Devices" method="post">
+    <input type="hidden" asp-for="DeviceId" value="@ViewBag.DeviceId" required />
 
-    <label for="temperature">Temperature (°C):</label>
-    <input type="number" name="temperature" id="temperature" min="-80" max="50" step="0.1" required />
+    <label asp-for="DeviceId">Temperature (°C):</label>
+    <input type="number" asp-for="Temperature" id="temperature" min="-80" max="50" step="0.1" required />
 
-    <label for="humidity">Humidity (%):</label>
-    <input type="number" name="humidity" id="humidity" min="0" max="100" step="0.1" required />
+    <label asp-for="Humidity">Humidity (%):</label>
+    <input type="number" asp-for="Humidity" id="humidity" min="0" max="100" step="0.1" required />
 
-    <label for="recordingDate">Recording Date:</label>
-    <input type="datetime-local" name="recordingDate" required />
+    <label asp-for="RecordingDate">Recording Date:</label>
+    <input type="datetime-local" asp-for="RecordingDate" id="recordingDate" required />
 
     <button type="submit">Add</button>
 </form>

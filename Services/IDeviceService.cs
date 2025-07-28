@@ -1,5 +1,4 @@
-﻿using System;
-using EnviroSense.Web.Entities;
+﻿using EnviroSense.Web.Entities;
 
 namespace EnviroSense.Web.Services;
 

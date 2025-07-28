@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EnviroSense.Web.Entities;
+﻿namespace EnviroSense.Web.Entities;
 
 public class Measurement
 {
