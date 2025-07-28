@@ -1,7 +1,7 @@
-﻿using EnviroSense.Web.Entities;
-using EnviroSense.Web.Services;
+﻿using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Accounts;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace EnviroSense.Web.Controllers
 {
@@ -24,26 +24,18 @@ namespace EnviroSense.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SignUp(SignUpViewModel model)
         {
-
             var isEmailTaken = await _accountService.IsEmailTaken(model.Email);
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("SignUp");
             }
+
             if (isEmailTaken)
             {
                 TempData["ExistingEmail"] = "An user with this email allready exists";
                 return RedirectToAction("SignUp");
             }
-            var singUpModel = new Account()
-            {
-                Email = model.Email,
-                Password = model.Password,
-                UpdatedAt = DateTime.UtcNow,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            await _accountService.Add(singUpModel);
+            await _accountService.Add(model.Email, model.Password);
 
             return RedirectToAction("Index", "Home");
         }
