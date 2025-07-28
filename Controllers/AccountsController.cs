@@ -26,14 +26,13 @@ namespace EnviroSense.Web.Controllers
         {
 
             var isEmailTaken = await _accountService.IsEmailTaken(model.Email);
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("SignUp");
+            }
             if (isEmailTaken)
             {
                 TempData["ExistingEmail"] = "An user with this email allready exists";
-                return RedirectToAction("SignUp");
-            }
-
-            if (!ModelState.IsValid)
-            {
                 return RedirectToAction("SignUp");
             }
             var singUpModel = new Account()
