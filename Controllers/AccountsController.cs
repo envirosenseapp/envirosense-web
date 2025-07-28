@@ -1,5 +1,4 @@
-﻿using EnviroSense.Web.Entities;
-using EnviroSense.Web.Services;
+﻿using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Accounts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,17 +35,7 @@ namespace EnviroSense.Web.Controllers
                 TempData["ExistingEmail"] = "An user with this email allready exists";
                 return RedirectToAction("SignUp");
             }
-
-            var singUpModel = new Account()
-            {
-                Email = model.Email,
-                Password = model.Password,
-                UpdatedAt = DateTime.UtcNow,
-                CreatedAt = DateTime.UtcNow
-            };
-            singUpModel.Password = _accountService.EncryptPassword(singUpModel.Password);
-
-            await _accountService.Add(singUpModel);
+            await _accountService.Add(model.Email, model.Password);
 
             return RedirectToAction("Index", "Home");
         }
