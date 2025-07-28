@@ -17,16 +17,8 @@ public class AccountService : IAccountService
         return await _accountRepository.IsEmailTaken(email);
     }
 
-    public async Task<Account> Add(string email, string password)
+    public async Task<Account> Add(Account account)
     {
-        var account = new Account
-        {
-            Email = email,
-            Password = password,
-            UpdatedAt = DateTime.UtcNow,
-            CreatedAt = DateTime.UtcNow
-        };
-
         return await _accountRepository.AddAsync(account);
     }
 }

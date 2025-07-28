@@ -1,4 +1,5 @@
-﻿using EnviroSense.Web.Exceptions;
+﻿using EnviroSense.Web.Entities;
+using EnviroSense.Web.Exceptions;
 using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Devices;
 using Microsoft.AspNetCore.Mvc;
@@ -31,9 +32,9 @@ namespace EnviroSense.Web.Controllers
             return View(viewModelList);
         }
 
-        public async Task<ActionResult> Details(Guid Id)
+        public async Task<ActionResult> Details(Guid iD)
         {
-            var deviceDetails = await _deviceService.Get(Id);
+            var deviceDetails = await _deviceService.Get(iD);
 
             if (deviceDetails == null)
             {
@@ -71,21 +72,41 @@ namespace EnviroSense.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddMeasurements(Guid deviceId, float temperature, float humidity,
-            DateTime recordingDate)
+        public async Task<IActionResult> AddMeasurements(MeasurementViewModel model)
         {
-            try
+            if (!model.Temperature.HasValue || !model.Humidity.HasValue)
             {
-                ViewBag.DeviceId = deviceId;
+                return RedirectToAction("AddMeasurements", new { deviceId = model.DeviceId });
+            }
 
-                recordingDate = recordingDate.ToUniversalTime();
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("AddMeasurements", new { deviceId = model.DeviceId });
+            }
 
-                var newMeasurement = await _measurementService.Create(recordingDate, temperature, humidity, deviceId);
+            try
+
+            {
+                ViewBag.DeviceId = model.DeviceId;
+
+                model.RecordingDate = model.RecordingDate.ToUniversalTime();
+                var device = await _measurementService.Get(model.DeviceId);
+                var measurementModel = new Measurement()
+                {
+                    DeviceId = model.DeviceId,
+                    Temperature = model.Temperature.Value,
+                    Humidity = model.Humidity.Value,
+                    RecordingDate = model.RecordingDate,
+                    Device = device
+                };
+
+                var newMeasurement = await _measurementService.Create(measurementModel);
 
                 return RedirectToAction("Measurements", new { deviceId = newMeasurement.DeviceId });
             }
 
-            catch (DeviceNotFoundException except)
+            catch
+                (DeviceNotFoundException except)
             {
                 return NotFound(new { message = except.Message });
             }
