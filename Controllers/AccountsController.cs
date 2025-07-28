@@ -2,6 +2,7 @@
 using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Accounts;
 using Microsoft.AspNetCore.Mvc;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace EnviroSense.Web.Controllers
 {
@@ -35,10 +36,11 @@ namespace EnviroSense.Web.Controllers
                 TempData["ExistingEmail"] = "An user with this email allready exists";
                 return RedirectToAction("SignUp");
             }
+            string hashedPassword = BCryptNet.HashPassword(model.Password, 10);
             var singUpModel = new Account()
             {
                 Email = model.Email,
-                Password = model.Password,
+                Password = hashedPassword,
                 UpdatedAt = DateTime.UtcNow,
                 CreatedAt = DateTime.UtcNow
             };
