@@ -1,4 +1,5 @@
-﻿using EnviroSense.Web.Services;
+﻿using EnviroSense.Web.Exceptions;
+using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Accounts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,9 +36,41 @@ namespace EnviroSense.Web.Controllers
                 TempData["ExistingEmail"] = "An user with this email allready exists";
                 return RedirectToAction("SignUp");
             }
+
             await _accountService.Add(model.Email, model.Password);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult SignIn()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SignIn(SignInViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await _accountService.Login(model.Email, model.Password);
+                return RedirectToAction("Index", "Home");
+            }
+            catch (AccountNotFoundException ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
+            }
+            catch (SessionIsNotAvailableException ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
+            }
         }
     }
 }

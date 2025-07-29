@@ -1,4 +1,5 @@
 ﻿using EnviroSense.Web.Entities;
+using EnviroSense.Web.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace EnviroSense.Web.Repositories;
@@ -6,6 +7,7 @@ namespace EnviroSense.Web.Repositories;
 public class AccountRepository : IAccountRepository
 {
     public readonly AppDbContext _context;
+
     public AccountRepository(AppDbContext context)
     {
         _context = context;
@@ -16,6 +18,7 @@ public class AccountRepository : IAccountRepository
         var result = await _context.Accounts.AnyAsync(a => a.Email == email);
         return result;
     }
+
     public async Task<Account> AddAsync(Account account)
     {
         var createdAccount = await _context.Accounts.AddAsync(account);
@@ -24,4 +27,15 @@ public class AccountRepository : IAccountRepository
         return createdAccount.Entity;
     }
 
+    public async Task<Account> GetAccountByEmail(string email)
+    {
+        var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Email == email);
+
+        if (account == null)
+        {
+            throw new AccountNotFoundException();
+        }
+
+        return account;
+    }
 }
