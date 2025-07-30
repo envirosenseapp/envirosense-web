@@ -1,9 +1,11 @@
-﻿using EnviroSense.Web.Services;
+﻿using EnviroSense.Web.Filters;
+using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Accesses;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EnviroSense.Web.Controllers;
 
+namespace EnviroSense.Web.Controllers;
+[TypeFilter(typeof(SignedInFilter))]
 public class AccessesController : Controller
 {
     private readonly IAccessService _accessService;
