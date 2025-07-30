@@ -9,4 +9,8 @@ SET account_id = (SELECT id
 WHERE account_id IS NULL;
 
 ALTER TABLE devices
-    ALTER COLUMN account_id SET NOT NULL;
+    ALTER COLUMN account_id SET NOT NULL,
+    ADD CONSTRAINT devices_account_id_fkey
+        FOREIGN KEY (account_id)
+            REFERENCES accounts (id)
+            ON DELETE cascade;

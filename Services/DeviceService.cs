@@ -8,14 +8,17 @@ public class DeviceService : IDeviceService
 {
     private readonly IDeciveRepository _deciveRepository;
     private readonly IHttpContextAccessor _accessor;
+    private readonly IAccountService _accountService;
 
-    public DeviceService(IDeciveRepository deciveRepository, IHttpContextAccessor accessor)
+    public DeviceService(IDeciveRepository deciveRepository, IHttpContextAccessor accessor,
+        IAccountService accountService)
     {
         _deciveRepository = deciveRepository;
         _accessor = accessor;
+        _accountService = accountService;
     }
 
-    public Guid GetAccountId()
+    private Guid GetAccountId()
     {
         var httpContext = _accessor.HttpContext;
 
@@ -25,13 +28,13 @@ public class DeviceService : IDeviceService
         }
 
         var session = httpContext.Session;
-        var accountIdStr = session.GetString("authenticated_account_id");
-        if (accountIdStr == null)
+        var accountId = session.GetString("authenticated_account_id");
+        if (accountId == null)
         {
             throw new SessionIsNotAvailableException();
         }
 
-        return Guid.Parse(accountIdStr);
+        return Guid.Parse(accountId);
     }
 
     public Task<List<Device>> List()
@@ -45,17 +48,19 @@ public class DeviceService : IDeviceService
         return _deciveRepository.GetAsync(Id);
     }
 
-    public Task<Device> Create(string name)
+    public async Task<Device> Create(string name)
     {
+        var accountId = GetAccountId();
+        var account = await _accountService.GetAccountById(accountId);
         var device = new Device
         {
             Name = name,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
-            AccountId = GetAccountId(),
-            Measurements = new List<Measurement>()
+            Measurements = new List<Measurement>(),
+            Account = account,
         };
 
-        return _deciveRepository.CreateAsync(device);
+        return await _deciveRepository.CreateAsync(device);
     }
 }

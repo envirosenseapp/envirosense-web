@@ -29,7 +29,8 @@ public class AccountService : IAccountService
             Email = email,
             Password = hashedPassword,
             UpdatedAt = DateTime.UtcNow,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
+            Devices = new List<Device>()
         };
         return await _accountRepository.AddAsync(account);
     }
@@ -47,6 +48,7 @@ public class AccountService : IAccountService
             {
                 throw new SessionIsNotAvailableException();
             }
+
             session.SetString("authenticated_account_id", accountId);
             return account;
         }
@@ -54,5 +56,10 @@ public class AccountService : IAccountService
         {
             throw new AccountNotFoundException();
         }
+    }
+
+    public async Task<Account> GetAccountById(Guid accountId)
+    {
+        return await _accountRepository.GetAccountByIdAsync(accountId);
     }
 }
