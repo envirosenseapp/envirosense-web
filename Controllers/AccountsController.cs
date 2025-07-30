@@ -1,4 +1,5 @@
 ﻿using EnviroSense.Web.Exceptions;
+using EnviroSense.Web.Filters;
 using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Accounts;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EnviroSense.Web.Controllers
 {
+    [TypeFilter(typeof(SignedOutFilter))]
     public class AccountsController : Controller
     {
         private readonly IAccountService _accountService;

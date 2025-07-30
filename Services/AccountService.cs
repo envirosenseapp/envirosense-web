@@ -37,7 +37,7 @@ public class AccountService : IAccountService
     public async Task<Account> Login(string email, string password)
     {
         var account = await _accountRepository.GetAccountByEmail(email);
-        bool isPasswordValid = BCryptNet.Verify(password, account.Password);
+        var isPasswordValid = BCryptNet.Verify(password, account.Password);
 
         if (isPasswordValid)
         {

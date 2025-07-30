@@ -1,11 +1,13 @@
 ﻿using EnviroSense.Web.Entities;
 using EnviroSense.Web.Exceptions;
+using EnviroSense.Web.Filters;
 using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Devices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnviroSense.Web.Controllers
 {
+    [TypeFilter(typeof(SignedInFilter))]
     public class DevicesController : Controller
     {
         private readonly IDeviceService _deviceService;
