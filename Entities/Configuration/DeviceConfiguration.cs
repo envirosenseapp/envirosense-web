@@ -13,11 +13,12 @@ public class DeviceConfiguration : IEntityTypeConfiguration<Device>
 
         builder.Property(e => e.Id).HasColumnName("id");
 
+        builder.Property(e => e.AccountId).HasColumnName("account_id");
+
         builder.Property(e => e.Name).HasColumnName("name").HasMaxLength(30);
 
         builder.Property(e => e.UpdatedAt).HasColumnName("updated_at").HasDefaultValueSql("CURRENT_TIMESTAMP");
 
         builder.Property(e => e.CreatedAt).HasColumnName("created_at").HasDefaultValueSql("CURRENT_TIMESTAMP");
-
     }
 }

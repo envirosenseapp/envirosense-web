@@ -12,9 +12,10 @@ public class DeviceRepository : IDeciveRepository
         _context = context;
     }
 
-    public async Task<List<Device>> ListAsync()
+    public async Task<List<Device>> ListAsync(Guid accountId)
     {
-        return await _context.Devices.OrderByDescending(a => a.CreatedAt).ToListAsync();
+        return await _context.Devices.OrderByDescending(a => a.CreatedAt).Where(a => a.AccountId == accountId)
+            .ToListAsync();
     }
 
     public async Task<Device?> GetAsync(Guid Id)
