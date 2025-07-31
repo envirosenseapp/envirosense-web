@@ -1,6 +1,6 @@
 format:
 	sqlfluff fix
 	dotnet format EnviroSense.Web.csproj
-ready:
+lint:
 	sqlfluff lint
 	dotnet format --verify-no-changes --verbosity diagnostic EnviroSense.Web.csproj
