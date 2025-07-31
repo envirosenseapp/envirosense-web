@@ -8,4 +8,5 @@ public class Account
     public DateTime UpdatedAt { get; set; }
     public DateTime CreatedAt { get; set; }
     public required ICollection<Device> Devices { get; set; }
+    public ICollection<Access>? Accesses { get; set; }
 }

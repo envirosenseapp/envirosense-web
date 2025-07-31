@@ -15,6 +15,25 @@ public class AccessService : IAccessService
         _httpContextAccesor = httpContextAccesor;
     }
 
+    private Guid? GetAccountId()
+    {
+        var httpContext = _httpContextAccesor.HttpContext;
+
+        if (httpContext == null || httpContext.Session == null)
+        {
+            return null;
+        }
+
+        var session = httpContext.Session;
+        var accountId = session.GetString("authenticated_account_id");
+        if (accountId == null)
+        {
+            return null;
+        }
+
+        return Guid.Parse(accountId);
+    }
+
     public async Task<Access> Create()
     {
         var httpContext = _httpContextAccesor.HttpContext;
@@ -24,10 +43,12 @@ public class AccessService : IAccessService
         }
 
         var ipAddress = httpContext.Connection.RemoteIpAddress.ToString();
+        var account
 
         var access = new Access
         {
             Id = Guid.NewGuid(),
+            Account = account
             CreatedAt = DateTime.UtcNow,
             IpAddress = ipAddress,
             Client = httpContext.Request.Headers["User-Agent"].ToString(),
