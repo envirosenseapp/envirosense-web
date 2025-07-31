@@ -8,18 +8,21 @@ public class AccessService : IAccessService
 {
     private readonly IAccessRepository _accessRepository;
     private readonly IHttpContextAccessor _httpContextAccesor;
+    private readonly IAccountService _accountService;
 
-    public AccessService(IAccessRepository accessRepository, IHttpContextAccessor httpContextAccesor)
+    public AccessService(IAccessRepository accessRepository, IHttpContextAccessor httpContextAccesor,
+        IAccountService accountService)
     {
         _accessRepository = accessRepository;
         _httpContextAccesor = httpContextAccesor;
+        _accountService = accountService;
     }
 
     private Guid? GetAccountId()
     {
         var httpContext = _httpContextAccesor.HttpContext;
 
-        if (httpContext == null || httpContext.Session == null)
+        if (httpContext == null)
         {
             return null;
         }
@@ -43,12 +46,18 @@ public class AccessService : IAccessService
         }
 
         var ipAddress = httpContext.Connection.RemoteIpAddress.ToString();
-        var account
+        Guid? accountId = GetAccountId();
+        Account? account = null;
+
+        if (accountId != null)
+        {
+            account = await _accountService.GetAccountById(accountId.Value);
+        }
 
         var access = new Access
         {
             Id = Guid.NewGuid(),
-            Account = account
+            Account = account,
             CreatedAt = DateTime.UtcNow,
             IpAddress = ipAddress,
             Client = httpContext.Request.Headers["User-Agent"].ToString(),

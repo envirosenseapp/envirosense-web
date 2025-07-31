@@ -14,7 +14,7 @@ public class AccessConfiguration : IEntityTypeConfiguration<Access>
         builder.Property(e => e.Id)
             .HasColumnName("id");
         builder.Property(a => a.AccountId).HasColumnName("account_id");
-        builder.HasOne(a => a.Account).WithMany(a => a.Accesses).HasForeignKey(a => a.AccountId)
+        builder.HasOne(a => a.Account).WithMany(a => a.Accesses).HasForeignKey(a => a.AccountId).IsRequired(false)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(e => e.CreatedAt)

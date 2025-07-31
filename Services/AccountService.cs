@@ -30,7 +30,8 @@ public class AccountService : IAccountService
             Password = hashedPassword,
             UpdatedAt = DateTime.UtcNow,
             CreatedAt = DateTime.UtcNow,
-            Devices = new List<Device>()
+            Devices = new List<Device>(),
+            Accesses = new List<Access>()
         };
         return await _accountRepository.AddAsync(account);
     }

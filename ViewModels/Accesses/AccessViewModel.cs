@@ -8,4 +8,6 @@ public class AccessesViewModel
     public required string Client { get; set; }
     public required string Resource { get; set; }
 
+    public Guid? AccountId { get; set; }
+
 }
