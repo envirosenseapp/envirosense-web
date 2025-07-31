@@ -23,7 +23,8 @@ public class AccessesController : Controller
             CreatedAt = a.CreatedAt,
             IpAddress = a.IpAddress,
             Client = a.Client,
-            Resource = a.Resource
+            Resource = a.Resource,
+            AccountId = a.AccountId
 
         }).ToList();
 
