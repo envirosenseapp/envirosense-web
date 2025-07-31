@@ -24,7 +24,7 @@ public class AccessesController : Controller
             IpAddress = a.IpAddress,
             Client = a.Client,
             Resource = a.Resource,
-            AccountId = a.Account?.Id
+            AccountId = a.AccountId
 
         }).ToList();
 
