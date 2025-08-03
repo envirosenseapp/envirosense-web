@@ -11,10 +11,12 @@ namespace EnviroSense.Web.Controllers
     public class AccountsController : Controller
     {
         private readonly IAccountService _accountService;
+        private readonly IEmailClient _emailClient;
 
-        public AccountsController(IAccountService accountService)
+        public AccountsController(IAccountService accountService, IEmailClient emailClient)
         {
             _accountService = accountService;
+            _emailClient = emailClient;
         }
 
         public ActionResult SignUp()
@@ -39,7 +41,9 @@ namespace EnviroSense.Web.Controllers
                 return RedirectToAction("SignUp");
             }
 
-            await _accountService.Add(model.Email, model.Password);
+            var account = await _accountService.Add(model.Email, model.Password);
+            await _emailClient.SendMail("Welcome to EnviroSense!",
+                "Thank you for registering with us.", account.Email);
 
             return RedirectToAction("Index", "Home");
         }
@@ -61,6 +65,8 @@ namespace EnviroSense.Web.Controllers
             try
             {
                 await _accountService.Login(model.Email, model.Password);
+                await _emailClient.SendMail("Welcome to EnviroSense!",
+                    "You are successfully signed in.", model.Email);
                 return RedirectToAction("Index", "Home");
             }
             catch (AccountNotFoundException ex)
