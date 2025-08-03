@@ -34,6 +34,8 @@ builder.Services.AddControllersWithViews(opts =>
 {
     opts.Filters.Add<AccessTrackingFilter>();
 });
+builder.Services.Configure<EmailSetings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddScoped<IEmailClient, EmailClient>();
 
 var app = builder.Build();
 
