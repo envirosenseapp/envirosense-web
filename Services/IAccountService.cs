@@ -8,4 +8,6 @@ public interface IAccountService
     Task<Account> Add(string email, string password);
     Task<Account> Login(string email, string password);
     Task<Account> GetAccountById(Guid accountId);
+
+    string? GetAccountIdFromSession();
 }

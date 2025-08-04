@@ -7,28 +7,18 @@ namespace EnviroSense.Web.Services;
 public class DeviceService : IDeviceService
 {
     private readonly IDeciveRepository _deciveRepository;
-    private readonly IHttpContextAccessor _accessor;
     private readonly IAccountService _accountService;
 
-    public DeviceService(IDeciveRepository deciveRepository, IHttpContextAccessor accessor,
+    public DeviceService(IDeciveRepository deciveRepository,
         IAccountService accountService)
     {
         _deciveRepository = deciveRepository;
-        _accessor = accessor;
         _accountService = accountService;
     }
 
     private Guid GetAccountId()
     {
-        var httpContext = _accessor.HttpContext;
-
-        if (httpContext == null || httpContext.Session == null)
-        {
-            throw new SessionIsNotAvailableException();
-        }
-
-        var session = httpContext.Session;
-        var accountId = session.GetString("authenticated_account_id");
+        var accountId = _accountService.GetAccountIdFromSession();
         if (accountId == null)
         {
             throw new SessionIsNotAvailableException();

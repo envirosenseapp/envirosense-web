@@ -20,15 +20,7 @@ public class AccessService : IAccessService
 
     private Guid? GetAccountId()
     {
-        var httpContext = _httpContextAccesor.HttpContext;
-
-        if (httpContext == null)
-        {
-            return null;
-        }
-
-        var session = httpContext.Session;
-        var accountId = session.GetString("authenticated_account_id");
+        var accountId = _accountService.GetAccountIdFromSession();
         if (accountId == null)
         {
             return null;
