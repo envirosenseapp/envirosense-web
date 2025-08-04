@@ -1,4 +1,4 @@
-﻿using EnviroSense.Web.Exceptions;
+﻿using EnviroSense.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -6,25 +6,16 @@ namespace EnviroSense.Web.Filters;
 
 public class SignedOutFilter : IActionFilter
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IAccountService _accountService;
 
-    public SignedOutFilter(IHttpContextAccessor httpContextAccessor)
+    public SignedOutFilter(IAccountService accountService)
     {
-        _httpContextAccessor = httpContextAccessor;
+        _accountService = accountService;
     }
 
     public void OnActionExecuting(ActionExecutingContext filterContext)
     {
-        var httpContext = _httpContextAccessor.HttpContext;
-
-        if (httpContext == null || httpContext.Session == null)
-        {
-            throw new SessionIsNotAvailableException();
-        }
-
-        var session = httpContext.Session;
-        var accountId = session.GetString("authenticated_account_id");
-        if (!string.IsNullOrEmpty(accountId))
+        if (!string.IsNullOrEmpty(_accountService.GetAccountIdFromSession()))
         {
             filterContext.Result = new RedirectToActionResult("Index", "Home", null);
         }

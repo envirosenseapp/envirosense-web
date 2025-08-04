@@ -36,6 +36,21 @@ public class AccountService : IAccountService
         return await _accountRepository.AddAsync(account);
     }
 
+    public string? GetAccountIdFromSession()
+    {
+        var httpContext = _httpContextAccessor.HttpContext;
+
+        if (httpContext == null || httpContext.Session == null)
+        {
+            throw new SessionIsNotAvailableException();
+        }
+
+        var session = httpContext.Session;
+        var accountId = session.GetString("authenticated_account_id");
+
+        return accountId;
+    }
+
     public async Task<Account> Login(string email, string password)
     {
         var account = await _accountRepository.GetAccountByEmail(email);
@@ -43,14 +58,7 @@ public class AccountService : IAccountService
 
         if (isPasswordValid)
         {
-            var accountId = account.Id.ToString();
-            var session = _httpContextAccessor.HttpContext?.Session;
-            if (session == null)
-            {
-                throw new SessionIsNotAvailableException();
-            }
-
-            session.SetString("authenticated_account_id", accountId);
+            _httpContextAccessor.HttpContext?.Session.SetString("authenticated_account_id", account.Id.ToString());
             return account;
         }
         else
