@@ -2,5 +2,5 @@
 
 FILL HERE
 
-##Ticket##
+## Ticket
 [ES-##](URL)
