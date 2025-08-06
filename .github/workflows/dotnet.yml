@@ -21,10 +21,10 @@ jobs:
       with:
         dotnet-version: 9.0.x
     - name: Restore dependencies
-      run: dotnet restore EnviroSense.Web.csproj
+      run: dotnet restore
     - name: Format
-      run: dotnet format --verify-no-changes --verbosity diagnostic EnviroSense.Web.csproj
+      run: dotnet format --verify-no-changes --verbosity diagnostic 
     - name: Build
-      run: dotnet build --no-restore EnviroSense.Web.csproj
+      run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal EnviroSense.Web.csproj
+      run: dotnet test --no-build --verbosity normal
