@@ -89,10 +89,7 @@ public class DeviceServiceTest : IDisposable
         var testId = Guid.NewGuid();
         var mockDeviceService = new Mock<DeviceService>(
             _deviceRepository.Object, _accountService.Object
-        )
-        { 
-            CallBase = true 
-        };
+        ) { CallBase = true };
         mockDeviceService.Protected().Setup<Guid>("GetAccountId").Returns(testId);
 
         _accountService.Setup(a => a.GetAccountById(testId)).ReturnsAsync(new Account
@@ -119,7 +116,7 @@ public class DeviceServiceTest : IDisposable
             UpdatedAt = DateTime.Now
         };
 
-        _deviceRepository.Setup(d => d.CreateAsync(It.IsAny<Device>())).ReturnsAsync((Device d)=>d);
+        _deviceRepository.Setup(d => d.CreateAsync(It.IsAny<Device>())).ReturnsAsync((Device d) => d);
 
         var savedDevice = await mockDeviceService.Object.Create("Thermometer");
 
