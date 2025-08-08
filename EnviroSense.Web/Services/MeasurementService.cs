@@ -31,4 +31,9 @@ public class MeasurementService : IMeasurementService
     {
         return await _measureRepository.ListAsync(deviceId);
     }
+
+    public async Task<Measurement?> GetLastest(Guid deviceId)
+    {
+        return await _measureRepository.GetLastestAsync(deviceId);
+    }
 }
