@@ -22,10 +22,6 @@ public class HomeController : Controller
             TotalAccesses = accessCount,
         });
     }
-    public IActionResult Privacy()
-    {
-        return View();
-    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
