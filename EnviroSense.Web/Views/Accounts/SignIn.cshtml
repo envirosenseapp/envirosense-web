@@ -2,23 +2,41 @@
 @{
     var generalErrors = ViewData.ModelState[string.Empty]?.Errors;
 }
-<form asp-action="SignIn" asp-controller="Accounts" method="post">
-    <label asp-for="Email">Email</label><br/>
-    <input asp-for="Email" type="email" required/><br/>
-    <label asp-for="Password">Password</label><br/>
-    <input asp-for="Password" type="password" minlength="8" required/><br/>
-    <button type="submit">LogIn</button><br/>
-    <span asp-validation-for="Email" class="text-danger"></span>
-    <span asp-validation-for="Password" class="text-danger"></span>
-    @if (generalErrors != null && generalErrors.Count > 0)
-    {
-        foreach (var error in generalErrors)
-        {
-            <span class="text-danger">@error.ErrorMessage</span><br />
-        }
-    }
 
-</form>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <form asp-action="SignIn" asp-controller="Accounts" method="post">
+                @if (generalErrors != null && generalErrors.Count > 0)
+                {
+                    <div class="alert alert-danger">
+                        @foreach (var error in generalErrors)
+                        {
+                            <span class="text-danger">@error.ErrorMessage</span>
+                            <br/>
+                        }
+                    </div>
+                }
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" type="email" class="form-control" required/>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">Password</label>
+                    <input asp-for="Password" type="password" minlength="8" class="form-control" required/>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                </div>
+            </form>
 
+        </div>
+        <div class="col-12 col-lg-6 text-center">
+            Don't have an account? <a class="btn btn-primary" asp-action="SignUp">Sign up</a>.
+        </div>
+    </div>
+</div>
 
 

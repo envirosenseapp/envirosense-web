@@ -1,4 +1,4 @@
-﻿namespace EnviroSense.Web.Models;
+﻿namespace EnviroSense.Web.ViewModels;
 
 public class ErrorViewModel
 {
