@@ -1,20 +1,53 @@
 ﻿@model EnviroSense.Web.ViewModels.Accounts.SignUpViewModel
 @{
+    ViewData["Title"] = "Sign Up";
 }
 
-<form asp-controller="Accounts" asp-action="SignUp" method="post">
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="card-title text-center mb-4">Create an Account</h2>
+                    <form asp-controller="Accounts" asp-action="SignUp" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
-    <label asp-for="Email">Email</label><br>
-    @if (ViewBag.EmailValidator != null)
-    {
-        <p style="color: red;">@ViewBag.EmailValidator</p>
-    }
-    <input type="email" asp-for="Email" id="email" required><br>
-    <label asp-for="Password">password</label><br>
-    <input type="password" asp-for="Password" id="password" minlength="8" required><br>
-    <span asp-validation-for="Password" class="text-danger"></span>
-    <label asp-for="ConfirmPassword">Confirm password </label><br>
-    <input type="password" asp-for="ConfirmPassword" id="confirmPassword" minlength="8" required><br>
-    <button type="submit">SignUp</button>
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Email address</label>
+                            <input type="email" asp-for="Email" class="form-control" placeholder="name@example.com"
+                                   required>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
 
-</form>
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label">Password</label>
+                            <input type="password" asp-for="Password" class="form-control" minlength="8" required
+                                   aria-describedby="passwordHelp">
+                            <div id="passwordHelp" class="form-text">
+                                Your password must be at least 8 characters long.
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" asp-for="ConfirmPassword" class="form-control" minlength="8"
+                                   required>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+                        </div>
+                    </form>
+
+                    <hr class="my-4">
+
+                    <div class="text-center">
+                        <p class="mb-0">Already have an account? <a asp-action="SignIn">Sign In</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

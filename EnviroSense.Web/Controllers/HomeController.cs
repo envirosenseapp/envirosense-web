@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
-using EnviroSense.Web.Models;
 using EnviroSense.Web.Services;
+using EnviroSense.Web.ViewModels;
 using EnviroSense.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,10 +21,6 @@ public class HomeController : Controller
         {
             TotalAccesses = accessCount,
         });
-    }
-    public IActionResult Privacy()
-    {
-        return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

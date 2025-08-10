@@ -37,10 +37,15 @@ builder.Services.AddDbContext<AppDbContext>(opts =>
     opts.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
 builder.Services.AddScoped<Migrator>();
-builder.Services.AddControllersWithViews(opts =>
+var mvcBuilder = builder.Services.AddControllersWithViews(opts =>
 {
     opts.Filters.Add<AccessTrackingFilter>();
 });
+
+#if DEBUG
+mvcBuilder.AddRazorRuntimeCompilation();
+#endif
+
 builder.Services.Configure<EmailSetings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailClient, EmailClient>();
 
