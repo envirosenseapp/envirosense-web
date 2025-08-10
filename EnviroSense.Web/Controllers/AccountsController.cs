@@ -21,31 +21,29 @@ namespace EnviroSense.Web.Controllers
 
         public ActionResult SignUp()
         {
-            ViewBag.PasswordDontMatch = TempData["PasswordDontMatch"];
-            ViewBag.EmailValidator = TempData["ExistingEmail"];
             return View();
         }
 
         [HttpPost]
         public async Task<ActionResult> SignUp(SignUpViewModel model)
         {
-            var isEmailTaken = await _accountService.IsEmailTaken(model.Email);
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("SignUp");
+                return View();
             }
 
+            var isEmailTaken = await _accountService.IsEmailTaken(model.Email);
             if (isEmailTaken)
             {
-                TempData["ExistingEmail"] = "An user with this email allready exists";
-                return RedirectToAction("SignUp");
+                ModelState.AddModelError("", "An user with this email already exists");
+                return View();
             }
 
             var account = await _accountService.Add(model.Email, model.Password);
             await _emailClient.SendMail("Welcome to EnviroSense!",
                 "Thank you for registering with us.", account.Email);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("SignIn");
         }
 
         [HttpGet]
