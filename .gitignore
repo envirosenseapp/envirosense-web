@@ -58,5 +58,4 @@ nunit-*.xml
 # Editors
 .idea
 .vscode
-
-envirosense-web.sln.DotSettings.user
+*.DotSettings.user
