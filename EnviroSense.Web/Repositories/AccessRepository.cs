@@ -1,4 +1,5 @@
-﻿using EnviroSense.Web.Entities;
+﻿using EnviroSense.Domain.Entities;
+using EnviroSense.Web.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EnviroSense.Web.Repositories;
