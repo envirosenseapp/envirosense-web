@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EnviroSense.Plugins.PostgresRepositories.Migrations.Runner;
 
-internal class MigrationRunner: IMigrationRunner
+internal class MigrationRunner : IMigrationRunner
 {
     private readonly AppDbContext _dbContext;
     private readonly ILogger<MigrationRunner> _logger;

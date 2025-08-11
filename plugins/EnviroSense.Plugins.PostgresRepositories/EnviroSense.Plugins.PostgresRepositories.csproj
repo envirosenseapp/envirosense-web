@@ -6,6 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <Target Name="FormatCode" BeforeTargets="Build">
+      <Exec Command="dotnet format --verbosity diagnostic" />
+    </Target>
+
     <ItemGroup>
       <PackageReference Include="Evolve" Version="3.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.3.0" />

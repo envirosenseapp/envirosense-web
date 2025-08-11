@@ -6,6 +6,11 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <Target Name="FormatCode" BeforeTargets="Build">
+      <Exec Command="dotnet format --verbosity diagnostic" />
+    </Target>
+
+
     <ItemGroup>
       <ProjectReference Include="..\EnviroSense.Domain\EnviroSense.Domain.csproj" />
       <ProjectReference Include="..\EnviroSense.Repositories\EnviroSense.Repositories.csproj" />

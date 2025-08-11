@@ -1,4 +1,4 @@
-using EnviroSense.Plugins.SMTPClient.Impl;
+﻿using EnviroSense.Plugins.SMTPClient.Impl;
 using EnviroSense.Repositories.Clients;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

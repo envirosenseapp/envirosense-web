@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <Target Name="FormatCode" BeforeTargets="Build">
-    <Exec Command="dotnet format --verbosity diagnostic EnviroSense.Web.csproj" />
+    <Exec Command="dotnet format --verbosity diagnostic" />
   </Target>
 
   <ItemGroup>

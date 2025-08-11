@@ -1,4 +1,4 @@
-using EnviroSense.Plugins.PostgresRepositories.Migrations.Runner;
+﻿using EnviroSense.Plugins.PostgresRepositories.Migrations.Runner;
 using EnviroSense.Plugins.PostgresRepositories.Repositories;
 using EnviroSense.Repositories.Repositories;
 using Microsoft.AspNetCore.Builder;

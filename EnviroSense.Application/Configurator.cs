@@ -1,4 +1,4 @@
-using EnviroSense.Application.Services;
+﻿using EnviroSense.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EnviroSense.Application;
