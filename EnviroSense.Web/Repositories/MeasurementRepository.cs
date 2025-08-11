@@ -24,4 +24,12 @@ public class MeasurementRepository : IMeasurementRepository
     {
         return await _context.Measurements.Where(m => m.DeviceId == deviceId).ToListAsync();
     }
+
+    public async Task<Measurement?> GetLastestAsync(Guid deviceId)
+    {
+        return await _context.Measurements
+            .Where(m => m.DeviceId == deviceId)
+            .OrderByDescending(m => m.RecordingDate)
+            .FirstOrDefaultAsync();
+    }
 }

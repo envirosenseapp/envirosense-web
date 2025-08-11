@@ -1,11 +1,54 @@
-﻿@model EnviroSense.Web.ViewModels.Home.IndexViewModel
+﻿@model List<EnviroSense.Web.ViewModels.Home.DeviceMeasurmentViewModel>
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Device Dashboard</h2>
 
+    <div class="row g-4">
+        @if (Model == null || !Model.Any())
+        {
+            <div class="col-12 text-center py-5">
+                <p class="lead mb-3">
+                    Your devices and states will appear once you add them.
+                </p>
+                <a href="@Url.Action("Add", "Devices")" class="btn btn-primary">
+                    Click here to add
+                </a>
+            </div>
+        }
+        else
+        {
+            @foreach (var measurement in Model)
+            {
+                var hasMeasurement = measurement.Temperature != null || measurement.Humidity != null;
+                var cardHeaderClass = hasMeasurement ? "bg-primary text-white" : "bg-warning text-dark";
 
-    Totally, this page was accessed @Model.TotalAccesses times
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header @cardHeaderClass">
+                            <strong>@measurement.DeviceName</strong>
+                        </div>
+                        <div class="card-body">
+                            @if (!hasMeasurement)
+                            {
+                                <p class="text-muted fst-italic">No readings available yet.</p>
+                            }
+                            else
+                            {
+                                <h6>Current Readings</h6>
+                                <hr />
+                                <p><strong>Temperature:</strong> <span class="text-primary">@($"{measurement.Temperature:F1} °C")</span></p>
+                                <p><strong>Humidity:</strong> <span class="text-success">@($"{measurement.Humidity:F0}%")</span></p>
+                            }
+                        </div>
+                        <div class="card-footer text-muted small">
+                            Last Measurement: @(measurement.RecordingDate?.ToString("yyyy-MM-dd HH:mm:ss") ?? "Never")
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
 </div>
