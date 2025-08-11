@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <Target Name="FormatCode" BeforeTargets="Build">
+      <Exec Command="dotnet format --verbosity diagnostic" />
+    </Target>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\EnviroSense.Domain\EnviroSense.Domain.csproj" />
+      <ProjectReference Include="..\EnviroSense.Repositories\EnviroSense.Repositories.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.8" />
+      <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.8" />
+    </ItemGroup>
+
+</Project>

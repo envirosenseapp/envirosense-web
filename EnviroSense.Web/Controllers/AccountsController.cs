@@ -1,6 +1,7 @@
-﻿using EnviroSense.Web.Exceptions;
+﻿using EnviroSense.Application.Services;
+using EnviroSense.Domain.Exceptions;
+using EnviroSense.Repositories.Clients;
 using EnviroSense.Web.Filters;
-using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Accounts;
 using Microsoft.AspNetCore.Mvc;
 

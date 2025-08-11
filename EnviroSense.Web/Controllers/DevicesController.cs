@@ -1,7 +1,7 @@
-﻿using EnviroSense.Web.Entities;
-using EnviroSense.Web.Exceptions;
+﻿using EnviroSense.Application.Services;
+using EnviroSense.Domain.Entities;
+using EnviroSense.Domain.Exceptions;
 using EnviroSense.Web.Filters;
-using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels.Devices;
 using Microsoft.AspNetCore.Mvc;
 
