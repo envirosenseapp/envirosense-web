@@ -59,8 +59,5 @@ nunit-*.xml
 .vscode
 
 *.DotSettings.user
-
-
-envirosense-web.sln.DotSettings.user
 EnviroSense.sln.DotSettings.user
 

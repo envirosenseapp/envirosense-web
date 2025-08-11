@@ -103,10 +103,8 @@ public class DeviceServiceTest : IDisposable
         });
 
         _deviceRepository.Setup(d => d.CreateAsync(It.IsAny<Device>())).ReturnsAsync((Device d) => d);
-
-        var deviceService = new DeviceService(_deviceRepository.Object, _accountService.Object);
-
-        var savedDevice = await deviceService.Create("Thermometer");
+        
+        var savedDevice = await _deviceService.Create("Thermometer");
 
         Assert.Equal("Thermometer", savedDevice.Name);
     }
