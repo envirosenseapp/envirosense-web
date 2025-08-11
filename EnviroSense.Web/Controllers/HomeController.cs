@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using EnviroSense.Web.Filters;
-using EnviroSense.Web.Models;
 using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels;
 using EnviroSense.Web.ViewModels.Home;
@@ -33,7 +32,10 @@ public class HomeController : Controller
             {
                 allMeasurements.Add(new DeviceMeasurmentViewModel
                 {
-                    DeviceName = device.Name, Temperature = null, Humidity = null, RecordingDate = null
+                    DeviceName = device.Name,
+                    Temperature = null,
+                    Humidity = null,
+                    RecordingDate = null
                 });
             }
             else
