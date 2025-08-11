@@ -2,7 +2,7 @@
 
 namespace EnviroSense.Repositories.Repositories;
 
-public interface IDeciveRepository
+public interface IDeviceRepository
 {
     Task<List<Device>> ListAsync(Guid accountId);
     Task<Device?> GetAsync(Guid Id);

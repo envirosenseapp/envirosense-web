@@ -6,13 +6,13 @@ namespace EnviroSense.Application.Services;
 
 public class DeviceService : IDeviceService
 {
-    private readonly IDeciveRepository _deciveRepository;
+    private readonly IDeviceRepository _deviceRepository;
     private readonly IAccountService _accountService;
 
-    public DeviceService(IDeciveRepository deciveRepository,
+    public DeviceService(IDeviceRepository deviceRepository,
         IAccountService accountService)
     {
-        _deciveRepository = deciveRepository;
+        _deviceRepository = deviceRepository;
         _accountService = accountService;
     }
 
@@ -30,12 +30,12 @@ public class DeviceService : IDeviceService
     public Task<List<Device>> List()
     {
         var acountId = GetAccountId();
-        return _deciveRepository.ListAsync(acountId);
+        return _deviceRepository.ListAsync(acountId);
     }
 
     public Task<Device?> Get(Guid Id)
     {
-        return _deciveRepository.GetAsync(Id);
+        return _deviceRepository.GetAsync(Id);
     }
 
     public async Task<Device> Create(string name)
@@ -51,6 +51,6 @@ public class DeviceService : IDeviceService
             Account = account,
         };
 
-        return await _deciveRepository.CreateAsync(device);
+        return await _deviceRepository.CreateAsync(device);
     }
 }

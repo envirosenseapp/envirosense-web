@@ -7,13 +7,13 @@ namespace EnviroSense.Application.Tests.Services;
 
 public class DeviceServiceTest : IDisposable
 {
-    private readonly Mock<IDeciveRepository> _deviceRepository;
+    private readonly Mock<IDeviceRepository> _deviceRepository;
     private readonly Mock<IAccountService> _accountService;
     private readonly DeviceService _deviceService;
 
     public DeviceServiceTest()
     {
-        _deviceRepository = new Mock<IDeciveRepository>();
+        _deviceRepository = new Mock<IDeviceRepository>();
         _accountService = new Mock<IAccountService>();
 
         _deviceService = new DeviceService(_deviceRepository.Object, _accountService.Object);

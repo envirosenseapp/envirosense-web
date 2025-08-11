@@ -7,16 +7,16 @@ namespace EnviroSense.Application.Services;
 public class MeasurementService : IMeasurementService
 {
     private readonly IMeasurementRepository _measureRepository;
-    private readonly IDeciveRepository _deciveRepository;
-    public MeasurementService(IMeasurementRepository measurementRepository, IDeciveRepository deciveRepository)
+    private readonly IDeviceRepository _deviceRepository;
+    public MeasurementService(IMeasurementRepository measurementRepository, IDeviceRepository deviceRepository)
     {
         _measureRepository = measurementRepository;
-        _deciveRepository = deciveRepository;
+        _deviceRepository = deviceRepository;
     }
 
     public async Task<Device> Get(Guid deviceID)
     {
-        var device = await _deciveRepository.GetAsync(deviceID);
+        var device = await _deviceRepository.GetAsync(deviceID);
         if (device == null)
         {
             throw new DeviceNotFoundException(deviceID);

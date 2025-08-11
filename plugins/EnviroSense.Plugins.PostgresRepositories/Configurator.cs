@@ -12,7 +12,7 @@ public static class Configurator
     public static void AddPostgresRepositories(this IServiceCollection serviceCollection, string connectionString)
     {
         serviceCollection.AddScoped<IAccessRepository, AccessRepository>();
-        serviceCollection.AddScoped<IDeciveRepository, DeviceRepository>();
+        serviceCollection.AddScoped<IDeviceRepository, DeviceRepository>();
         serviceCollection.AddScoped<IMeasurementRepository, MeasurementRepository>();
         serviceCollection.AddScoped<IAccountRepository, AccountRepository>();
 
