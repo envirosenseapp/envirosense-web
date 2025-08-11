@@ -1,6 +1,4 @@
-﻿using EnviroSense.Web.Entities;
-
-namespace EnviroSense.Domain.Entities;
+﻿namespace EnviroSense.Domain.Entities;
 
 public class Access
 {

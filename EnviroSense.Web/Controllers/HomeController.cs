@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
+using EnviroSense.Application.Services;
 using EnviroSense.Web.Filters;
-using EnviroSense.Web.Services;
 using EnviroSense.Web.ViewModels;
 using EnviroSense.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;

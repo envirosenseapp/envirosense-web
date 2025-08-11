@@ -12,13 +12,8 @@
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-    <PackageReference Include="Evolve" Version="3.2.0" />
-    <PackageReference Include="MailKit" Version="4.13.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
     <PackageReference Include="Microsoft.Extensions.Caching.Postgres" Version="1.0.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,7 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EnviroSense.Application\EnviroSense.Application.csproj" />
     <ProjectReference Include="..\EnviroSense.Domain\EnviroSense.Domain.csproj" />
+    <ProjectReference Include="..\plugins\EnviroSense.Plugins.PostgresRepositories\EnviroSense.Plugins.PostgresRepositories.csproj" />
+    <ProjectReference Include="..\plugins\EnviroSense.Plugins.SMTPClient\EnviroSense.Plugins.SMTPClient.csproj" />
   </ItemGroup>
 
 </Project>

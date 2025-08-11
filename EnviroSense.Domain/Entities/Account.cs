@@ -1,6 +1,4 @@
-﻿using EnviroSense.Domain.Entities;
-
-namespace EnviroSense.Web.Entities;
+﻿namespace EnviroSense.Domain.Entities;
 
 public class Account
 {

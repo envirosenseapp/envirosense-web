@@ -1,7 +1,7 @@
-﻿using EnviroSense.Domain.Entities;
+﻿using EnviroSense.Application.Services;
+using EnviroSense.Domain.Entities;
+using EnviroSense.Repositories.Repositories;
 using EnviroSense.Web.Entities;
-using EnviroSense.Web.Repositories;
-using EnviroSense.Web.Services;
 using Moq;
 using Moq.Protected;
 
