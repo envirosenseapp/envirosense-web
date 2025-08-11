@@ -1,11 +1,9 @@
 ﻿using EnviroSense.Application.Services;
 using EnviroSense.Domain.Entities;
 using EnviroSense.Repositories.Repositories;
-using EnviroSense.Web.Entities;
 using Moq;
-using Moq.Protected;
 
-namespace EnviroSense.Web.Tests.Services;
+namespace EnviroSense.Application.Tests.Services;
 
 public class DeviceServiceTest : IDisposable
 {

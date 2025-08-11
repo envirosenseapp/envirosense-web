@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnviroSense.Web", "EnviroSense.Web\EnviroSense.Web.csproj", "{B6C2E302-555D-47CB-83B8-6DE1242A8A51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnviroSense.Web.Tests", "EnviroSense.Web.Tests\EnviroSense.Web.Tests\EnviroSense.Web.Tests.csproj", "{4635F66C-97AE-4B38-B08D-75F91AC220AA}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{FDECAA5A-8B8D-4E32-9834-E6EE66EE1339}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnviroSense.Domain", "EnviroSense.Domain\EnviroSense.Domain.csproj", "{C5522947-59FF-49BB-A271-3B0D3833E546}"
@@ -16,6 +14,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnviroSense.Plugins.SMTPCli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnviroSense.Repositories", "EnviroSense.Repositories\EnviroSense.Repositories.csproj", "{50742A9B-6E52-4B61-9B1B-B66FFAC10185}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{683EB5DC-B1E3-4595-8362-873AAC9DDDCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnviroSense.Application.Tests", "tests\EnviroSense.Application.Tests\EnviroSense.Application.Tests.csproj", "{6D0C7759-0CCC-4B31-A2B1-F0AB14F20926}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnviroSense.Web.Tests", "tests\EnviroSense.Web.Tests\EnviroSense.Web.Tests.csproj", "{8C37C87D-CEB1-4BF6-997D-9ACEF779A85E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,10 +30,6 @@ Global
 		{B6C2E302-555D-47CB-83B8-6DE1242A8A51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6C2E302-555D-47CB-83B8-6DE1242A8A51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6C2E302-555D-47CB-83B8-6DE1242A8A51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4635F66C-97AE-4B38-B08D-75F91AC220AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4635F66C-97AE-4B38-B08D-75F91AC220AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4635F66C-97AE-4B38-B08D-75F91AC220AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4635F66C-97AE-4B38-B08D-75F91AC220AA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5522947-59FF-49BB-A271-3B0D3833E546}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5522947-59FF-49BB-A271-3B0D3833E546}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5522947-59FF-49BB-A271-3B0D3833E546}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,9 +50,19 @@ Global
 		{50742A9B-6E52-4B61-9B1B-B66FFAC10185}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50742A9B-6E52-4B61-9B1B-B66FFAC10185}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50742A9B-6E52-4B61-9B1B-B66FFAC10185}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D0C7759-0CCC-4B31-A2B1-F0AB14F20926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D0C7759-0CCC-4B31-A2B1-F0AB14F20926}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D0C7759-0CCC-4B31-A2B1-F0AB14F20926}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D0C7759-0CCC-4B31-A2B1-F0AB14F20926}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C37C87D-CEB1-4BF6-997D-9ACEF779A85E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C37C87D-CEB1-4BF6-997D-9ACEF779A85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C37C87D-CEB1-4BF6-997D-9ACEF779A85E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C37C87D-CEB1-4BF6-997D-9ACEF779A85E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3569ADDB-1F57-4BCF-9918-BD0CC91B5B70} = {FDECAA5A-8B8D-4E32-9834-E6EE66EE1339}
 		{DC01DE40-20E7-46FA-BF82-6FFE0BEEC4EA} = {FDECAA5A-8B8D-4E32-9834-E6EE66EE1339}
+		{6D0C7759-0CCC-4B31-A2B1-F0AB14F20926} = {683EB5DC-B1E3-4595-8362-873AAC9DDDCD}
+		{8C37C87D-CEB1-4BF6-997D-9ACEF779A85E} = {683EB5DC-B1E3-4595-8362-873AAC9DDDCD}
 	EndGlobalSection
 EndGlobal
