@@ -1,4 +1,5 @@
-﻿using EvolveDb;
+﻿using System.Reflection;
+using EvolveDb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -21,13 +22,7 @@ internal class MigrationRunner : IMigrationRunner
         {
             var evolve = new Evolve(_dbContext.Database.GetDbConnection())
             {
-                Locations = new[]
-                {
-                    "Migrations/SQL",
-
-                    //TODO: once we set deployment, make seeds applicable per environment
-                    "Migrations/Seeds"
-                },
+                Locations = GetMigrationLocations(),
                 IsEraseDisabled = true,
             };
 
@@ -38,5 +33,21 @@ internal class MigrationRunner : IMigrationRunner
             _logger.LogError(ex, "Database migration failed.");
             throw;
         }
+    }
+
+    private IEnumerable<string> GetMigrationLocations()
+    {
+        var assemblyLocation = Path.GetDirectoryName(typeof(MigrationRunner).Assembly.Location);
+        var foldersToReadMigrations = new List<string>()
+        {
+            "Migrations/Scripts/SQL",
+
+            //TODO: once we set deployment, make seeds applicable per environment
+            "Migrations/Scripts/Seeds"
+        };
+
+        return foldersToReadMigrations.Select(c =>
+             Path.Join(assemblyLocation, c)
+        );
     }
 }

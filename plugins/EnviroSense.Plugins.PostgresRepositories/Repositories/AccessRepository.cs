@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EnviroSense.Plugins.PostgresRepositories.Repositories;
 
-public class AccessRepository : IAccessRepository
+internal class AccessRepository : IAccessRepository
 {
     private readonly AppDbContext _context;
     public AccessRepository(AppDbContext context)

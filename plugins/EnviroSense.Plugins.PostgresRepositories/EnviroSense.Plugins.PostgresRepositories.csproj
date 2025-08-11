@@ -22,4 +22,13 @@
       <ProjectReference Include="..\..\EnviroSense.Repositories\EnviroSense.Repositories.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Migrations\Scripts\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Migrations\Scripts\**\*.sql">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
 </Project>

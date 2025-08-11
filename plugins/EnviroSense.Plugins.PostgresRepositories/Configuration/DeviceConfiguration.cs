@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EnviroSense.Plugins.PostgresRepositories.Configuration;
 
-public class DeviceConfiguration : IEntityTypeConfiguration<Device>
+internal class DeviceConfiguration : IEntityTypeConfiguration<Device>
 {
     public void Configure(EntityTypeBuilder<Device> builder)
     {

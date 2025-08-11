@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EnviroSense.Plugins.PostgresRepositories.Configuration;
 
-public class MeasurementConfiguration : IEntityTypeConfiguration<Measurement>
+internal class MeasurementConfiguration : IEntityTypeConfiguration<Measurement>
 {
     public void Configure(EntityTypeBuilder<Measurement> builder)
     {

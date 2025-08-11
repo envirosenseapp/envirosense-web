@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EnviroSense.Plugins.PostgresRepositories.Repositories;
 
-public class DeviceRepository : IDeviceRepository
+internal class DeviceRepository : IDeviceRepository
 {
     private readonly AppDbContext _context;
 

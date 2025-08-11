@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EnviroSense.Plugins.PostgresRepositories.Repositories;
 
-public class MeasurementRepository : IMeasurementRepository
+internal class MeasurementRepository : IMeasurementRepository
 {
     private readonly AppDbContext _context;
 

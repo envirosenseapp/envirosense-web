@@ -17,12 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Migrations\**\*.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EnviroSense.Application\EnviroSense.Application.csproj" />
     <ProjectReference Include="..\EnviroSense.Domain\EnviroSense.Domain.csproj" />
     <ProjectReference Include="..\plugins\EnviroSense.Plugins.PostgresRepositories\EnviroSense.Plugins.PostgresRepositories.csproj" />

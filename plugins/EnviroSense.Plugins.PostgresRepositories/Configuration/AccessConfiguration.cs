@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EnviroSense.Plugins.PostgresRepositories.Configuration;
 
-public class AccessConfiguration : IEntityTypeConfiguration<Access>
+internal class AccessConfiguration : IEntityTypeConfiguration<Access>
 {
     public void Configure(EntityTypeBuilder<Access> builder)
     {

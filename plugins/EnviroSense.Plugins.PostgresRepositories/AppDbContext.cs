@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EnviroSense.Plugins.PostgresRepositories;
 
-public class AppDbContext : DbContext
+internal class AppDbContext : DbContext
 {
 
     public required DbSet<Access> Accesses { get; set; }
