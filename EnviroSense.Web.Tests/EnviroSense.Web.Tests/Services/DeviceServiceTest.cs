@@ -57,14 +57,15 @@ public class DeviceServiceTest : IDisposable
     [Fact]
     public async Task Get_device_if_id_is_found()
     {
-        _deviceRepository.Setup(e => e.GetAsync(It.IsAny<Guid>())).ReturnsAsync((new Device
+        var sampleGUID = Guid.Parse("0f8fad5b-d9cb-469f-a165-70867728950e");
+        _deviceRepository.Setup(e => e.GetAsync(sampleGUID)).ReturnsAsync((new Device
         {
             Name = "test 2",
             Account = new Account() { Devices = new List<Device>(), Email = "123", Password = "123", },
             Measurements = new List<Measurement>(),
         }));
 
-        var res = await _deviceService.Get(Guid.NewGuid());
+        var res = await _deviceService.Get(sampleGUID);
         Assert.NotNull(res);
         Assert.True(res.Name == "test 2");
     }
@@ -73,11 +74,12 @@ public class DeviceServiceTest : IDisposable
     [Fact]
     public async Task Get_device_if_id_is_not_found_should_return_null()
     {
+        var sampleGUID = Guid.Parse("0f8fad5b-d9cb-469f-a165-70867728950e");
         _deviceRepository
             .Setup(a => a.GetAsync(It.IsAny<Guid>()))
             .ReturnsAsync((Device?)null);
 
-        var result = await _deviceService.Get(Guid.NewGuid());
+        var result = await _deviceService.Get(sampleGUID);
 
         Assert.Null(result);
     }
@@ -86,11 +88,8 @@ public class DeviceServiceTest : IDisposable
     public async Task Create_device()
     {
         var testId = Guid.NewGuid();
-        var mockDeviceService = new Mock<DeviceService>(
-            _deviceRepository.Object, _accountService.Object
-        )
-        { CallBase = true };
-        mockDeviceService.Protected().Setup<Guid>("GetAccountId").Returns(testId);
+
+        _accountService.Setup(a => a.GetAccountIdFromSession()).Returns(testId.ToString());
 
         _accountService.Setup(a => a.GetAccountById(testId)).ReturnsAsync(new Account
         {
@@ -105,10 +104,13 @@ public class DeviceServiceTest : IDisposable
 
         _deviceRepository.Setup(d => d.CreateAsync(It.IsAny<Device>())).ReturnsAsync((Device d) => d);
 
-        var savedDevice = await mockDeviceService.Object.Create("Thermometer");
+        var deviceService = new DeviceService(_deviceRepository.Object, _accountService.Object);
+
+        var savedDevice = await deviceService.Create("Thermometer");
 
         Assert.Equal("Thermometer", savedDevice.Name);
     }
+
 
     public void Dispose()
     {
