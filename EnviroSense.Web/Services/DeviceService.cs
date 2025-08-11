@@ -16,7 +16,7 @@ public class DeviceService : IDeviceService
         _accountService = accountService;
     }
 
-    private Guid GetAccountId()
+    protected virtual Guid GetAccountId()
     {
         var accountId = _accountService.GetAccountIdFromSession();
         if (accountId == null)

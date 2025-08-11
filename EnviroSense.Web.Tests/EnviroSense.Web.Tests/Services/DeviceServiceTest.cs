@@ -2,6 +2,7 @@
 using EnviroSense.Web.Repositories;
 using EnviroSense.Web.Services;
 using Moq;
+using Moq.Protected;
 
 namespace EnviroSense.Web.Tests.Services;
 
@@ -52,6 +53,62 @@ public class DeviceServiceTest : IDisposable
 
         await Assert.ThrowsAsync<Exception>(async () => await _deviceService.List());
     }
+
+    [Fact]
+    public async Task Get_device_if_id_is_found()
+    {
+        var sampleGUID = Guid.Parse("0f8fad5b-d9cb-469f-a165-70867728950e");
+        _deviceRepository.Setup(e => e.GetAsync(sampleGUID)).ReturnsAsync((new Device
+        {
+            Name = "test 2",
+            Account = new Account() { Devices = new List<Device>(), Email = "123", Password = "123", },
+            Measurements = new List<Measurement>(),
+        }));
+
+        var res = await _deviceService.Get(sampleGUID);
+        Assert.NotNull(res);
+        Assert.True(res.Name == "test 2");
+    }
+
+
+    [Fact]
+    public async Task Get_device_if_id_is_not_found_should_return_null()
+    {
+        var sampleGUID = Guid.Parse("0f8fad5b-d9cb-469f-a165-70867728950e");
+        _deviceRepository
+            .Setup(a => a.GetAsync(It.IsAny<Guid>()))
+            .ReturnsAsync((Device?)null);
+
+        var result = await _deviceService.Get(sampleGUID);
+
+        Assert.Null(result);
+    }
+
+    [Fact]
+    public async Task Create_device()
+    {
+        var testId = Guid.NewGuid();
+
+        _accountService.Setup(a => a.GetAccountIdFromSession()).Returns(testId.ToString());
+
+        _accountService.Setup(a => a.GetAccountById(testId)).ReturnsAsync(new Account
+        {
+            Id = testId,
+            Email = "123",
+            Password = "123",
+            CreatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now,
+            Devices = new List<Device>(),
+            Accesses = new List<Access>(),
+        });
+
+        _deviceRepository.Setup(d => d.CreateAsync(It.IsAny<Device>())).ReturnsAsync((Device d) => d);
+
+        var savedDevice = await _deviceService.Create("Thermometer");
+
+        Assert.Equal("Thermometer", savedDevice.Name);
+    }
+
 
     public void Dispose()
     {
