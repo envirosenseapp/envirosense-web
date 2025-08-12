@@ -1,29 +1,39 @@
-@model List< EnviroSense.Web.ViewModels.Accesses.AccessesViewModel>
+@model List<EnviroSense.Web.ViewModels.Accesses.AccessesViewModel>
 @{
-    ViewData["Title"] = "Accesses Page";
+    ViewData["Title"] = "Accesses";
 }
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Date</th>
-            <th>IP</th>
-            <th>Client</th>
-            <th>Resource</th>
-            <th>AccountId</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var access in Model)
-        {
-            <tr>
-                <td>@access.Id</td>
-                <td>@access.CreatedAt</td>
-                <td>@access.IpAddress</td>
-                <td>@access.Client</td>
-                <td>@access.Resource</td>
-                <td>@access.AccountId</td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">@ViewData["Title"]</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>IP</th>
+                        <th>Client</th>
+                        <th>Resource</th>
+                        <th>Account ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var access in Model)
+                    {
+                        <tr>
+                            <td>@access.Id</td>
+                            <td>@access.CreatedAt</td>
+                            <td>@access.IpAddress</td>
+                            <td>@access.Client</td>
+                            <td>@access.Resource</td>
+                            <td>@access.AccountId</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

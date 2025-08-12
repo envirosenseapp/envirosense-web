@@ -1,19 +1,40 @@
 ﻿@model EnviroSense.Web.ViewModels.Devices.MeasurementViewModel
+
 @{
+    ViewData["Title"] = "Add Measurement";
 }
 
-<p>Measurements</p>
-<form asp-action="AddMeasurements" asp-controller="Devices" method="post">
-    <input type="hidden" asp-for="DeviceId" value="@ViewBag.DeviceId" required />
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Add New Measurement for Device</h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="AddMeasurements" asp-controller="Devices" method="post">
+                    <input type="hidden" asp-for="DeviceId" value="@ViewBag.DeviceId" />
 
-    <label asp-for="DeviceId">Temperature (°C):</label>
-    <input type="number" asp-for="Temperature" id="temperature" min="-80" max="50" step="0.1" required />
+                    <div class="form-group mb-3">
+                        <label asp-for="Temperature" class="form-label">Temperature (°C):</label>
+                        <input type="number" asp-for="Temperature" class="form-control" id="temperature" min="-80" max="50" step="0.1" required />
+                    </div>
 
-    <label asp-for="Humidity">Humidity (%):</label>
-    <input type="number" asp-for="Humidity" id="humidity" min="0" max="100" step="0.1" required />
+                    <div class="form-group mb-3">
+                        <label asp-for="Humidity" class="form-label">Humidity (%):</label>
+                        <input type="number" asp-for="Humidity" class="form-control" id="humidity" min="0" max="100" step="0.1" required />
+                    </div>
 
-    <label asp-for="RecordingDate">Recording Date:</label>
-    <input type="datetime-local" asp-for="RecordingDate" id="recordingDate" required />
+                    <div class="form-group mb-3">
+                        <label asp-for="RecordingDate" class="form-label">Recording Date:</label>
+                        <input type="datetime-local" asp-for="RecordingDate" class="form-control" id="recordingDate" required />
+                    </div>
 
-    <button type="submit">Add</button>
-</form>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Add Measurement</button>
+                        <a asp-action="Measurements" asp-route-id="@ViewBag.DeviceId" class="btn btn-secondary">Back to Measurements</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
