@@ -1,8 +1,25 @@
 ﻿@{
+    ViewData["Title"] = "Add Device";
 }
 
-<form>
-    <label for="name">Device name:</label><br>
-    <input type="text" id="name" name="name"><br>
-    <button type="submit">Add</button>
-</form>
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Add a New Device</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Add" method="post">
+                    <div class="form-group mb-3">
+                        <label for="name" class="form-label">Device Name</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter device name">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Device</button>
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                <a asp-action="Index">Back to Devices List</a>
+            </div>
+        </div>
+    </div>
+</div>

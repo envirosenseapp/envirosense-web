@@ -1,26 +1,39 @@
 ﻿@model List<EnviroSense.Web.ViewModels.Devices.MeasurementViewModel>
 
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Devices ID</th>
-        <th>Temperature</th>
-        <th>Humidity</th>
-        <th>Recording date</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var measurement in Model)
-    {
-        <tr>
-            <td>@measurement.Id</td>
-            <td>@measurement.DeviceId</td>
-            <td>@measurement.Temperature</td>
-            <td>@measurement.Humidity</td>
-            <td>@measurement.RecordingDate</td>
+@{
+    ViewData["Title"] = "Device Measurements";
+}
 
-        </tr>
-    }
-    </tbody>
-</table>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="card-title mb-0">@ViewData["Title"]</h2>
+            <a asp-action="Index" class="btn btn-secondary">Back to Devices</a>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Device ID</th>
+                        <th>Temperature</th>
+                        <th>Humidity</th>
+                        <th>Recording date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var measurement in Model)
+                    {
+                        <tr>
+                            <td>@measurement.Id</td>
+                            <td>@measurement.DeviceId</td>
+                            <td>@measurement.Temperature</td>
+                            <td>@measurement.Humidity</td>
+                            <td>@measurement.RecordingDate</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
