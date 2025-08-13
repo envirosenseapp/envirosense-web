@@ -4,7 +4,7 @@ public class Measurement
 {
     public Guid Id { get; set; }
     public Guid DeviceId { get; set; }
-    public required Device Device { get; set; }
+    public virtual required Device Device { get; set; }
     public float? Temperature { get; set; }
     public float? Humidity { get; set; }
     public required DateTime RecordingDate { get; set; }

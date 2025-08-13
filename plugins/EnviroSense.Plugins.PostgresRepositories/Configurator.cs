@@ -20,7 +20,7 @@ public static class Configurator
 
         serviceCollection.AddDbContext<AppDbContext>(opts =>
         {
-            opts.UseNpgsql(connectionString);
+            opts.UseNpgsql(connectionString).UseLazyLoadingProxies();
         });
 
         serviceCollection.AddScoped<IMigrationRunner, MigrationRunner>();
