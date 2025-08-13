@@ -48,7 +48,16 @@ namespace EnviroSense.Web.Controllers
                 Id = deviceDetails.Id,
                 Name = deviceDetails.Name,
                 UpdatedAt = deviceDetails.UpdatedAt,
-                CreatedAt = deviceDetails.CreatedAt
+                CreatedAt = deviceDetails.CreatedAt,
+                ApiKeys = deviceDetails.ApiKeys
+                    .OrderByDescending(k => k.CreatedAt)
+                    .Select(k => new DeviceViewModel.ApiKeyDetails
+                    {
+                        Id = k.Id,
+                        Name = k.Name,
+                        DisabledAt = k.DisabledAt,
+                    })
+                    .ToList()
             };
 
             return View(viewModeDetails);
