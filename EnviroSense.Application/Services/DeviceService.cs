@@ -9,8 +9,10 @@ public class DeviceService : IDeviceService
     private readonly IDeviceRepository _deviceRepository;
     private readonly IAccountService _accountService;
 
-    public DeviceService(IDeviceRepository deviceRepository,
-        IAccountService accountService)
+    public DeviceService(
+        IDeviceRepository deviceRepository,
+        IAccountService accountService
+        )
     {
         _deviceRepository = deviceRepository;
         _accountService = accountService;
@@ -47,7 +49,6 @@ public class DeviceService : IDeviceService
             Name = name,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
-            Measurements = new List<Measurement>(),
             Account = account,
         };
 

@@ -14,6 +14,7 @@ public static class Configurator
         serviceCollection.AddScoped<IAccessService, AccessService>();
         serviceCollection.AddScoped<IAccountService, AccountService>();
         serviceCollection.AddScoped<IAccountPasswordResetService, AccountPasswordResetService>();
+        serviceCollection.AddScoped<IDeviceApiKeyService, DeviceApiKeyService>();
 
         // other
         serviceCollection.AddSingleton<IApiKeyGenerator, GuidApiKeyGenerator>();
