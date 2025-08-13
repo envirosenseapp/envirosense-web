@@ -2,5 +2,5 @@
 
 public interface IEmailClient
 {
-    Task SendMail(string title, string body, string email);
+    Task SendMail(string title, string body, string email, bool isHtml);
 }

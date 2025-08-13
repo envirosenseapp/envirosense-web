@@ -15,6 +15,7 @@ public static class Configurator
         serviceCollection.AddScoped<IDeviceRepository, DeviceRepository>();
         serviceCollection.AddScoped<IMeasurementRepository, MeasurementRepository>();
         serviceCollection.AddScoped<IAccountRepository, AccountRepository>();
+        serviceCollection.AddScoped<IAccountPasswordResetRepository, AccountPasswordResetRepository>();
 
 
         serviceCollection.AddDbContext<AppDbContext>(opts =>

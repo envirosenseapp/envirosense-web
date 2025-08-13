@@ -9,5 +9,7 @@ public interface IAccountService
     Task<Account> Login(string email, string password);
     Task<Account> GetAccountById(Guid accountId);
 
+    Task<Account?> GetAccountByEmail(string email, bool throwNotFound = true);
+
     string? GetAccountIdFromSession();
 }
