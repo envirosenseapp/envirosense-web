@@ -16,8 +16,8 @@ public static class Configurator
         serviceCollection.AddScoped<IMeasurementRepository, MeasurementRepository>();
         serviceCollection.AddScoped<IAccountRepository, AccountRepository>();
         serviceCollection.AddScoped<IAccountPasswordResetRepository, AccountPasswordResetRepository>();
-
-
+        serviceCollection.AddScoped<IDeviceApiKeyRepository, DeviceApiKeyRepository>();
+        
         serviceCollection.AddDbContext<AppDbContext>(opts =>
         {
             opts.UseNpgsql(connectionString).UseLazyLoadingProxies();
