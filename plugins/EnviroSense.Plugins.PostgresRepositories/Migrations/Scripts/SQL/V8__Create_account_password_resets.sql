@@ -5,7 +5,7 @@ CREATE TABLE account_password_resets
     security_code uuid NOT NULL,
     used_at timestamp,
     reset_date timestamp NOT NULL,
-    CONSTRAINT accounts_password_resets_accounts_id_fkey
+    CONSTRAINT accounts_password_resets_account_id_fkey
     FOREIGN KEY (account_id)
     REFERENCES accounts (id)
     ON DELETE CASCADE

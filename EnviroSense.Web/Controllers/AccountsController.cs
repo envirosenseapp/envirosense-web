@@ -45,7 +45,7 @@ namespace EnviroSense.Web.Controllers
 
             var account = await _accountService.Add(model.Email, model.Password);
             await _emailClient.SendMail("Welcome to EnviroSense!",
-                "Thank you for registering with us.", account.Email, isHtml: false);
+                "Thank you for registering with us.", account.Email);
 
             return RedirectToAction("SignIn");
         }
@@ -68,7 +68,7 @@ namespace EnviroSense.Web.Controllers
             {
                 await _accountService.Login(model.Email, model.Password);
                 await _emailClient.SendMail("Welcome to EnviroSense!",
-                    "You are successfully signed in.", model.Email, isHtml: false);
+                    "You are successfully signed in.", model.Email);
                 return RedirectToAction("Index", "Home");
             }
             catch (AccountNotFoundException ex)
@@ -97,9 +97,9 @@ namespace EnviroSense.Web.Controllers
                 return View();
             }
 
-            var IsaccountToresset = await _accountPasswordResetService.ResetPasswordAsync(model.Email);
+            var IsaccountToResset = await _accountPasswordResetService.ResetPasswordAsync(model.Email);
             ViewBag.SendEmailMessage = "An email was sent to " + model.Email;
-            if (!IsaccountToresset)
+            if (!IsaccountToResset)
             {
                 return View();
             }
@@ -111,8 +111,7 @@ namespace EnviroSense.Web.Controllers
        <p>To create a new password, click the link below:<br/>
        <a href=""#"">Reset it here</a></p>
        <p>Thanks,<br/>The EnviroSense Team</p>",
-                model.Email,
-                isHtml: true // dacă metoda ta permite asta
+                model.Email
             );
 
             return View();

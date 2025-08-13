@@ -16,6 +16,6 @@ public class AccountPasswordResetConfiguration : IEntityTypeConfiguration<Accoun
             .OnDelete(DeleteBehavior.Cascade);
         builder.Property(x => x.SecurityCode).HasColumnName("security_code");
         builder.Property(x => x.UsedAt).HasColumnName("used_at");
-        builder.Property(x => x.resetDate).HasColumnName("reset_date");
+        builder.Property(x => x.ResetDate).HasColumnName("reset_date");
     }
 }

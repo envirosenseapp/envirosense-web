@@ -28,11 +28,11 @@ internal class AccountRepository : IAccountRepository
         return createdAccount.Entity;
     }
 
-    public async Task<Account?> GetAccountByEmailAsync(string email, bool throwNotFound = true)
+    public async Task<Account?> GetAccountByEmailAsync(string email)
     {
         var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Email == email);
 
-        if (account == null && throwNotFound)
+        if (account == null)
         {
             throw new AccountNotFoundException();
         }

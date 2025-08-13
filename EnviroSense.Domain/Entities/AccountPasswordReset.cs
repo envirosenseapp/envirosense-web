@@ -8,5 +8,5 @@ public class AccountPasswordReset
 
     public required Guid SecurityCode { get; set; }
     public DateTime? UsedAt { get; set; }
-    public required DateTime resetDate { get; set; }
+    public required DateTime ResetDate { get; set; }
 }

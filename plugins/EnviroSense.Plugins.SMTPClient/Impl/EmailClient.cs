@@ -17,14 +17,14 @@ public class EmailClient : IEmailClient
         _logger = logger;
     }
 
-    public async Task SendMail(string title, string body, string email, bool isHtml = false)
+    public async Task SendMail(string title, string body, string email)
     {
         var message = new MimeMessage();
         message.From.Add(MailboxAddress.Parse(_settings.From));
         message.To.Add(MailboxAddress.Parse(email));
         message.Subject = title;
 
-        message.Body = new TextPart(isHtml ? "html" : "plain") { Text = body };
+        message.Body = new TextPart("html") { Text = body };
 
         using var client = new SmtpClient();
         await client.ConnectAsync(_settings.Host, _settings.Port, _settings.UseSsl);

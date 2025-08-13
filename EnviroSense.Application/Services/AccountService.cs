@@ -75,8 +75,8 @@ public class AccountService : IAccountService
         return await _accountRepository.GetAccountByIdAsync(accountId);
     }
 
-    public async Task<Account?> GetAccountByEmail(string email, bool throwNotFound = true)
+    public async Task<Account?> GetAccountByEmail(string email)
     {
-        return await _accountRepository.GetAccountByEmailAsync(email, throwNotFound: false);
+        return await _accountRepository.GetAccountByEmailAsync(email);
     }
 }
