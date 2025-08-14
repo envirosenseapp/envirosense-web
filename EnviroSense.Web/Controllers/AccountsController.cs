@@ -97,24 +97,72 @@ namespace EnviroSense.Web.Controllers
                 return View();
             }
 
-            var IsaccountToResset = await _accountPasswordResetService.ResetPasswordAsync(model.Email);
+            var (IsaccountToResset, securityCode) = await _accountPasswordResetService.ResetPasswordAsync(model.Email);
             ViewBag.SendEmailMessage = "An email was sent to " + model.Email;
             if (!IsaccountToResset)
             {
                 return View();
             }
 
+            var resetLink = $"http://localhost:5276/Accounts/ResetPassword/{securityCode}";
+
             await _emailClient.SendMail(
                 "Reset Password",
                 $@"<p>Hi {model.Email},</p>
        <p>We received a request to reset your password for your account on EnviroSense.</p>
        <p>To create a new password, click the link below:<br/>
-       <a href=""#"">Reset it here</a></p>
+       <a href=""{resetLink}"">Reset it here</a></p>
        <p>Thanks,<br/>The EnviroSense Team</p>",
                 model.Email
             );
 
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(Guid id)
+        {
+            var model = new ResetPasswordViewModel { SecurityCode = id };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            try
+            {
+                var updatedAccount =
+                    await _accountPasswordResetService.FetchAccountPasswordResetEntityById(model.SecurityCode,
+                        model.NewPassword);
+                var account = await _accountService.GetAccountById(updatedAccount.AccountId);
+                var signInLink = $"http://localhost:5276/Accounts/SignIn";
+                await _emailClient.SendMail(
+                    "Password has been reset",
+                    $@"<p>Hi {account.Email},</p>
+        <p>Your password has been reset.</p>
+        <p>Log in with your new password now:<br/>
+        <a href=""{signInLink}"">Sign in here</a></p>
+        <p>Thanks,<br/>The EnviroSense Team</p>",
+                    account.Email
+                );
+            }
+            catch (ResetPasswordLinkExpiredException)
+            {
+                ViewBag.Message = "Reset password link expired.";
+                return View();
+            }
+            catch (ResetPasswordAlreadyUsedException)
+            {
+                ViewBag.Message = "Reset password already used.";
+                return View();
+            }
+
+            return RedirectToAction("SignIn");
         }
     }
 }
