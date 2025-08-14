@@ -12,7 +12,7 @@ public class AccountPasswordResetConfiguration : IEntityTypeConfiguration<Accoun
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).HasColumnName("id");
         builder.Property(x => x.AccountId).HasColumnName("account_id");
-        builder.HasOne(a => a.Account).WithMany(r => r.Resets).HasForeignKey(a => a.AccountId)
+        builder.HasOne(a => a.Account).WithMany(r => r.PasswordResets).HasForeignKey(a => a.AccountId)
             .OnDelete(DeleteBehavior.Cascade);
         builder.Property(x => x.SecurityCode).HasColumnName("security_code");
         builder.Property(x => x.UsedAt).HasColumnName("used_at");

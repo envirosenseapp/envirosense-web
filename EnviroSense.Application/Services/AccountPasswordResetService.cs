@@ -1,4 +1,5 @@
 ﻿using EnviroSense.Domain.Entities;
+using EnviroSense.Domain.Exceptions;
 using EnviroSense.Repositories.Repositories;
 
 namespace EnviroSense.Application.Services;
@@ -17,17 +18,21 @@ public class AccountPasswordResetService : IAccountPasswordResetService
 
     public async Task<bool> ResetPasswordAsync(string email)
     {
-        var account = await _accountService.GetAccountByEmail(email);
-        if (account == null)
+        try
+        {
+            var account = await _accountService.GetAccountByEmail(email);
+            var accountToReset = CreateResetPasswordEntity(account!);
+
+            await _accountPasswordResetRepository.CreateResetPasswordEntityAsync(accountToReset);
+
+            return true;
+        }
+        catch (AccountNotFoundException)
         {
             return false;
         }
 
-        var accountToReset = CreateResetPasswordEntity(account);
 
-        var savedAccountToResset = await _accountPasswordResetRepository.CreateResetPasswordEntityAsync(accountToReset);
-
-        return true;
     }
 
     private AccountPasswordReset CreateResetPasswordEntity(Account account)

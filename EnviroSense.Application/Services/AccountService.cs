@@ -33,7 +33,7 @@ public class AccountService : IAccountService
             CreatedAt = DateTime.UtcNow,
             Devices = new List<Device>(),
             Accesses = new List<Access>(),
-            Resets = new List<AccountPasswordReset>()
+            PasswordResets = new List<AccountPasswordReset>()
 
         };
         return await _accountRepository.AddAsync(account);

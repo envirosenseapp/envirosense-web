@@ -10,5 +10,5 @@ public class Account
     public required ICollection<Device> Devices { get; set; }
     public ICollection<Access>? Accesses { get; set; }
 
-    public ICollection<AccountPasswordReset>? Resets { get; set; }
+    public ICollection<AccountPasswordReset>? PasswordResets { get; set; }
 }

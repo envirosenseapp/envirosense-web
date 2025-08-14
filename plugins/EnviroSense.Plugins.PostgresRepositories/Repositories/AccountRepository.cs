@@ -40,7 +40,7 @@ internal class AccountRepository : IAccountRepository
         return account;
     }
 
-    public async Task<Account?> GetAccountByIdAsync(Guid accountId)
+    public async Task<Account> GetAccountByIdAsync(Guid accountId)
     {
         var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == accountId);
 
