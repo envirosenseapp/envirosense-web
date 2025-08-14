@@ -1,4 +1,5 @@
-﻿using EnviroSense.Application.Algorithms;
+using EnviroSense.Application.Algorithms;
+using EnviroSense.Application.Authorization;
 using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
 using EnviroSense.Repositories.Repositories;
@@ -9,47 +10,41 @@ namespace EnviroSense.Application.Services;
 public class DeviceApiKeyService : IDeviceApiKeyService
 {
     private readonly IDeviceApiKeyRepository _deviceApiKeyRepository;
-    private readonly IAccountService _accountService;
     private readonly IApiKeyGenerator _apiKeyGenerator;
+    private readonly IAuthorizationResolver _authorizationResolver;
     private readonly ILogger<DeviceApiKeyService> _logger;
 
     public DeviceApiKeyService(
         IDeviceApiKeyRepository deviceApiKeyRepository,
-        IAccountService accountService,
         IApiKeyGenerator apiKeyGenerator,
+        IAuthorizationResolver authorizationResolver,
         ILogger<DeviceApiKeyService> logger
     )
     {
         _deviceApiKeyRepository = deviceApiKeyRepository;
-        _accountService = accountService;
         _apiKeyGenerator = apiKeyGenerator;
+        _authorizationResolver = authorizationResolver;
         _logger = logger;
     }
 
-    public Task<DeviceApiKey> GetByIdAsync(Guid deviceId)
+    public async Task<DeviceApiKey> GetByIdAsync(Guid deviceId)
     {
-        return _deviceApiKeyRepository.GetByIdAsync(deviceId);
+        var deviceApiKey = await _deviceApiKeyRepository.GetByIdAsync(deviceId);
+        await _authorizationResolver.MustHaveAccess(deviceApiKey);
+
+        return deviceApiKey;
     }
 
     public async Task<(DeviceApiKey key, string revealedApiKey)> CreateAsync(Device device, string name)
     {
-        var loggedInUser = _accountService.GetAccountIdFromSession();
-        if (loggedInUser == null)
-        {
-            throw new NotAuthenticatedException("Must be authenticated to perform this action");
-        }
-
-        if (loggedInUser == device.Id.ToString())
-        {
-            throw new AccessToForbiddenEntityException("Creating api key to foreign device is forbidden.");
-        }
+        await _authorizationResolver.MustHaveAccess(device);
 
         var key = _apiKeyGenerator.Generate();
         var hash = _apiKeyGenerator.Hash(key);
 
         var apiKey = new DeviceApiKey()
         {
-            DeviceId = device.Id,
+            Device = device,
             KeyHash = hash,
             Id = Guid.NewGuid(),
             Name = name,

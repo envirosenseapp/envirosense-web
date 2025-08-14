@@ -31,7 +31,6 @@ internal class AccountRepository : IAccountRepository
     public async Task<Account?> GetAccountByEmailAsync(string email)
     {
         var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Email == email);
-
         if (account == null)
         {
             throw new AccountNotFoundException();
@@ -43,7 +42,6 @@ internal class AccountRepository : IAccountRepository
     public async Task<Account> GetAccountByIdAsync(Guid accountId)
     {
         var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == accountId);
-
         if (account == null)
         {
             throw new AccountNotFoundException();

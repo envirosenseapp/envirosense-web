@@ -36,31 +36,32 @@ namespace EnviroSense.Web.Controllers
 
         public async Task<ActionResult> Details(Guid iD)
         {
-            var deviceDetails = await _deviceService.Get(iD);
+            try
+            {
+                var deviceDetails = await _deviceService.Get(iD);
+                var viewModeDetails = new DeviceViewModel
+                {
+                    Id = deviceDetails.Id,
+                    Name = deviceDetails.Name,
+                    UpdatedAt = deviceDetails.UpdatedAt,
+                    CreatedAt = deviceDetails.CreatedAt,
+                    ApiKeys = deviceDetails.ApiKeys
+                        .OrderByDescending(k => k.CreatedAt)
+                        .Select(k => new DeviceViewModel.ApiKeyDetails
+                        {
+                            Id = k.Id,
+                            Name = k.Name,
+                            DisabledAt = k.DisabledAt,
+                        })
+                        .ToList()
+                };
 
-            if (deviceDetails == null)
+                return View(viewModeDetails);
+            }
+            catch (DeviceNotFoundException)
             {
                 return NotFound();
             }
-
-            var viewModeDetails = new DeviceViewModel
-            {
-                Id = deviceDetails.Id,
-                Name = deviceDetails.Name,
-                UpdatedAt = deviceDetails.UpdatedAt,
-                CreatedAt = deviceDetails.CreatedAt,
-                ApiKeys = deviceDetails.ApiKeys
-                    .OrderByDescending(k => k.CreatedAt)
-                    .Select(k => new DeviceViewModel.ApiKeyDetails
-                    {
-                        Id = k.Id,
-                        Name = k.Name,
-                        DisabledAt = k.DisabledAt,
-                    })
-                    .ToList()
-            };
-
-            return View(viewModeDetails);
         }
 
         public async Task<ActionResult> Add(string? name)
@@ -104,7 +105,6 @@ namespace EnviroSense.Web.Controllers
                 var device = await _measurementService.Get(model.DeviceId);
                 var measurementModel = new Measurement()
                 {
-                    DeviceId = model.DeviceId,
                     Temperature = model.Temperature.Value,
                     Humidity = model.Humidity.Value,
                     RecordingDate = model.RecordingDate,
@@ -116,21 +116,15 @@ namespace EnviroSense.Web.Controllers
                 return RedirectToAction("Measurements", new { deviceId = newMeasurement.DeviceId });
             }
 
-            catch
-                (DeviceNotFoundException except)
+            catch (DeviceNotFoundException)
             {
-                return NotFound(new { message = except.Message });
+                return NotFound();
             }
         }
 
         public async Task<ActionResult> Measurements(Guid deviceId)
         {
             var measurementList = await _measurementService.List(deviceId);
-
-            if (measurementList == null)
-            {
-                return NotFound();
-            }
 
             var viewModelList = measurementList.Select(m => new MeasurementViewModel
             {

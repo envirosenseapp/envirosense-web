@@ -11,5 +11,5 @@ public interface IAccountService
 
     Task<Account?> GetAccountByEmail(string email);
 
-    string? GetAccountIdFromSession();
+    Guid? GetAccountIdFromSession();
 }

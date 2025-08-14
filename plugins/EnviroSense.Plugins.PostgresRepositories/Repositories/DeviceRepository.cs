@@ -1,4 +1,5 @@
 ﻿using EnviroSense.Domain.Entities;
+using EnviroSense.Domain.Exceptions;
 using EnviroSense.Repositories.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,9 +20,15 @@ internal class DeviceRepository : IDeviceRepository
             .ToListAsync();
     }
 
-    public async Task<Device?> GetAsync(Guid Id)
+    public async Task<Device> GetAsync(Guid id)
     {
-        return await _context.Devices.FirstOrDefaultAsync(d => d.Id == Id);
+        var result = await _context.Devices.FirstOrDefaultAsync(d => d.Id == id);
+        if (result == null)
+        {
+            throw new DeviceNotFoundException(id);
+        }
+
+        return result;
     }
 
     public async Task<Device> CreateAsync(Device device)

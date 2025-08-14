@@ -1,4 +1,5 @@
-﻿using EnviroSense.Application.Services;
+﻿using EnviroSense.Application.Authorization;
+using EnviroSense.Application.Services;
 using EnviroSense.Domain.Entities;
 using EnviroSense.Repositories.Repositories;
 using Moq;
@@ -9,20 +10,22 @@ public class DeviceServiceTest : IDisposable
 {
     private readonly Mock<IDeviceRepository> _deviceRepository;
     private readonly Mock<IAccountService> _accountService;
+    private readonly Mock<IAuthorizationResolver> _authorizationResolver;
     private readonly DeviceService _deviceService;
 
     public DeviceServiceTest()
     {
         _deviceRepository = new Mock<IDeviceRepository>();
         _accountService = new Mock<IAccountService>();
+        _authorizationResolver = new Mock<IAuthorizationResolver>();
 
-        _deviceService = new DeviceService(_deviceRepository.Object, _accountService.Object);
+        _deviceService = new DeviceService(_deviceRepository.Object, _accountService.Object, _authorizationResolver.Object);
     }
 
     [Fact]
     public async Task List_It_successfully_fetches_data()
     {
-        _accountService.Setup(e => e.GetAccountIdFromSession()).Returns("01a4260a-ef07-47ef-97f8-1ca333fd930a");
+        _accountService.Setup(e => e.GetAccountIdFromSession()).Returns(Guid.Parse("01a4260a-ef07-47ef-97f8-1ca333fd930a"));
 
         _deviceRepository.Setup(e => e.ListAsync(It.IsAny<Guid>())).Returns(Task.FromResult(new List<Device>()
         {
@@ -85,7 +88,7 @@ public class DeviceServiceTest : IDisposable
     {
         var testId = Guid.NewGuid();
 
-        _accountService.Setup(a => a.GetAccountIdFromSession()).Returns(testId.ToString());
+        _accountService.Setup(a => a.GetAccountIdFromSession()).Returns(testId);
 
         _accountService.Setup(a => a.GetAccountById(testId)).ReturnsAsync(new Account
         {
@@ -108,5 +111,6 @@ public class DeviceServiceTest : IDisposable
     {
         _deviceRepository.VerifyAll();
         _accountService.VerifyAll();
+        _authorizationResolver.VerifyAll();
     }
 }
