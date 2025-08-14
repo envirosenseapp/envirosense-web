@@ -27,7 +27,8 @@ internal class DeviceApiKeyConfiguration : IEntityTypeConfiguration<DeviceApiKey
 
         builder.HasOne(e => e.Device)
             .WithMany(e => e.ApiKeys)
-            .HasForeignKey(e => e.DeviceId);
+            .HasForeignKey(e => e.DeviceId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(e => e.DisabledAt)
             .HasColumnName("disabled_at");

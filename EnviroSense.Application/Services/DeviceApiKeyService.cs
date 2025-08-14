@@ -31,7 +31,7 @@ public class DeviceApiKeyService : IDeviceApiKeyService
         return _deviceApiKeyRepository.GetByIdAsync(deviceId);
     }
 
-    public async Task<Tuple<DeviceApiKey, string>> CreateAsync(Device device, string name)
+    public async Task<(DeviceApiKey key, string revealedApiKey)> CreateAsync(Device device, string name)
     {
         var loggedInUser = _accountService.GetAccountIdFromSession();
         if (loggedInUser == null)
@@ -58,6 +58,6 @@ public class DeviceApiKeyService : IDeviceApiKeyService
         apiKey = await _deviceApiKeyRepository.CreateAsync(apiKey);
         _logger.LogInformation($"Successfully created api key {apiKey.Id} for device {device.Id}");
 
-        return Tuple.Create(apiKey, hash);
+        return (apiKey, hash);
     }
 }

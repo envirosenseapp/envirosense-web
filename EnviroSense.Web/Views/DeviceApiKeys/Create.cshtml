@@ -12,8 +12,8 @@
             <div class="card-body">
                 <form asp-action="Create" method="post" asp-route-deviceId="@Model.DeviceId">
                     <div class="form-group mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter name for this key">
+                        <label asp-for="Name" class="form-label">Name</label>
+                        <input asp-for="Name"  type="text" class="form-control" placeholder="Enter name for this key" required/>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <button type="submit" class="btn btn-primary">Add API Key</button>

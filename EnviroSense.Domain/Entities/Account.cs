@@ -8,7 +8,7 @@ public class Account
     public DateTime UpdatedAt { get; set; }
     public DateTime CreatedAt { get; set; }
 
-    public ICollection<Device> Devices { get; set; } = new List<Device>();
-    public ICollection<Access> Accesses { get; set; } = new List<Access>();
-    public ICollection<AccountPasswordReset> PasswordResets { get; set; } = new List<AccountPasswordReset>();
+    public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
+    public virtual ICollection<Access> Accesses { get; set; } = new List<Access>();
+    public virtual ICollection<AccountPasswordReset> PasswordResets { get; set; } = new List<AccountPasswordReset>();
 }

@@ -12,7 +12,6 @@ internal class AppDbContext : DbContext
     public required DbSet<DeviceApiKey> DeviceApiKeys { get; set; }
     public required DbSet<Measurement> Measurements { get; set; }
     public required DbSet<Account> Accounts { get; set; }
-
     public required DbSet<AccountPasswordReset> AccountPasswordResets { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
