@@ -20,10 +20,10 @@ internal class AccountPasswordResetRepository : IAccountPasswordResetRepository
         return savedAccount.Entity;
     }
 
-    public async Task<AccountPasswordReset> FetchAccountPasswordResetEntityByIdAsync(Guid securityCode)
+    public Task<AccountPasswordReset> FetchAccountPasswordResetEntityByIdAsync(Guid securityCode)
     {
         var accountToReset = _context.AccountPasswordResets.FirstOrDefault(account => account.SecurityCode == securityCode);
-        return accountToReset;
+        return Task.FromResult<AccountPasswordReset>(accountToReset);
     }
 
     public async Task<Account> UpdateAccountPasswordAsync(Guid accountId, string newPassword)
