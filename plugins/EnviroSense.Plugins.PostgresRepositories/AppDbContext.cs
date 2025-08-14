@@ -12,6 +12,8 @@ internal class AppDbContext : DbContext
     public required DbSet<Measurement> Measurements { get; set; }
     public required DbSet<Account> Accounts { get; set; }
 
+    public required DbSet<AccountPasswordReset> AccountPasswordResets { get; set; }
+
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -21,5 +23,6 @@ internal class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new DeviceConfiguration());
         modelBuilder.ApplyConfiguration(new MeasurementConfiguration());
         modelBuilder.ApplyConfiguration(new AccountConfiguration());
+        modelBuilder.ApplyConfiguration(new AccountPasswordResetConfiguration());
     }
 }

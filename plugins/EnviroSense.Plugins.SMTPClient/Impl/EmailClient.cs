@@ -24,7 +24,7 @@ public class EmailClient : IEmailClient
         message.To.Add(MailboxAddress.Parse(email));
         message.Subject = title;
 
-        message.Body = new TextPart("plain") { Text = body };
+        message.Body = new TextPart("html") { Text = body };
 
         using var client = new SmtpClient();
         await client.ConnectAsync(_settings.Host, _settings.Port, _settings.UseSsl);

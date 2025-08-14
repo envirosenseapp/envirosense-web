@@ -11,5 +11,6 @@ public static class Configurator
         serviceCollection.AddScoped<IDeviceService, DeviceService>();
         serviceCollection.AddScoped<IAccessService, AccessService>();
         serviceCollection.AddScoped<IAccountService, AccountService>();
+        serviceCollection.AddScoped<IAccountPasswordResetService, AccountPasswordResetService>();
     }
 }

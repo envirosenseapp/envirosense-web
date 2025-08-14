@@ -32,7 +32,9 @@ public class AccountService : IAccountService
             UpdatedAt = DateTime.UtcNow,
             CreatedAt = DateTime.UtcNow,
             Devices = new List<Device>(),
-            Accesses = new List<Access>()
+            Accesses = new List<Access>(),
+            PasswordResets = new List<AccountPasswordReset>()
+
         };
         return await _accountRepository.AddAsync(account);
     }
@@ -54,7 +56,7 @@ public class AccountService : IAccountService
 
     public async Task<Account> Login(string email, string password)
     {
-        var account = await _accountRepository.GetAccountByEmail(email);
+        var account = await _accountRepository.GetAccountByEmailAsync(email);
         var isPasswordValid = BCryptNet.Verify(password, account.Password);
 
         if (isPasswordValid)
@@ -71,5 +73,10 @@ public class AccountService : IAccountService
     public async Task<Account> GetAccountById(Guid accountId)
     {
         return await _accountRepository.GetAccountByIdAsync(accountId);
+    }
+
+    public async Task<Account?> GetAccountByEmail(string email)
+    {
+        return await _accountRepository.GetAccountByEmailAsync(email);
     }
 }

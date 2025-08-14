@@ -13,11 +13,14 @@ namespace EnviroSense.Web.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IEmailClient _emailClient;
+        private readonly IAccountPasswordResetService _accountPasswordResetService;
 
-        public AccountsController(IAccountService accountService, IEmailClient emailClient)
+        public AccountsController(IAccountService accountService, IEmailClient emailClient,
+            IAccountPasswordResetService accountPasswordResetService)
         {
             _accountService = accountService;
             _emailClient = emailClient;
+            _accountPasswordResetService = accountPasswordResetService;
         }
 
         public ActionResult SignUp()
@@ -78,6 +81,40 @@ namespace EnviroSense.Web.Controllers
                 ModelState.AddModelError("", ex.Message);
                 return View(model);
             }
+        }
+
+        [HttpGet]
+        public Task<ActionResult> ForgotPassword()
+        {
+            return Task.FromResult<ActionResult>(View());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var IsaccountToResset = await _accountPasswordResetService.ResetPasswordAsync(model.Email);
+            ViewBag.SendEmailMessage = "An email was sent to " + model.Email;
+            if (!IsaccountToResset)
+            {
+                return View();
+            }
+
+            await _emailClient.SendMail(
+                "Reset Password",
+                $@"<p>Hi {model.Email},</p>
+       <p>We received a request to reset your password for your account on EnviroSense.</p>
+       <p>To create a new password, click the link below:<br/>
+       <a href=""#"">Reset it here</a></p>
+       <p>Thanks,<br/>The EnviroSense Team</p>",
+                model.Email
+            );
+
+            return View();
         }
     }
 }
