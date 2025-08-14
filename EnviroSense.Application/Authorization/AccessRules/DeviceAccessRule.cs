@@ -7,7 +7,7 @@ using EnviroSense.Domain.Entities;
 
 namespace EnviroSense.Application.Authorization.AccessRules;
 
-internal class DeviceAccessRule : BaseAccessRule<Device>
+public class DeviceAccessRule : BaseAccessRule<Device>
 {
     public DeviceAccessRule(IAccountService accountService) : base(accountService)
     {

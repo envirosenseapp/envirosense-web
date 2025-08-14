@@ -7,7 +7,7 @@ using EnviroSense.Domain.Entities;
 
 namespace EnviroSense.Application.Authorization.AccessRules;
 
-internal class DeviceApiKeyAccessRule : BaseAccessRule<DeviceApiKey>
+public class DeviceApiKeyAccessRule : BaseAccessRule<DeviceApiKey>
 {
     public DeviceApiKeyAccessRule(IAccountService accountService) : base(accountService)
     {

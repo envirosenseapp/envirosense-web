@@ -7,7 +7,7 @@ using EnviroSense.Domain.Entities;
 
 namespace EnviroSense.Application.Authorization.AccessRules;
 
-internal class MeasurementAccessRule : BaseAccessRule<Measurement>
+public class MeasurementAccessRule : BaseAccessRule<Measurement>
 {
     public MeasurementAccessRule(IAccountService accountService) : base(accountService)
     {

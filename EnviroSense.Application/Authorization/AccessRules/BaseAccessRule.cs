@@ -7,7 +7,7 @@ using EnviroSense.Domain.Exceptions;
 
 namespace EnviroSense.Application.Authorization.AccessRules;
 
-internal abstract class BaseAccessRule<T> : IAccessRule<T>
+public abstract class BaseAccessRule<T> : IAccessRule<T>
 {
     private readonly IAccountService _accountService;
 
