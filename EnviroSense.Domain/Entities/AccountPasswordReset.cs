@@ -3,7 +3,7 @@
 public class AccountPasswordReset
 {
     public Guid Id { get; set; }
-    public required Account Account { get; set; }
+    public virtual required Account Account { get; set; }
     public required Guid AccountId { get; set; }
 
     public required Guid SecurityCode { get; set; }

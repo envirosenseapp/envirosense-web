@@ -29,14 +29,12 @@ public class DeviceServiceTest : IDisposable
             new Device
             {
                 Name = "test 2",
-                Account = new Account() { Devices = new List<Device>(), Email = "123", Password = "123", },
-                Measurements = new List<Measurement>(),
+                Account = new Account() {Email = "123", Password = "123", },
             },
             new Device
             {
                 Name = "test",
-                Account = new Account() { Devices = new List<Device>(), Email = "123", Password = "123", },
-                Measurements = new List<Measurement>(),
+                Account = new Account() { Email = "123", Password = "123", },
             },
         }));
 
@@ -60,8 +58,7 @@ public class DeviceServiceTest : IDisposable
         _deviceRepository.Setup(e => e.GetAsync(sampleGUID)).ReturnsAsync((new Device
         {
             Name = "test 2",
-            Account = new Account() { Devices = new List<Device>(), Email = "123", Password = "123", },
-            Measurements = new List<Measurement>(),
+            Account = new Account() { Email = "123", Password = "123", },
         }));
 
         var res = await _deviceService.Get(sampleGUID);
@@ -97,8 +94,6 @@ public class DeviceServiceTest : IDisposable
             Password = "123",
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now,
-            Devices = new List<Device>(),
-            Accesses = new List<Access>(),
         });
 
         _deviceRepository.Setup(d => d.CreateAsync(It.IsAny<Device>())).ReturnsAsync((Device d) => d);

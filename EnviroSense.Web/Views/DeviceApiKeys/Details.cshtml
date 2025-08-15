@@ -1,0 +1,58 @@
+﻿@model EnviroSense.Web.ViewModels.DeviceApiKeys.DetailsDeviceApiKeyViewModel
+
+@{
+    ViewData["Title"] = "API Key Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">@Model.Name</h4>
+    </div>
+    <div class="card-body">
+        @if (!string.IsNullOrEmpty(Model.RevealedKey))
+        {
+            <div class="alert alert-warning" role="alert">
+                <strong>Important!</strong> Please copy the API key below. You won't be able to see it again.
+                <hr>
+                <p class="mb-0"><code>@Model.RevealedKey</code></p>
+            </div>
+        }
+
+        <dl class="row mt-4">
+            <dt class="col-sm-3">ID</dt>
+            <dd class="col-sm-9">@Model.Id</dd>
+
+            <dt class="col-sm-3">Name</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+
+            <dt class="col-sm-3">Device</dt>
+            <dd class="col-sm-9"><a asp-action="Details" asp-controller="Devices" asp-route-id="@Model.DeviceId">@Model.DeviceName</a></dd>
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">
+                @if (Model.DisabledAt.HasValue)
+                {
+                    <span class="badge bg-danger">Disabled</span>
+                }
+                else
+                {
+                    <span class="badge bg-success">Active</span>
+                }
+            </dd>
+
+            @if (Model.DisabledAt.HasValue)
+            {
+                <dt class="col-sm-3">Disabled At</dt>
+                <dd class="col-sm-9">@Model.DisabledAt</dd>
+            }
+
+            <dt class="col-sm-3">Created At</dt>
+            <dd class="col-sm-9">@Model.CreatedAt</dd>
+        </dl>
+    </div>
+    <div class="card-footer">
+        <a asp-action="Details" asp-controller="Devices" asp-route-id="@Model.DeviceId" class="btn btn-secondary">Back to Device</a>
+    </div>
+</div>

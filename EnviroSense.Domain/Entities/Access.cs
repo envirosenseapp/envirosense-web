@@ -4,7 +4,7 @@ public class Access
 {
     public Guid Id { get; set; }
     public Guid? AccountId { get; set; }
-    public Account? Account { get; set; }
+    public virtual Account? Account { get; set; }
     public DateTime CreatedAt { get; set; }
     public required string IpAddress { get; set; }
     public required string Client { get; set; }

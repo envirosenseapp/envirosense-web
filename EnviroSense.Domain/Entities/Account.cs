@@ -7,8 +7,8 @@ public class Account
     public required string Password { get; set; }
     public DateTime UpdatedAt { get; set; }
     public DateTime CreatedAt { get; set; }
-    public required ICollection<Device> Devices { get; set; }
-    public ICollection<Access>? Accesses { get; set; }
 
-    public ICollection<AccountPasswordReset>? PasswordResets { get; set; }
+    public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
+    public virtual ICollection<Access> Accesses { get; set; } = new List<Access>();
+    public virtual ICollection<AccountPasswordReset> PasswordResets { get; set; } = new List<AccountPasswordReset>();
 }
