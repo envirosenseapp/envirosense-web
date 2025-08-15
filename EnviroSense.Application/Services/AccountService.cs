@@ -39,7 +39,7 @@ public class AccountService : IAccountService
         return await _accountRepository.AddAsync(account);
     }
 
-    public string? GetAccountIdFromSession()
+    public Guid? GetAccountIdFromSession()
     {
         var httpContext = _httpContextAccessor.HttpContext;
 
@@ -50,8 +50,17 @@ public class AccountService : IAccountService
 
         var session = httpContext.Session;
         var accountId = session.GetString("authenticated_account_id");
+        if (string.IsNullOrEmpty(accountId))
+        {
+            return null;
+        }
 
-        return accountId;
+        if (!Guid.TryParse(accountId, out var accountGuid))
+        {
+            throw new Exception("Unexpected format for account id. Must be guid.");
+        }
+
+        return accountGuid;
     }
 
     public async Task<Account> Login(string email, string password)

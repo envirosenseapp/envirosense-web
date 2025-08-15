@@ -8,9 +8,9 @@ public class DeviceApiKey
 
     public required string KeyHash { get; set; }
 
-    public required Guid DeviceId { get; set; }
+    public Guid DeviceId { get; set; }
 
-    public virtual Device? Device { get; set; }
+    public virtual required Device Device { get; set; }
 
     public DateTime? DisabledAt { get; set; }
 

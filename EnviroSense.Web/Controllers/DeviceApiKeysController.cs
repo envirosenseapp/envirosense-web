@@ -23,17 +23,21 @@ public class DeviceApiKeysController : Controller
     [HttpGet]
     public async Task<IActionResult> Create(Guid deviceId)
     {
-        var device = await _deviceService.Get(deviceId);
-        if (device == null)
+        try
+        {
+            var device = await _deviceService.Get(deviceId);
+            var viewModel = new CreateDeviceApiKeyViewModel
+            {
+                DeviceId = device.Id,
+                DeviceName = device.Name,
+            };
+
+            return View(viewModel);
+        }
+        catch (DeviceNotFoundException)
         {
             return NotFound();
         }
-
-        return View(new CreateDeviceApiKeyViewModel
-        {
-            DeviceId = device.Id,
-            DeviceName = device.Name,
-        });
     }
 
     [HttpPost]
@@ -44,16 +48,19 @@ public class DeviceApiKeysController : Controller
             return await Create(deviceId);
         }
 
-        var device = await _deviceService.Get(deviceId);
-        if (device == null)
+        try
+        {
+            var device = await _deviceService.Get(deviceId);
+
+            var (apiKey, revealedKey) = await _apiKeyService.CreateAsync(device, input.Name);
+            TempData[TempDataRevealedKey] = revealedKey;
+
+            return RedirectToAction("Details", new { id = apiKey.Id });
+        }
+        catch (DeviceNotFoundException)
         {
             return NotFound();
         }
-
-        var (apiKey, revealedKey) = await _apiKeyService.CreateAsync(device, input.Name);
-        TempData[TempDataRevealedKey] = revealedKey;
-
-        return RedirectToAction("Details", new { id = apiKey.Id });
     }
 
     [HttpGet]

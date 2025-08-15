@@ -1,5 +1,8 @@
 ﻿using EnviroSense.Application.Algorithms;
+using EnviroSense.Application.Authorization;
+using EnviroSense.Application.Authorization.AccessRules;
 using EnviroSense.Application.Services;
+using EnviroSense.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EnviroSense.Application;
@@ -15,6 +18,12 @@ public static class Configurator
         serviceCollection.AddScoped<IAccountService, AccountService>();
         serviceCollection.AddScoped<IAccountPasswordResetService, AccountPasswordResetService>();
         serviceCollection.AddScoped<IDeviceApiKeyService, DeviceApiKeyService>();
+
+        // authorization
+        serviceCollection.AddScoped<IAccessRule<Device>, DeviceAccessRule>();
+        serviceCollection.AddScoped<IAccessRule<Measurement>, MeasurementAccessRule>();
+        serviceCollection.AddScoped<IAccessRule<DeviceApiKey>, DeviceApiKeyAccessRule>();
+        serviceCollection.AddScoped<IAuthorizationResolver, AuthorizationResolver>();
 
         // other
         serviceCollection.AddSingleton<IApiKeyGenerator, GuidApiKeyGenerator>();

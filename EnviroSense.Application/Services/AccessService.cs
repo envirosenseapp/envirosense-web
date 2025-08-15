@@ -27,7 +27,7 @@ public class AccessService : IAccessService
             return null;
         }
 
-        return Guid.Parse(accountId);
+        return accountId;
     }
 
     public async Task<Access> Create()

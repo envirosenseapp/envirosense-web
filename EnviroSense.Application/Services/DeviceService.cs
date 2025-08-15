@@ -1,4 +1,5 @@
-﻿using EnviroSense.Domain.Entities;
+﻿using EnviroSense.Application.Authorization;
+using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
 using EnviroSense.Repositories.Repositories;
 
@@ -8,14 +9,17 @@ public class DeviceService : IDeviceService
 {
     private readonly IDeviceRepository _deviceRepository;
     private readonly IAccountService _accountService;
+    private readonly IAuthorizationResolver _authorizationResolver;
 
     public DeviceService(
         IDeviceRepository deviceRepository,
-        IAccountService accountService
-        )
+        IAccountService accountService,
+        IAuthorizationResolver authorizationResolver
+    )
     {
         _deviceRepository = deviceRepository;
         _accountService = accountService;
+        _authorizationResolver = authorizationResolver;
     }
 
     protected virtual Guid GetAccountId()
@@ -26,7 +30,7 @@ public class DeviceService : IDeviceService
             throw new SessionIsNotAvailableException();
         }
 
-        return Guid.Parse(accountId);
+        return accountId.Value;
     }
 
     public Task<List<Device>> List()
@@ -35,9 +39,12 @@ public class DeviceService : IDeviceService
         return _deviceRepository.ListAsync(acountId);
     }
 
-    public Task<Device?> Get(Guid Id)
+    public async Task<Device?> Get(Guid id)
     {
-        return _deviceRepository.GetAsync(Id);
+        var device = await _deviceRepository.GetAsync(id);
+        await _authorizationResolver.MustHaveAccess(device);
+
+        return device;
     }
 
     public async Task<Device> Create(string name)
