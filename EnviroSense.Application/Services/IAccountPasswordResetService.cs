@@ -5,8 +5,8 @@ namespace EnviroSense.Application.Services;
 
 public interface IAccountPasswordResetService
 {
-    Task<(bool IsAccountToReset, Guid SecurityCode)> ResetPasswordAsync(string email);
+    Task<Guid?> ResetPasswordAsync(string email);
 
-    Task<AccountPasswordReset> FetchAccountPasswordResetEntityById(Guid securityCode, string newPassword);
+    Task<Account> Reset(Guid securityCode, string newPassword);
 
 }

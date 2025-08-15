@@ -5,9 +5,6 @@ namespace EnviroSense.Web.ViewModels.Accounts;
 public class ResetPasswordViewModel
 {
     [Required]
-    public Guid SecurityCode { get; set; }
-
-    [Required]
     [DataType(DataType.Password)]
     [MinLength(8)]
     public String? NewPassword { get; set; }

@@ -17,28 +17,28 @@ public class AccountPasswordResetService : IAccountPasswordResetService
         _accountPasswordResetRepository = accountPasswordResetRepository;
     }
 
-    public async Task<(bool IsAccountToReset, Guid SecurityCode)> ResetPasswordAsync(string email)
+    public async Task<Guid?> ResetPasswordAsync(string email)
     {
         try
         {
             var account = await _accountService.GetAccountByEmail(email);
             var accountToReset = CreateResetPasswordEntity(account!);
 
-            await _accountPasswordResetRepository.CreateResetPasswordEntityAsync(accountToReset);
+            await _accountPasswordResetRepository.CreateAsync(accountToReset);
 
-            return (true, accountToReset.SecurityCode);
+            return accountToReset.SecurityCode;
         }
         catch (AccountNotFoundException)
         {
-            return (false, Guid.Empty);
+            return Guid.Empty;
         }
 
 
     }
 
-    public async Task<AccountPasswordReset> FetchAccountPasswordResetEntityById(Guid securityCode, string newPassword)
+    public async Task<Account> Reset(Guid securityCode, string newPassword)
     {
-        var accountToReset = await _accountPasswordResetRepository.FetchAccountPasswordResetEntityByIdAsync(securityCode);
+        var accountToReset = await _accountPasswordResetRepository.GetBySecurityCodeAsync(securityCode);
         if (accountToReset.ResetDate.AddHours(24) < DateTime.UtcNow)
         {
             throw new ResetPasswordLinkExpiredException();
@@ -49,8 +49,7 @@ public class AccountPasswordResetService : IAccountPasswordResetService
             throw new ResetPasswordAlreadyUsedException();
         }
         string hashedPassword = BCryptNet.HashPassword(newPassword, 10);
-        await _accountPasswordResetRepository.UpdateAccountPasswordAsync(accountToReset.AccountId, hashedPassword);
-        var updatedAccount = await _accountPasswordResetRepository.SetUsedAtTimeAsync(accountToReset.AccountId);
+        var updatedAccount = await _accountPasswordResetRepository.UpdateAccountPasswordAsync(accountToReset.AccountId, hashedPassword);
         return updatedAccount;
     }
 
