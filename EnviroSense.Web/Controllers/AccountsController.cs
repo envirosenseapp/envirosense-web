@@ -121,7 +121,7 @@ namespace EnviroSense.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult ResetPassword(Guid id)
+        public IActionResult ResetPassword()
         {
             return View();
         }
