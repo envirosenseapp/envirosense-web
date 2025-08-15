@@ -7,7 +7,7 @@ using Moq;
 
 namespace EnviroSense.Application.Tests.Authorization;
 
-public class AuthorizationResolverTest: IDisposable
+public class AuthorizationResolverTest : IDisposable
 {
     private readonly Mock<IServiceProvider> _serviceProviderMock;
     private readonly Mock<IAccessRule<Device>> _accessRuleMock;
@@ -34,7 +34,7 @@ public class AuthorizationResolverTest: IDisposable
         // Act
         await _resolver.MustHaveAccess(device);
     }
-    
+
     [Fact]
     public async Task MustHaveAccess_WhenRuleExistsAndGrantsAccess_ShouldThrowException()
     {
@@ -45,11 +45,11 @@ public class AuthorizationResolverTest: IDisposable
             .Returns(Task.FromResult(false));
         _serviceProviderMock.Setup(sp => sp.GetService(typeof(IAccessRule<Device>)))
             .Returns(_accessRuleMock.Object);
-        
+
         // Act
-        await Assert.ThrowsAsync<AccessToForbiddenEntityException>(async() => await _resolver.MustHaveAccess(device));
+        await Assert.ThrowsAsync<AccessToForbiddenEntityException>(async () => await _resolver.MustHaveAccess(device));
     }
-    
+
     [Fact]
     public async Task MustHaveAccess_WhenRuleNotFound_ShouldThrowException()
     {
@@ -60,9 +60,9 @@ public class AuthorizationResolverTest: IDisposable
             .Throws(new Exception());
 
         // Act
-        await Assert.ThrowsAsync<Exception>(async() => await _resolver.MustHaveAccess(device));
+        await Assert.ThrowsAsync<Exception>(async () => await _resolver.MustHaveAccess(device));
     }
-    
+
 
     public void Dispose()
     {

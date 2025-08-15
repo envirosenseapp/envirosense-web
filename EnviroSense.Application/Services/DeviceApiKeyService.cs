@@ -1,4 +1,4 @@
-using EnviroSense.Application.Algorithms;
+﻿using EnviroSense.Application.Algorithms;
 using EnviroSense.Application.Authorization;
 using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
