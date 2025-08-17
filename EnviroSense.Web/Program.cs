@@ -6,7 +6,7 @@ using EnviroSense.Web.Filters;
 var builder = WebApplication.CreateBuilder(args);
 
 // Adjust configuration
-builder.Configuration.AddJsonFile("/etc/secrets/appsettings.Production.json", optional:true);
+builder.Configuration.AddJsonFile("/etc/secrets/appsettings.Production.json", optional: true);
 
 // Add services to the container.
 builder.Services.AddApplicationServices();
