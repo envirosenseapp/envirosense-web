@@ -1,4 +1,5 @@
 ﻿using EnviroSense.Domain.Entities;
+using EnviroSense.Domain.Exceptions;
 using EnviroSense.Repositories.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,20 +22,21 @@ internal class AccountPasswordResetRepository : IAccountPasswordResetRepository
         return savedAccount.Entity;
     }
 
-    public Task<AccountPasswordReset> GetBySecurityCodeAsync(Guid securityCode)
+    public async Task<AccountPasswordReset> GetBySecurityCodeAsync(Guid securityCode)
     {
-        var accountToReset =
-            _context.AccountPasswordResets.FirstOrDefault(account => account.SecurityCode == securityCode);
-        return Task.FromResult<AccountPasswordReset>(accountToReset);
+        var reset = await _context.AccountPasswordResets.FirstOrDefaultAsync(account => account.SecurityCode == securityCode);
+        if (reset == null)
+        {
+            throw new AccountPasswordResetNotFoundException();
+        }
+
+        return reset;
     }
 
-    public async Task<Account> UpdateAccountPasswordAsync(Guid accountId, string newPassword)
+    public async Task<AccountPasswordReset> UpdateAsync(AccountPasswordReset account)
     {
-        var updatedAccount = await _context.Accounts.FirstOrDefaultAsync(account => account.Id == accountId);
-        updatedAccount.Password = newPassword;
-        var setUsedAt = await _context.AccountPasswordResets.FirstOrDefaultAsync(account => account.AccountId == accountId);
-        setUsedAt.UsedAt = DateTime.UtcNow;
+        var trackedEntity = _context.AccountPasswordResets.Update(account);
         await _context.SaveChangesAsync();
-        return updatedAccount;
+        return trackedEntity.Entity;
     }
 }

@@ -49,4 +49,11 @@ internal class AccountRepository : IAccountRepository
 
         return account;
     }
+
+    public async Task<Account> UpdateAsync(Account account)
+    {
+        var updatedAccount = _context.Accounts.Update(account);
+        await _context.SaveChangesAsync();
+        return updatedAccount.Entity;
+    }
 }

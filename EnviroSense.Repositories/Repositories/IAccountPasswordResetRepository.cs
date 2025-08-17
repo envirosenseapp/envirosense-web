@@ -6,6 +6,5 @@ public interface IAccountPasswordResetRepository
 {
     Task<AccountPasswordReset> CreateAsync(AccountPasswordReset account);
     Task<AccountPasswordReset> GetBySecurityCodeAsync(Guid securityCode);
-
-    Task<Account> UpdateAccountPasswordAsync(Guid accountId, string newPassword);
+    Task<AccountPasswordReset> UpdateAsync(AccountPasswordReset account);
 }

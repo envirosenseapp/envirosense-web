@@ -159,6 +159,11 @@ namespace EnviroSense.Web.Controllers
                 ViewBag.Message = "Reset password already used.";
                 return View();
             }
+            catch (AccountPasswordResetNotFoundException)
+            {
+                ViewBag.Message = "No password found to reset.";
+                return View();
+            }
             TempData["Info"] = "You have successfully reset your password.";
             return RedirectToAction("SignIn");
         }
