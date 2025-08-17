@@ -1,10 +1,10 @@
-﻿
-using EnviroSense.Domain.Entities;
+﻿using EnviroSense.Domain.Entities;
 
 namespace EnviroSense.Repositories.Repositories;
 
 public interface IAccountPasswordResetRepository
 {
-    Task<AccountPasswordReset> CreateResetPasswordEntityAsync(AccountPasswordReset account);
-
+    Task<AccountPasswordReset> CreateAsync(AccountPasswordReset account);
+    Task<AccountPasswordReset> GetBySecurityCodeAsync(Guid securityCode);
+    Task<AccountPasswordReset> UpdateAsync(AccountPasswordReset account);
 }

@@ -1,6 +1,7 @@
-﻿
-using EnviroSense.Domain.Entities;
+﻿using EnviroSense.Domain.Entities;
+using EnviroSense.Domain.Exceptions;
 using EnviroSense.Repositories.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace EnviroSense.Plugins.PostgresRepositories.Repositories;
@@ -13,12 +14,29 @@ internal class AccountPasswordResetRepository : IAccountPasswordResetRepository
     {
         _context = context;
     }
-    public async Task<AccountPasswordReset> CreateResetPasswordEntityAsync(AccountPasswordReset account)
+
+    public async Task<AccountPasswordReset> CreateAsync(AccountPasswordReset account)
     {
         var savedAccount = await _context.AccountPasswordResets.AddAsync(account);
         await _context.SaveChangesAsync();
         return savedAccount.Entity;
     }
 
+    public async Task<AccountPasswordReset> GetBySecurityCodeAsync(Guid securityCode)
+    {
+        var reset = await _context.AccountPasswordResets.FirstOrDefaultAsync(account => account.SecurityCode == securityCode);
+        if (reset == null)
+        {
+            throw new AccountPasswordResetNotFoundException();
+        }
 
+        return reset;
+    }
+
+    public async Task<AccountPasswordReset> UpdateAsync(AccountPasswordReset account)
+    {
+        var trackedEntity = _context.AccountPasswordResets.Update(account);
+        await _context.SaveChangesAsync();
+        return trackedEntity.Entity;
+    }
 }

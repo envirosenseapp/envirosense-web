@@ -1,6 +1,7 @@
 ﻿using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
 using EnviroSense.Repositories.Repositories;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace EnviroSense.Application.Services;
 
@@ -8,31 +9,54 @@ public class AccountPasswordResetService : IAccountPasswordResetService
 {
     private readonly IAccountService _accountService;
     private readonly IAccountPasswordResetRepository _accountPasswordResetRepository;
+    private readonly IAccountRepository _accountRepository;
 
     public AccountPasswordResetService(IAccountService accountService,
-        IAccountPasswordResetRepository accountPasswordResetRepository)
+        IAccountPasswordResetRepository accountPasswordResetRepository, IAccountRepository accountRepository)
     {
         _accountService = accountService;
         _accountPasswordResetRepository = accountPasswordResetRepository;
+        _accountRepository = accountRepository;
     }
 
-    public async Task<bool> ResetPasswordAsync(string email)
+    public async Task<Guid?> ResetPasswordAsync(string email)
     {
         try
         {
             var account = await _accountService.GetAccountByEmail(email);
             var accountToReset = CreateResetPasswordEntity(account!);
 
-            await _accountPasswordResetRepository.CreateResetPasswordEntityAsync(accountToReset);
+            await _accountPasswordResetRepository.CreateAsync(accountToReset);
 
-            return true;
+            return accountToReset.SecurityCode;
         }
         catch (AccountNotFoundException)
         {
-            return false;
+            return Guid.Empty;
+        }
+    }
+
+    public async Task<Account> Reset(Guid securityCode, string newPassword)
+    {
+        var accountToReset = await _accountPasswordResetRepository.GetBySecurityCodeAsync(securityCode);
+
+        if (accountToReset.UsedAt != null)
+        {
+            throw new ResetPasswordAlreadyUsedException();
         }
 
+        if (accountToReset.ResetDate.AddHours(24) <= DateTime.UtcNow)
+        {
+            throw new ResetPasswordLinkExpiredException();
+        }
 
+        accountToReset.UsedAt = DateTime.UtcNow;
+        var account = accountToReset.Account;
+        account.Password = BCryptNet.HashPassword(newPassword, 10);
+        await _accountPasswordResetRepository.UpdateAsync(accountToReset);
+        var updatedAccount = await _accountRepository.UpdateAsync(account);
+
+        return updatedAccount;
     }
 
     private AccountPasswordReset CreateResetPasswordEntity(Account account)

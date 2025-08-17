@@ -1,15 +1,14 @@
 ﻿using EnviroSense.Application;
 using EnviroSense.Plugins.PostgresRepositories;
 using EnviroSense.Plugins.SMTPClient;
-using EnviroSense.Web;
 using EnviroSense.Web.Filters;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddApplicationServices();
-builder.Services.AddPostgresRepositories(builder.Configuration.GetConnectionString("Default") ?? throw new Exception("Missing connection string"));
+builder.Services.AddPostgresRepositories(builder.Configuration.GetConnectionString("Default") ??
+                                         throw new Exception("Missing connection string"));
 builder.Services.AddDistributedPostgresCache(options =>
 {
     options.ConnectionString = builder.Configuration.GetConnectionString("Default");
@@ -35,7 +34,8 @@ var mvcBuilder = builder.Services.AddControllersWithViews(opts =>
 mvcBuilder.AddRazorRuntimeCompilation();
 #endif
 
-builder.Services.AddSMTPClient(builder.Configuration.GetRequiredSection("EmailSettings") ?? throw new Exception("Missing email settings"));
+builder.Services.AddSMTPClient(builder.Configuration.GetRequiredSection("EmailSettings") ??
+                               throw new Exception("Missing email settings"));
 
 var app = builder.Build();
 

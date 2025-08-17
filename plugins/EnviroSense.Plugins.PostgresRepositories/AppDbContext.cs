@@ -6,7 +6,10 @@ namespace EnviroSense.Plugins.PostgresRepositories;
 
 internal class AppDbContext : DbContext
 {
-
+    static AppDbContext()
+    {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+    }
     public required DbSet<Access> Accesses { get; set; }
     public required DbSet<Device> Devices { get; set; }
     public required DbSet<DeviceApiKey> DeviceApiKeys { get; set; }
