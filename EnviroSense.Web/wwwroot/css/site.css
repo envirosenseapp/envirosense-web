@@ -29,3 +29,142 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.Sign_In_page_bg{
+
+    background-image: url(/images/SignIn_img_bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+
+}
+
+.SignIn_container{
+    background-image:  url(/images/forest_bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    height: 50rem;
+    width: 60rem;
+    margin-left: 5rem;
+    box-sizing: border-box;
+    
+
+    
+    
+}
+.SignIn_description{
+    height: 50rem;
+    width: 30rem;
+    background-color:rgba(102, 255, 0, 0.77);
+    box-sizing: border-box;
+    
+}
+.SignIn_container .container {
+    margin-left: 0rem;
+    padding: 0rem;
+    height: 100%;
+    
+}
+
+#Text_under_sign_in{
+    background-image:   url(/images/Wood.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    margin-top: -20rem; text-align: center;       
+    line-height: 1.4;
+    font-size: 1.5rem;
+    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    transform: rotate(-3deg);
+    border: 1px black solid;
+    border-radius: 2rem;
+    
+    
+   
+}
+
+.Bars{
+    position: absolute;
+    font-size: 1.5rem;
+    margin-left: 90rem;
+    margin-top: -12rem;
+    width: 18rem;
+    height: 10rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end; 
+}
+
+.Bar_1, .Bar_2, .Bar_3 {
+    width: 2rem;
+    background-color: red;
+    animation: fill 3s infinite ease-in-out;
+}
+
+.Bar_1 {
+    background-color: red;
+    animation-delay: 0s;
+}
+.Bar_2 {
+    background-color: blue;
+    animation-delay: 1s;
+}
+.Bar_3 {
+    background-color: rgba(255, 148, 0, 1);
+    animation-delay: 2s;
+}
+
+@keyframes fill {
+    0% { height: 0rem; }
+    50% { height: 8rem; }
+    100% { height: 0rem; }
+}
+header {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar {
+    background: linear-gradient(90deg, #e8f5e9, #f1f8e9); /* verde deschis spre alb */
+    border-bottom: 2px solid #a5d6a7; /* verde pastel */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.navbar-brand img {
+    height: 40px;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.1); /* mic efect când treci cu mouse-ul */
+}
+
+.nav-link {
+    color: #2e7d32 !important; /* verde închis */
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #1b5e20 !important; /* verde mai intens */
+    text-decoration: underline;
+}
+
+.nav-item + .nav-item {
+    margin-left: 1rem;
+}
+
+.navbar-toggler {
+    border: none;
+    background-color: #a5d6a7;
+    border-radius: 6px;
+}
+.navbar-toggler-icon {
+    filter: invert(40%) sepia(40%) saturate(400%) hue-rotate(90deg);
+}

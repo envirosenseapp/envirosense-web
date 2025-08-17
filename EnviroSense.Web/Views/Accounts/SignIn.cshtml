@@ -1,44 +1,64 @@
 @model EnviroSense.Web.ViewModels.Accounts.SignInViewModel
 @{
     ViewData["Title"] = "Sign In";
+    ViewBag.bodyclass = "Sign_In_page_bg";
 }
+<div class="SignIn_container">
+    <div class="SignIn_description">
+        <div class="container mt-5">
+            <div class="row justify-content-left">
+                <div class="col-12 col-md-8 col-lg-12">
+                    <div class="card shadow-sm" style="background-color: rgba(237, 237, 237, 0)">
+                        <div class="card-body p-4">
+                            <h2 class="card-title text-center mb-4">Sign In</h2>
+                            <form asp-action="SignIn" asp-controller="Accounts" method="post">
+                                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                                @if (ViewBag.info != null)
+                                {
+                                    <div class="alert alert-info">@ViewBag.info</div>
+                                }
+                                <div class="mb-3">
+                                    <label asp-for="Email" class="form-label">Email</label>
+                                    <input asp-for="Email" type="email" class="form-control"
+                                           placeholder="name@example.com"
+                                           required/>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Password" class="form-label">Password</label>
+                                    <input asp-for="Password" type="password" minlength="8" class="form-control"
+                                           required/>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg">Sign In</button>
+                                </div>
+                            </form>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6">
-            <div class="card shadow-sm">
-                <div class="card-body p-4">
-                    <h2 class="card-title text-center mb-4">Sign In</h2>
-                    <form asp-action="SignIn" asp-controller="Accounts" method="post">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
-                        @if (ViewBag.info != null)
-                        {
-                            <div class="alert alert-info">@ViewBag.info</div>
-                        }
-                        <div class="mb-3">
-                            <label asp-for="Email" class="form-label">Email</label>
-                            <input asp-for="Email" type="email" class="form-control" placeholder="name@example.com"
-                                   required/>
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label">Password</label>
-                            <input asp-for="Password" type="password" minlength="8" class="form-control" required/>
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg">Sign In</button>
-                        </div>
-                    </form>
+                            <hr class="my-4">
 
-                    <hr class="my-4">
-
-                    <div class="text-center">
-                        <p class="mb-0">Don't have an account? <a asp-action="SignUp">Sign Up</a></p>
-                        <p class="mb-0">Forgot password?? <a asp-action="ForgotPassword">Resset password</a></p>
+                            <div class="text-center">
+                                <p class="mb-0">Don't have an account? <a asp-action="SignUp">Sign Up</a></p>
+                                <p class="mb-0">Forgot password?? <a asp-action="ForgotPassword">Resset password</a></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <p id="Text_under_sign_in">Take the first step towards smarter monitoring.<br>
+            Sign in now to track,<br> analyze, and optimize your environment with ease.</p>
+    </div>
+</div>
+<div class="Bars">
+    <p>Mointorize your measurments dinamicly</p>
+    <div class="Bar_1">
+
+    </div>
+    <div class="Bar_2">
+
+    </div>
+    <div class="Bar_3">
+
     </div>
 </div>
