@@ -19,4 +19,8 @@
     <ProjectReference Include="..\plugins\EnviroSense.Plugins.SMTPClient\EnviroSense.Plugins.SMTPClient.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\images\pexels-flowerstofox-1906932.jpg" />
+  </ItemGroup>
+
 </Project>

@@ -41,7 +41,7 @@ body {
 
 }
 
-.SignIn_container{
+.Sign_in_container{
     background-image:  url(/images/forest_bg.jpg);
     background-size: cover;
     background-repeat: no-repeat;
@@ -57,18 +57,47 @@ body {
     
     
 }
-.SignIn_description{
+.Sign_up_container{
+    background-image:  url(/images/pexels-rahulp9800-2797464.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    height: 50rem;
+    width: 60rem;
+    margin-left: 5rem;
+    box-sizing: border-box;
+    border-radius: 2rem;
+
+
+
+
+}
+.Sign_in_description{
     height: 50rem;
     width: 30rem;
     background-color:rgba(102, 255, 0, 0.77);
     box-sizing: border-box;
     
 }
-.SignIn_container .container {
+.Sign_up_description{
+    height: 50rem;
+    width: 30rem;
+    background-color:rgba(0, 139, 60, 0.5);
+    box-sizing: border-box;
+
+}
+.Sign_in_container .container {
     margin-left: 0rem;
     padding: 0rem;
     height: 100%;
     
+}
+.Sign_up_container .container {
+    margin-left: 0rem;
+    padding: 0rem;
+    height: 100%;
+
 }
 
 #Text_under_sign_in{
@@ -90,6 +119,7 @@ body {
     
    
 }
+
 
 .Bars{
     position: absolute;
@@ -127,13 +157,67 @@ body {
     50% { height: 8rem; }
     100% { height: 0rem; }
 }
+.Circles{
+    position: absolute;
+    font-size: 1.5rem;
+    margin-left: 90rem;
+    margin-top: -12rem;
+    width: 12rem;
+    height: 12rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+.circle-container {
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    background-color: #ffffff; /* fundal neutru */
+    position: relative;
+    overflow: hidden;
+}
+
+.circle-progress {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+            #006400 0deg,      /* verde închis */
+            #006400 120deg,
+            #FFA500 120deg,    /* portocaliu închis */
+            #FFA500 240deg,
+            #FFD700 240deg,    /* galben auriu */
+            #FFD700 360deg
+    );
+    transform: rotate(-90deg); /* începe de sus */
+    animation: rotateCircle 6s linear infinite;
+}
+
+@keyframes rotateCircle {
+    0% {
+        transform: rotate(-90deg);
+    }
+    100% {
+        transform: rotate(270deg);
+    }
+}
+
+@keyframes rotateCircle {
+    0% {
+        transform: rotate(-90deg);
+    }
+    100% {
+        transform: rotate(270deg); /* complet cercul */
+    }
+}
 header {
     font-family: 'Segoe UI', sans-serif;
 }
 
 .navbar {
-    background: linear-gradient(90deg, #e8f5e9, #f1f8e9); /* verde deschis spre alb */
-    border-bottom: 2px solid #a5d6a7; /* verde pastel */
+    background: linear-gradient(90deg, #e8f5e9, #f1f8e9); 
+    border-bottom: 2px solid #a5d6a7; 
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
 
@@ -143,17 +227,17 @@ header {
 }
 
 .navbar-brand img:hover {
-    transform: scale(1.1); /* mic efect când treci cu mouse-ul */
+    transform: scale(1.1);
 }
 
 .nav-link {
-    color: #2e7d32 !important; /* verde închis */
+    color: #2e7d32 !important; 
     font-weight: 500;
     transition: color 0.3s ease;
 }
 
 .nav-link:hover {
-    color: #1b5e20 !important; /* verde mai intens */
+    color: #1b5e20 !important; 
     text-decoration: underline;
 }
 
@@ -169,3 +253,30 @@ header {
 .navbar-toggler-icon {
     filter: invert(40%) sepia(40%) saturate(400%) hue-rotate(90deg);
 }
+
+.Sign_Up_page_bg{
+
+    background-image: url(/images/SignUp_img_bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+
+}
+
+#Text_under_sign_up{
+    background-image:   url(/images/pexels-pixabay-301378.jpg);
+    background-size: cover;
+    color: white;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    margin-top: -17rem; text-align: center;
+    line-height: 1.4;
+    font-size: 1.5rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    transform: rotate(-3deg);
+    border: 1px black solid;
+    border-radius: 2rem;
