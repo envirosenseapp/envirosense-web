@@ -52,7 +52,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.MustMigrate();
-app.UseHttpsRedirection();
 app.UseRouting();
 app.UseSession();
 app.MapStaticAssets();
