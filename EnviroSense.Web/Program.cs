@@ -17,6 +17,10 @@ builder.Services.AddDistributedPostgresCache(options =>
     options.CreateIfNotExists = true;
     options.UseWAL = false;
 });
+builder.Services.AddSMTPClient(builder.Configuration.GetRequiredSection("EmailSettings") ??
+                               throw new Exception("Missing email settings"));
+
+// Add app related services.
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -33,9 +37,6 @@ var mvcBuilder = builder.Services.AddControllersWithViews(opts =>
 #if DEBUG
 mvcBuilder.AddRazorRuntimeCompilation();
 #endif
-
-builder.Services.AddSMTPClient(builder.Configuration.GetRequiredSection("EmailSettings") ??
-                               throw new Exception("Missing email settings"));
 
 var app = builder.Build();
 
