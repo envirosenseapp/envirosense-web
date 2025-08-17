@@ -56,7 +56,7 @@ public class MeasurementAccessRuleTest : IDisposable
         var measurement = SampleMeasurement();
 
         _accountService.Setup(s => s.GetAccountIdFromSession())
-            .Returns<Guid?>(null);
+            .Returns(Utils.Null<Guid?>());
 
         // Act
         await Assert.ThrowsAsync<AccessToForbiddenEntityException>(async () => await _accessRule.HasAccess(measurement));

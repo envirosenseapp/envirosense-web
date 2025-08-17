@@ -56,7 +56,7 @@ public class DeviceAccessRuleTest : IDisposable
         var device = SampleDevice();
 
         _accountService.Setup(s => s.GetAccountIdFromSession())
-            .Returns<Guid?>(null);
+            .Returns(Utils.Null<Guid?>());
 
         // Act
         await Assert.ThrowsAsync<AccessToForbiddenEntityException>(async () => await _accessRule.HasAccess(device));
