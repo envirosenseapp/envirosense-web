@@ -5,6 +5,9 @@ using EnviroSense.Web.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Adjust configuration
+builder.Configuration.AddJsonFile("/etc/secrets/appsettings.Production.json", optional: true);
+
 // Add services to the container.
 builder.Services.AddApplicationServices();
 builder.Services.AddPostgresRepositories(builder.Configuration.GetConnectionString("Default") ??
@@ -17,6 +20,10 @@ builder.Services.AddDistributedPostgresCache(options =>
     options.CreateIfNotExists = true;
     options.UseWAL = false;
 });
+builder.Services.AddSMTPClient(builder.Configuration.GetRequiredSection("EmailSettings") ??
+                               throw new Exception("Missing email settings"));
+
+// Add app related services.
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -34,9 +41,6 @@ var mvcBuilder = builder.Services.AddControllersWithViews(opts =>
 mvcBuilder.AddRazorRuntimeCompilation();
 #endif
 
-builder.Services.AddSMTPClient(builder.Configuration.GetRequiredSection("EmailSettings") ??
-                               throw new Exception("Missing email settings"));
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -48,7 +52,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.MustMigrate();
-app.UseHttpsRedirection();
 app.UseRouting();
 app.UseSession();
 app.MapStaticAssets();

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Postgres" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EnviroSense.Application\EnviroSense.Application.csproj" />
+    <ProjectReference Include="..\plugins\EnviroSense.Plugins.PostgresRepositories\EnviroSense.Plugins.PostgresRepositories.csproj" />
+    <ProjectReference Include="..\plugins\EnviroSense.Plugins.SMTPClient\EnviroSense.Plugins.SMTPClient.csproj" />
+  </ItemGroup>
+
+</Project>
