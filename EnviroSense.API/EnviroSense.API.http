@@ -1,6 +1,0 @@
-@EnviroSense.API_HostAddress = http://localhost:5182
-
-GET {{EnviroSense.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
