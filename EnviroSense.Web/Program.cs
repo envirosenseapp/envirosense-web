@@ -3,8 +3,6 @@ using EnviroSense.Plugins.PostgresRepositories;
 using EnviroSense.Plugins.SMTPClient;
 using EnviroSense.Web.Filters;
 
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
