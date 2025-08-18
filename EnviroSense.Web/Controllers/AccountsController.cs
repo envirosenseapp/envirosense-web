@@ -1,6 +1,5 @@
 ﻿using EnviroSense.Application.Services;
 using EnviroSense.Domain.Exceptions;
-using EnviroSense.Repositories.Clients;
 using EnviroSense.Web.Filters;
 using EnviroSense.Web.ViewModels.Accounts;
 using Microsoft.AspNetCore.Mvc;
@@ -12,14 +11,12 @@ namespace EnviroSense.Web.Controllers
     public class AccountsController : Controller
     {
         private readonly IAccountService _accountService;
-        private readonly IEmailClient _emailClient;
         private readonly IAccountPasswordResetService _accountPasswordResetService;
 
-        public AccountsController(IAccountService accountService, IEmailClient emailClient,
+        public AccountsController(IAccountService accountService,
             IAccountPasswordResetService accountPasswordResetService)
         {
             _accountService = accountService;
-            _emailClient = emailClient;
             _accountPasswordResetService = accountPasswordResetService;
         }
 
@@ -43,10 +40,7 @@ namespace EnviroSense.Web.Controllers
                 return View();
             }
 
-            var account = await _accountService.Add(model.Email, model.Password);
-            await _emailClient.SendMail("Welcome to EnviroSense!",
-                "Thank you for registering with us.", account.Email);
-
+            await _accountService.Add(model.Email, model.Password);
             return RedirectToAction("SignIn");
         }
 
@@ -68,8 +62,6 @@ namespace EnviroSense.Web.Controllers
             try
             {
                 await _accountService.Login(model.Email, model.Password);
-                await _emailClient.SendMail("Welcome to EnviroSense!",
-                    "You are successfully signed in.", model.Email);
                 return RedirectToAction("Index", "Home");
             }
             catch (AccountNotFoundException ex)
@@ -100,23 +92,6 @@ namespace EnviroSense.Web.Controllers
 
             var securityCode = await _accountPasswordResetService.ResetPasswordAsync(model.Email);
             ViewBag.SendEmailMessage = "An email was sent to " + model.Email;
-            if (securityCode == null)
-            {
-                return View();
-            }
-
-            var resetLink = $"http://localhost:5276/Accounts/ResetPassword/{securityCode}";
-
-            await _emailClient.SendMail(
-                "Reset Password",
-                $@"<p>Hi {model.Email},</p>
-       <p>We received a request to reset your password for your account on EnviroSense.</p>
-       <p>To create a new password, click the link below:<br/>
-       <a href=""{resetLink}"">Reset it here</a></p>
-       <p>Thanks,<br/>The EnviroSense Team</p>",
-                model.Email
-            );
-
             return View();
         }
 
@@ -125,6 +100,7 @@ namespace EnviroSense.Web.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public async Task<ActionResult> ResetPassword(Guid id, ResetPasswordViewModel model)
         {
@@ -135,19 +111,8 @@ namespace EnviroSense.Web.Controllers
 
             try
             {
-                var updatedAccount =
-                    await _accountPasswordResetService.Reset(id,
-                        model.NewPassword);
-                var signInLink = $"http://localhost:5276/Accounts/SignIn";
-                await _emailClient.SendMail(
-                    "Password has been reset",
-                    $@"<p>Hi {updatedAccount.Email},</p>
-        <p>Your password has been reset.</p>
-        <p>Log in with your new password now:<br/>
-        <a href=""{signInLink}"">Sign in here</a></p>
-        <p>Thanks,<br/>The EnviroSense Team</p>",
-                    updatedAccount.Email
-                );
+                await _accountPasswordResetService.Reset(id,
+                    model.NewPassword);
             }
             catch (ResetPasswordLinkExpiredException)
             {
@@ -164,6 +129,7 @@ namespace EnviroSense.Web.Controllers
                 ViewBag.Message = "No password found to reset.";
                 return View();
             }
+
             TempData["Info"] = "You have successfully reset your password.";
             return RedirectToAction("SignIn");
         }
