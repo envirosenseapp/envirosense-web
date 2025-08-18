@@ -90,7 +90,7 @@ namespace EnviroSense.Web.Controllers
                 return View();
             }
 
-            var securityCode = await _accountPasswordResetService.ResetPasswordAsync(model.Email);
+            await _accountPasswordResetService.ResetPasswordAsync(model.Email);
             ViewBag.SendEmailMessage = "An email was sent to " + model.Email;
             return View();
         }
