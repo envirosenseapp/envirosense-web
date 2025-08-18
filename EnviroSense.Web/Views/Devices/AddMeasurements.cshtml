@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Add Measurement";
+    ViewBag.bodyclass = "Add_measurement_page_bg";
 }
 
 <div class="row">
@@ -31,7 +32,7 @@
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Add Measurement</button>
-                        <a asp-action="Measurements" asp-route-id="@ViewBag.DeviceId" class="btn btn-secondary">Back to Measurements</a>
+                        <a asp-action="Index" class="btn btn-secondary">Back to Devices</a>
                     </div>
                 </form>
             </div>

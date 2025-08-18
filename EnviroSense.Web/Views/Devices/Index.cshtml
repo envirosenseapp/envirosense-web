@@ -1,38 +1,66 @@
 ﻿@model List<EnviroSense.Web.ViewModels.Devices.DeviceViewModel>
 @{
     ViewData["Title"] = "Devices";
+    ViewBag.bodyclass = "Device_page_bg";
 }
 
 <div class="container mt-4">
-    <div class="card">
+    <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h2 class="card-title mb-0">@ViewData["Title"]</h2>
-            <a asp-controller="Devices" asp-action="Add" class="btn btn-primary">Add New Device</a>
+            @if (Model != null && Model.Any())
+            {
+                <a asp-controller="Devices" asp-action="Add" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Add New Device
+                </a>
+            }
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-striped table-hover">
-                <thead class="thead-dark">
+            @if (Model == null || !Model.Any())
+            {
+                <div class="text-center py-5">
+                    <h5 class="text-muted mb-3">No devices found.</h5>
+                    <p class="mb-4">You can add your first device to start managing measurements.</p>
+                    <a asp-controller="Devices" asp-action="Add" class="btn btn-primary btn-lg">
+                        <i class="bi bi-plus-circle"></i> Add Your First Device
+                    </a>
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="table-dark">
                     <tr>
                         <th>Name</th>
                         <th class="text-center">Actions</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     @foreach (var device in Model)
                     {
                         <tr>
                             <td>@device.Name</td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
-                                    <a href="@Url.Action("Details", "Devices", new { id = device.Id })" class="btn btn-primary btn-sm">View</a>
-                                    <a href="@Url.Action("AddMeasurements", "Devices", new { deviceId = device.Id })" class="btn btn-primary btn-sm">New Measurement</a>
-                                    <a href="@Url.Action("Measurements", "Devices", new { deviceId = device.Id })" class="btn btn-primary btn-sm">View Measurements</a>
+                                    <a href="@Url.Action("Details", "Devices", new { id = device.Id })"
+                                       class="btn btn-info btn-sm">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
+                                    <a href="@Url.Action("AddMeasurements", "Devices", new { deviceId = device.Id })"
+                                       class="btn btn-warning btn-sm">
+                                        <i class="bi bi-plus-circle-dotted"></i> New Measurement
+                                    </a>
+                                    <a href="@Url.Action("Measurements", "Devices", new { deviceId = device.Id })"
+                                       class="btn btn-secondary btn-sm">
+                                        <i class="bi bi-bar-chart"></i> View Measurements
+                                    </a>
                                 </div>
                             </td>
                         </tr>
                     }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            }
         </div>
     </div>
 </div>

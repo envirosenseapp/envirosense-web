@@ -2,38 +2,80 @@
 
 @{
     ViewData["Title"] = "Device Measurements";
+    ViewBag.bodyclass = "Measurements_page_bg";
+    var name = Model?.FirstOrDefault()?.Name ?? "Unknown Device";
+    var deviceId = Model?.FirstOrDefault()?.DeviceId;
 }
 
 <div class="container mt-4">
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="card-title mb-0">@ViewData["Title"]</h2>
-            <a asp-action="Index" class="btn btn-secondary">Back to Devices</a>
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center border-bottom">
+            <div>
+                <h2 class="card-title mb-0 text-primary">@ViewData["Title"]</h2>
+                <small class="text-muted">for device: <strong>@name</strong></small>
+            </div>
+            <div class="d-flex gap-2">
+                <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left-circle"></i> Back to Devices
+                </a>
+                <a asp-controller="Devices" asp-action="Details" asp-route-id="@deviceId" class="btn btn-outline-primary btn-sm">
+                    <i class="bi bi-info-circle"></i> View Device Details
+                </a>
+                <a asp-controller="Devices" asp-action="AddMeasurements" asp-route-id="@deviceId" class="btn btn-success btn-sm">
+                    <i class="bi bi-plus-circle"></i> Add Measurement
+                </a>
+            </div>
         </div>
+
         <div class="card-body">
-            <table class="table table-bordered table-striped table-hover">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Device ID</th>
-                        <th>Temperature</th>
-                        <th>Humidity</th>
-                        <th>Recording date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var measurement in Model)
-                    {
-                        <tr>
-                            <td>@measurement.Id</td>
-                            <td>@measurement.DeviceId</td>
-                            <td>@measurement.Temperature</td>
-                            <td>@measurement.Humidity</td>
-                            <td>@measurement.RecordingDate</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            @if (Model == null || !Model.Any())
+            {
+                <div class="text-center py-5">
+                    <h5 class="text-muted mb-3">No measurements found</h5>
+                    <p class="mb-4">You can add a measurement to start tracking your device data.</p>
+                    <a asp-controller="Devices" asp-action="AddMeasurements" asp-route-id="@deviceId" class="btn btn-success btn-lg shadow-sm">
+                        <i class="bi bi-plus-circle"></i> Add First Measurement
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped align-middle">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>ID</th>
+                                <th>Device ID</th>
+                                <th>Device Name</th>
+                                <th>🌡️ Temperature</th>
+                                <th>💧 Humidity</th>
+                                <th>📅 Recording Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var measurement in Model)
+                            {
+                                <tr>
+                                    <td class="fw-bold">@measurement.Id</td>
+                                    <td>@measurement.DeviceId</td>
+                                    <td>@measurement.Name</td>
+                                    <td>
+                                        <span class="badge bg-warning text-dark px-3 py-2">
+                                            @measurement.Temperature&nbsp;°C
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info text-dark px-3 py-2">
+                                            @measurement.Humidity&nbsp;%
+                                        </span>
+                                    </td>
+                                    <td>@measurement.RecordingDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
         </div>
     </div>
 </div>

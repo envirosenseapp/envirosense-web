@@ -5,6 +5,7 @@ namespace EnviroSense.Web.ViewModels.Devices;
 public class MeasurementViewModel
 {
     public Guid Id { get; set; }
+    public string? Name { get; set; }
     [Required] public Guid DeviceId { get; set; }
 
     [Range(-80, 50)] public float? Temperature { get; set; }

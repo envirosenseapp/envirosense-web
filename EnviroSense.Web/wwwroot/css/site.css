@@ -265,18 +265,79 @@ header {
 
 }
 
-#Text_under_sign_up{
-    background-image:   url(/images/pexels-pixabay-301378.jpg);
+#Text_under_sign_up {
+    background-image: url(/images/pexels-pixabay-301378.jpg);
     background-size: cover;
     color: white;
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
-    margin-top: -17rem; text-align: center;
+    margin-top: -17rem;
+    text-align: center;
     line-height: 1.4;
     font-size: 1.5rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     transform: rotate(-3deg);
     border: 1px black solid;
     border-radius: 2rem;
+}
+.Forgot_password_page_bg{
+    
+    background-image: url(/images/pexels-dlxmedia-hu-215591835-11911060.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    
+}
+
+.Reset_password_page_bg{
+    
+    background-image: url(/images/pexels-ekrulila-2332885.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    
+}
+
+.Home_page_bg{
+    
+    background-image:  url(/images/pexels-scottwebb-305821.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.Device_page_bg{
+    background-image: url(/images/pexels-shuliak-11931455.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.Measurements_page_bg{
+    background-image: url(/images/pexels-dino-81840072-29064093.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+.Add_measurement_page_bg{
+    background-image: url(/images/pexels-arturo-eg-22214041-10970316.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.Device_details_page_bg{
+    background-image: url(/images/pexels-pixabay-434645.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
