@@ -1,5 +1,6 @@
 ﻿using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
+using EnviroSense.Repositories.Clients;
 using EnviroSense.Repositories.Repositories;
 using Microsoft.AspNetCore.Http;
 using BCryptNet = BCrypt.Net.BCrypt;
@@ -10,11 +11,13 @@ public class AccountService : IAccountService
 {
     private readonly IAccountRepository _accountRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IEmailClient _emailClient;
 
-    public AccountService(IAccountRepository accountRepository, IHttpContextAccessor httpContextAccessor)
+    public AccountService(IAccountRepository accountRepository, IHttpContextAccessor httpContextAccessor, IEmailClient emailClient)
     {
         _accountRepository = accountRepository;
         _httpContextAccessor = httpContextAccessor;
+        _emailClient = emailClient;
     }
 
     public async Task<bool> IsEmailTaken(string email)
@@ -36,7 +39,11 @@ public class AccountService : IAccountService
             PasswordResets = new List<AccountPasswordReset>()
 
         };
-        return await _accountRepository.AddAsync(account);
+        var accountAdded = await _accountRepository.AddAsync(account);
+        await _emailClient.SendMail("Welcome to EnviroSense!",
+            "Thank you for registering with us.", accountAdded.Email);
+        return accountAdded;
+
     }
 
     public Guid? GetAccountIdFromSession()
@@ -71,6 +78,8 @@ public class AccountService : IAccountService
         if (isPasswordValid)
         {
             _httpContextAccessor.HttpContext?.Session.SetString("authenticated_account_id", account.Id.ToString());
+            await _emailClient.SendMail("Welcome to EnviroSense!",
+                "You are successfully signed in.", account.Email);
             return account;
         }
         else
