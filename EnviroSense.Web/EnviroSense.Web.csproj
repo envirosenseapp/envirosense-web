@@ -7,10 +7,6 @@
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
-  <Target Name="FormatCode" BeforeTargets="Build">
-    <Exec Command="dotnet format --verbosity diagnostic" />
-  </Target>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.8" />
     <PackageReference Include="Microsoft.Extensions.Caching.Postgres" Version="1.0.0" />

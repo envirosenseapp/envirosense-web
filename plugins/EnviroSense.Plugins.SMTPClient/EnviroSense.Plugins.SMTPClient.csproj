@@ -5,10 +5,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
-    <Target Name="FormatCode" BeforeTargets="Build">
-      <Exec Command="dotnet format --verbosity diagnostic" />
-    </Target>
     
     <ItemGroup>
       <ProjectReference Include="..\..\EnviroSense.Repositories\EnviroSense.Repositories.csproj" />
