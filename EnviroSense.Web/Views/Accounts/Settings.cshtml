@@ -1,0 +1,82 @@
+@model EnviroSense.Web.ViewModels.Accounts.SettingsViewModel
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<div class="container mt-5">
+    <!-- Titlu principal -->
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Your Settings</h2>
+        <p class="text-muted">Here you can view your account details and update your password</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <!-- Card cu detalii despre cont -->
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Account Information</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">ID</dt>
+                        <dd class="col-sm-9">@Model.accountId</dd>
+
+                        <dt class="col-sm-3">Email</dt>
+                        <dd class="col-sm-9">@Model.Email</dd>
+
+                        <dt class="col-sm-3">Created At</dt>
+                        <dd class="col-sm-9">@Model.CreatedAt.ToString("dd MMM yyyy, HH:mm")</dd>
+
+                        <dt class="col-sm-3">Last Updated</dt>
+                        <dd class="col-sm-9">@Model.UpdatedAt.ToString("dd MMM yyyy, HH:mm") </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- Card cu formular mai subtil -->
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Update Password</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Settings" method="post">
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Email</label>
+                            <input asp-for="Email" id="email" class="form-control" value=@Model.Email readonly>
+                            <div class="form-text">Your email address (not editable)</div>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="NewPassword" class="form-label">New Password</label>
+                            <input asp-for="NewPassword" type="password" class="form-control"
+                                   placeholder="Enter new password" minlength="8" required/>
+                            <span asp-validation-for="NewPassword" class="text-danger"></span>
+                            <small class="form-text text-muted">Minimum 8 characters</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                            <input asp-for="ConfirmPassword" type="password" class="form-control"
+                                   placeholder="Confirm new password" minlength="8" required/>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+                                <i class="bi bi-info-circle me-2"></i>
+                                @ViewBag.Message
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                        }
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

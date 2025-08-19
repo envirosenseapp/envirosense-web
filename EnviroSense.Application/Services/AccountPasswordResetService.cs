@@ -81,6 +81,21 @@ public class AccountPasswordResetService : IAccountPasswordResetService
         return updatedAccount;
     }
 
+    public async Task<Account> ResetPasswordFromSettings(string email, string password)
+    {
+        var account = await _accountService.GetAccountByEmail(email);
+        account.Password = BCryptNet.HashPassword(password, 10);
+        var updatedAccount = await _accountPasswordResetRepository.ResetPasswordFromSettingsAsync(account);
+        await _emailClient.SendMail(
+            "Password has been reset",
+            $@"<p>Hi {updatedAccount.Email},</p>
+        <p>Your password has been reset.</p>
+        <p>With respect<br/>The EnviroSense Team</p>",
+            updatedAccount.Email
+        );
+        return updatedAccount;
+    }
+
     private AccountPasswordReset CreateResetPasswordEntity(Account account)
     {
         var accountToReset = new AccountPasswordReset
