@@ -20,9 +20,7 @@
                 </div>
                 <div class="card-body">
                     <dl class="row">
-                        <dt class="col-sm-3">ID</dt>
-                        <dd class="col-sm-9">@Model.accountId</dd>
-
+                        
                         <dt class="col-sm-3">Email</dt>
                         <dd class="col-sm-9">@Model.Email</dd>
 
@@ -42,6 +40,15 @@
                 </div>
                 <div class="card-body">
                     <form asp-action="Settings" method="post">
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+                                <i class="bi bi-info-circle me-2"></i>
+                                @ViewBag.Message
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                        }
                         <div class="mb-3">
                             <label asp-for="Email" class="form-label">Email</label>
                             <input asp-for="Email" id="email" class="form-control" value=@Model.Email readonly>
@@ -61,15 +68,6 @@
                                    placeholder="Confirm new password" minlength="8" required/>
                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                         </div>
-                        @if (ViewBag.Message != null)
-                        {
-                            <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
-                                <i class="bi bi-info-circle me-2"></i>
-                                @ViewBag.Message
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                            </div>
-                        }
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary px-4">Save Changes</button>
                         </div>

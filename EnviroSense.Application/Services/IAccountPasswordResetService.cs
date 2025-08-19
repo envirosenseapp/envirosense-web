@@ -9,6 +9,4 @@ public interface IAccountPasswordResetService
 
     Task<Account> Reset(Guid securityCode, string newPassword);
 
-    Task<Account> ResetPasswordFromSettings(string email, string password);
-
 }

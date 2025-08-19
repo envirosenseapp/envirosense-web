@@ -39,11 +39,4 @@ internal class AccountPasswordResetRepository : IAccountPasswordResetRepository
         await _context.SaveChangesAsync();
         return trackedEntity.Entity;
     }
-
-    public async Task<Account> ResetPasswordFromSettingsAsync(Account account)
-    {
-        var updatedAccount = _context.Accounts.Update(account);
-        await _context.SaveChangesAsync();
-        return updatedAccount.Entity;
-    }
 }

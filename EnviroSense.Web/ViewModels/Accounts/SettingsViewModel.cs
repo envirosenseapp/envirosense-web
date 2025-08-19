@@ -4,7 +4,6 @@ namespace EnviroSense.Web.ViewModels.Accounts;
 
 public class SettingsViewModel
 {
-    public Guid accountId { get; set; }
     public DateTime UpdatedAt { get; set; }
     public DateTime CreatedAt { get; set; }
     [Required]

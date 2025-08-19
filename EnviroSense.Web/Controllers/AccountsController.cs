@@ -149,7 +149,6 @@ namespace EnviroSense.Web.Controllers
             var account = await _accountService.GetAccountById(accountId.Value);
             var viewModel = new SettingsViewModel
             {
-                accountId = account.Id,
                 Email = account.Email,
                 UpdatedAt = account.UpdatedAt,
                 CreatedAt = account.CreatedAt,
@@ -165,8 +164,8 @@ namespace EnviroSense.Web.Controllers
                 ViewBag.Message = "Invalid data";
                 return View(model);
             }
-
-            await _accountPasswordResetService.ResetPasswordFromSettings(model.Email, model.NewPassword);
+            var accountId = _accountService.GetAccountIdFromSession();
+            await _accountService.ResetPasswordFromSettings(accountId.Value, model.NewPassword);
             ViewBag.Message = "Password reset successfully";
             return View(model);
         }

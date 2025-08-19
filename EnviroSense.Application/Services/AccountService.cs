@@ -97,4 +97,27 @@ public class AccountService : IAccountService
     {
         return await _accountRepository.GetAccountByEmailAsync(email);
     }
+
+    public async Task<Account> ResetPasswordFromSettings(Guid id, string password)
+    {
+        var account = await GetAccountById(id);
+        account.Password = BCryptNet.HashPassword(password, 10);
+        var updatedAccount = await _accountRepository.UpdateAsync(account);
+        await _emailClient.SendMail(
+            "Your Password for EnviroSense Has Been Changed",
+            $@"<p>Hi {updatedAccount.Email},</p>
+        <p>This email confirms that the password for your EnviroSense account has been successfully changed</p>.
+        <p>If you made this change, you can safely disregard this email.</p>
+
+        <p>However, if you did not change your password,</p> 
+        <p>your account may have been compromised.</p> 
+        <p>Please contact our support team immediately by replying to this email 
+        <p>so we can help you secure your account</p>.
+
+        <p>Thank you,</p>
+        The EnviroSense Team",
+            updatedAccount.Email
+        );
+        return updatedAccount;
+    }
 }
