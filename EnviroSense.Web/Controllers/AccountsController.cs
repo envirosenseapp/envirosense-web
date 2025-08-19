@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EnviroSense.Web.Controllers
 {
-    [TypeFilter(typeof(SignedOutFilter))]
     public class AccountsController : Controller
     {
         private readonly IAccountService _accountService;
@@ -20,11 +19,13 @@ namespace EnviroSense.Web.Controllers
             _accountPasswordResetService = accountPasswordResetService;
         }
 
+        [TypeFilter(typeof(SignedOutFilter))]
         public ActionResult SignUp()
         {
             return View();
         }
 
+        [TypeFilter(typeof(SignedOutFilter))]
         [HttpPost]
         public async Task<ActionResult> SignUp(SignUpViewModel model)
         {
@@ -44,6 +45,7 @@ namespace EnviroSense.Web.Controllers
             return RedirectToAction("SignIn");
         }
 
+        [TypeFilter(typeof(SignedOutFilter))]
         [HttpGet]
         public ActionResult SignIn()
         {
@@ -51,6 +53,7 @@ namespace EnviroSense.Web.Controllers
             return View();
         }
 
+        [TypeFilter(typeof(SignedOutFilter))]
         [HttpPost]
         public async Task<ActionResult> SignIn(SignInViewModel model)
         {
@@ -76,12 +79,14 @@ namespace EnviroSense.Web.Controllers
             }
         }
 
+        [TypeFilter(typeof(SignedOutFilter))]
         [HttpGet]
         public Task<ActionResult> ForgotPassword()
         {
             return Task.FromResult<ActionResult>(View());
         }
 
+        [TypeFilter(typeof(SignedOutFilter))]
         [HttpPost]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
@@ -95,12 +100,14 @@ namespace EnviroSense.Web.Controllers
             return View();
         }
 
+        [TypeFilter(typeof(SignedOutFilter))]
         [HttpGet]
         public IActionResult ResetPassword()
         {
             return View();
         }
 
+        [TypeFilter(typeof(SignedOutFilter))]
         [HttpPost]
         public async Task<ActionResult> ResetPassword(Guid id, ResetPasswordViewModel model)
         {
@@ -132,6 +139,35 @@ namespace EnviroSense.Web.Controllers
 
             TempData["Info"] = "You have successfully reset your password.";
             return RedirectToAction("SignIn");
+        }
+
+        [TypeFilter(typeof(SignedInFilter))]
+        [HttpGet]
+        public async Task<ActionResult> Settings()
+        {
+            var accountId = _accountService.GetAccountIdFromSession();
+            var account = await _accountService.GetAccountById(accountId.Value);
+            var viewModel = new SettingsViewModel
+            {
+                Email = account.Email,
+                UpdatedAt = account.UpdatedAt,
+                CreatedAt = account.CreatedAt,
+            };
+            return View(viewModel);
+        }
+        [TypeFilter(typeof(SignedInFilter))]
+        [HttpPost]
+        public async Task<ActionResult> Settings(SettingsViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Message = "Invalid data";
+                return View(model);
+            }
+            var accountId = _accountService.GetAccountIdFromSession();
+            await _accountService.ResetPasswordFromSettings(accountId.Value, model.NewPassword);
+            ViewBag.Message = "Password reset successfully";
+            return View(model);
         }
     }
 }
