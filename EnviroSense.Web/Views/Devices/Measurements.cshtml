@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Device Measurements";
     ViewBag.bodyclass = "Measurements_page_bg";
-    var name = Model?.FirstOrDefault()?.Name ?? "Unknown Device";
+    var name = Model?.FirstOrDefault()?.DeviceName ?? "Unknown Device";
     var deviceId = Model?.FirstOrDefault()?.DeviceId;
 }
 
@@ -46,7 +46,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Device ID</th>
-                                <th>Device Name</th>
+                                <th>Device DeviceName</th>
                                 <th>🌡️ Temperature</th>
                                 <th>💧 Humidity</th>
                                 <th>📅 Recording Date</th>
@@ -58,7 +58,7 @@
                                 <tr>
                                     <td class="fw-bold">@measurement.Id</td>
                                     <td>@measurement.DeviceId</td>
-                                    <td>@measurement.Name</td>
+                                    <td>@measurement.DeviceName</td>
                                     <td>
                                         <span class="badge bg-warning text-dark px-3 py-2">
                                             @measurement.Temperature&nbsp;°C

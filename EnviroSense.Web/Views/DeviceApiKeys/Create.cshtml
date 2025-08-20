@@ -12,7 +12,7 @@
             <div class="card-body">
                 <form asp-action="Create" method="post" asp-route-deviceId="@Model.DeviceId">
                     <div class="form-group mb-3">
-                        <label asp-for="Name" class="form-label">Name</label>
+                        <label asp-for="Name" class="form-label">DeviceName</label>
                         <input asp-for="Name"  type="text" class="form-control" placeholder="Enter name for this key" required/>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>

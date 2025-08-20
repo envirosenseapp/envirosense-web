@@ -129,7 +129,7 @@ namespace EnviroSense.Web.Controllers
             var viewModelList = measurementList.Select(m => new MeasurementViewModel
             {
                 Id = m.Id,
-                Name = m.Device.Name,
+                DeviceName = m.Device.Name,
                 DeviceId = m.DeviceId,
                 Temperature = m.Temperature,
                 Humidity = m.Humidity,

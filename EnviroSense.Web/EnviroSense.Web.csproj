@@ -21,6 +21,10 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\images\pexels-flowerstofox-1906932.jpg" />
+    <Content Remove="wwwroot\images\pexels-ekrulila-2332885.jpg" />
+    <Content Remove="wwwroot\images\pexels-pixabay-434645.jpg" />
+    <Content Remove="wwwroot\images\pexels-rahulp9800-2797464.jpg" />
+    <Content Remove="wwwroot\images\pexels-shuliak-11931455.jpg" />
   </ItemGroup>
 
 </Project>
