@@ -1,21 +1,20 @@
 ﻿@model List<EnviroSense.Web.ViewModels.Home.DeviceMeasurmentViewModel>
 @{
     ViewData["Title"] = "Home Page";
-    ViewBag.bodyclass = "Home_page_bg";
 }
 
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Device Dashboard</h2>
+    <h2 class="text-center mb-5 fw-bold text-primary">Device Dashboard</h2>
 
     <div class="row g-4">
         @if (Model == null || !Model.Any())
         {
             <div class="col-12 text-center py-5">
-                <p class="lead mb-3">
+                <p class="lead mb-3 text-muted fst-italic">
                     Your devices and states will appear once you add them.
                 </p>
-                <a href="@Url.Action("Add", "Devices")" class="btn btn-primary">
-                    Click here to add
+                <a href="@Url.Action("Add", "Devices")" class="btn btn-primary btn-lg shadow-sm">
+                    Add Device
                 </a>
             </div>
         }
@@ -26,25 +25,31 @@
                 var hasMeasurement = measurement.Temperature != null || measurement.Humidity != null;
                 var cardHeaderClass = hasMeasurement ? "bg-primary text-white" : "bg-warning text-dark";
 
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-header @cardHeaderClass">
+                <div class="col-md-4 col-sm-6">
+                    <div class="card h-100 shadow-lg rounded-4" style="border: none; background: linear-gradient(to bottom, #ffffff, #f0f4f8);">
+                        <div class="card-header @cardHeaderClass fw-semibold">
                             <strong>@measurement.DeviceName</strong>
                         </div>
                         <div class="card-body">
                             @if (!hasMeasurement)
                             {
-                                <p class="text-muted fst-italic">No readings available yet.</p>
+                                <p class="text-muted fst-italic text-center mt-3">No readings available yet.</p>
                             }
                             else
                             {
-                                <h6>Current Readings</h6>
+                                <h6 class="fw-semibold mb-2">Current Readings</h6>
                                 <hr />
-                                <p><strong>Temperature:</strong> <span class="text-primary">@($"{measurement.Temperature:F1} °C")</span></p>
-                                <p><strong>Humidity:</strong> <span class="text-success">@($"{measurement.Humidity:F0}%")</span></p>
+                                <p>
+                                    <strong>Temperature:</strong>
+                                    <span class="text-primary fw-bold">@($"{measurement.Temperature:F1} °C")</span>
+                                </p>
+                                <p>
+                                    <strong>Humidity:</strong>
+                                    <span class="text-success fw-bold">@($"{measurement.Humidity:F0}%")</span>
+                                </p>
                             }
                         </div>
-                        <div class="card-footer text-muted small">
+                        <div class="card-footer text-muted small text-end fst-italic">
                             Last Measurement: @(measurement.RecordingDate?.ToString("yyyy-MM-dd HH:mm:ss") ?? "Never")
                         </div>
                     </div>

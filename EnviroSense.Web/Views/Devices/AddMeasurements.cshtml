@@ -2,37 +2,43 @@
 
 @{
     ViewData["Title"] = "Add Measurement";
-    ViewBag.bodyclass = "Add_measurement_page_bg";
 }
 
 <div class="row">
     <div class="col-md-8 offset-md-2">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Add New Measurement for Device</h3>
+        <div class="card shadow-sm rounded-3 mt-5" style="background-color: #ffffff;">
+            <div class="card-header border-bottom">
+                <h3 class="card-title mb-0 fw-semibold">Add New Measurement for Device</h3>
             </div>
             <div class="card-body">
                 <form asp-action="AddMeasurements" asp-controller="Devices" method="post">
                     <input type="hidden" asp-for="DeviceId" value="@ViewBag.DeviceId" />
 
-                    <div class="form-group mb-3">
-                        <label asp-for="Temperature" class="form-label">Temperature (°C):</label>
-                        <input type="number" asp-for="Temperature" class="form-control" id="temperature" min="-80" max="50" step="0.1" required />
+                    <div class="mb-3">
+                        <label asp-for="Temperature" class="form-label fw-medium">Temperature (°C)</label>
+                        <input type="number" asp-for="Temperature" class="form-control" id="temperature"
+                               min="-80" max="50" step="0.1" required />
                     </div>
 
-                    <div class="form-group mb-3">
-                        <label asp-for="Humidity" class="form-label">Humidity (%):</label>
-                        <input type="number" asp-for="Humidity" class="form-control" id="humidity" min="0" max="100" step="0.1" required />
+                    <div class="mb-3">
+                        <label asp-for="Humidity" class="form-label fw-medium">Humidity (%)</label>
+                        <input type="number" asp-for="Humidity" class="form-control" id="humidity"
+                               min="0" max="100" step="0.1" required />
                     </div>
 
-                    <div class="form-group mb-3">
-                        <label asp-for="RecordingDate" class="form-label">Recording Date:</label>
-                        <input type="datetime-local" asp-for="RecordingDate" class="form-control" id="recordingDate" required />
+                    <div class="mb-3">
+                        <label asp-for="RecordingDate" class="form-label fw-medium">Recording Date</label>
+                        <input type="datetime-local" asp-for="RecordingDate" class="form-control" id="recordingDate"
+                               required />
                     </div>
 
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Add Measurement</button>
-                        <a asp-action="Index" class="btn btn-secondary">Back to Devices</a>
+                    <div class="d-flex justify-content-start gap-2">
+                        <button type="submit" class="btn btn-outline-primary">
+                            Add Measurement
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            Back to Devices
+                        </a>
                     </div>
                 </form>
             </div>
