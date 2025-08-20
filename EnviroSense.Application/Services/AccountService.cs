@@ -13,7 +13,8 @@ public class AccountService : IAccountService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IEmailClient _emailClient;
 
-    public AccountService(IAccountRepository accountRepository, IHttpContextAccessor httpContextAccessor, IEmailClient emailClient)
+    public AccountService(IAccountRepository accountRepository, IHttpContextAccessor httpContextAccessor,
+        IEmailClient emailClient)
     {
         _accountRepository = accountRepository;
         _httpContextAccessor = httpContextAccessor;
@@ -37,13 +38,11 @@ public class AccountService : IAccountService
             Devices = new List<Device>(),
             Accesses = new List<Access>(),
             PasswordResets = new List<AccountPasswordReset>()
-
         };
         var accountAdded = await _accountRepository.AddAsync(account);
         await _emailClient.SendMail("Welcome to EnviroSense!",
             "Thank you for registering with us.", accountAdded.Email);
         return accountAdded;
-
     }
 
     public Guid? GetAccountIdFromSession()
@@ -119,5 +118,11 @@ public class AccountService : IAccountService
             updatedAccount.Email
         );
         return updatedAccount;
+    }
+
+    public void Logout()
+    {
+        _httpContextAccessor.HttpContext?.Session.Clear();
+
     }
 }
