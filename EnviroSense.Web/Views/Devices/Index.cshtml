@@ -3,36 +3,62 @@
     ViewData["Title"] = "Devices";
 }
 
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="card-title mb-0">@ViewData["Title"]</h2>
-            <a asp-controller="Devices" asp-action="Add" class="btn btn-primary">Add New Device</a>
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white rounded-top-4">
+            <h2 class="card-title mb-0 fw-bold">@ViewData["Title"]</h2>
+            <a asp-controller="Devices" asp-action="Add" class="btn btn-light btn-sm shadow-sm">
+                <i class="bi bi-plus-circle me-1"></i> Add New Device
+            </a>
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-striped table-hover">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Name</th>
-                        <th class="text-center">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var device in Model)
-                    {
-                        <tr>
-                            <td>@device.Name</td>
-                            <td class="text-center">
-                                <div class="btn-group" role="group">
-                                    <a href="@Url.Action("Details", "Devices", new { id = device.Id })" class="btn btn-primary btn-sm">View</a>
-                                    <a href="@Url.Action("AddMeasurements", "Devices", new { deviceId = device.Id })" class="btn btn-primary btn-sm">New Measurement</a>
-                                    <a href="@Url.Action("Measurements", "Devices", new { deviceId = device.Id })" class="btn btn-primary btn-sm">View Measurements</a>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            @if (Model == null || !Model.Any())
+            {
+                <div class="text-center py-5">
+                    <h5 class="text-muted mb-3">No devices found.</h5>
+                    <p class="mb-4">You can add your first device to start managing measurements.</p>
+                    <a asp-controller="Devices" asp-action="Add" class="btn btn-primary btn-lg shadow-sm">
+                        <i class="bi bi-plus-circle me-1"></i> Add Your First Device
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light text-primary">
+                            <tr>
+                                <th>Device Name</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var device in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@device.Name</td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <a href="@Url.Action("Details", "Devices", new { id = device.Id })"
+                                           class="btn btn-outline-primary btn-sm shadow-sm">
+                                            <i class="bi bi-eye me-1"></i> View
+                                        </a>
+                                        <a href="@Url.Action("AddMeasurements", "Devices", new { deviceId = device.Id })"
+                                           class="btn btn-outline-warning btn-sm shadow-sm">
+                                            <i class="bi bi-plus-circle-dotted me-1"></i> New Measurement
+                                        </a>
+                                        <a href="@Url.Action("Measurements", "Devices", new { deviceId = device.Id })"
+                                           class="btn btn-outline-secondary btn-sm shadow-sm">
+                                            <i class="bi bi-bar-chart me-1"></i> View Measurements
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
         </div>
     </div>
 </div>

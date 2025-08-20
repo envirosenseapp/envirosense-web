@@ -5,46 +5,47 @@
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6">
-            <div class="card shadow-sm">
+        <div class="col-10 col-sm-8 col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0 rounded-4"
+                 style="background: linear-gradient(to bottom, #d6eaff, #ffffff);">
                 <div class="card-body p-4">
-                    <h2 class="card-title text-center mb-4">Create an Account</h2>
-                    <form asp-controller="Accounts" asp-action="SignUp" method="post">
+                    <h2 class="card-title text-center mb-4 text-primary fw-bold">Sign Up</h2>
+                    <form asp-action="SignUp" asp-controller="Accounts" method="post">
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        @if (ViewBag.info != null)
+                        {
+                            <div class="alert alert-info">@ViewBag.info</div>
+                        }
 
                         <div class="mb-3">
-                            <label asp-for="Email" class="form-label">Email address</label>
-                            <input type="email" asp-for="Email" class="form-control" placeholder="name@example.com"
-                                   required>
+                            <label asp-for="Email" class="form-label">Email</label>
+                            <input asp-for="Email" type="email" class="form-control"
+                                   placeholder="name@example.com" required/>
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="Password" class="form-label">Password</label>
-                            <input type="password" asp-for="Password" class="form-control" minlength="8" required
-                                   aria-describedby="passwordHelp">
-                            <div id="passwordHelp" class="form-text">
-                                Your password must be at least 8 characters long.
-                            </div>
+                            <input asp-for="Password" type="password" minlength="8" class="form-control" required/>
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
-                            <input type="password" asp-for="ConfirmPassword" class="form-control" minlength="8"
-                                   required>
+                            <input asp-for="ConfirmPassword" type="password" minlength="8" class="form-control" required/>
                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                         </div>
 
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+                            <button type="submit" class="btn btn-primary btn-lg shadow-sm">Sign Up</button>
                         </div>
                     </form>
 
                     <hr class="my-4">
 
-                    <div class="text-center">
-                        <p class="mb-0">Already have an account? <a asp-action="SignIn">Sign In</a></p>
+                    <div class="text-center small">
+                        <p class="mb-1">Already have an account? <a asp-action="SignIn" class="fw-semibold">Sign In</a></p>
+                        <p class="mb-0">Forgot password? <a asp-action="ForgotPassword" class="fw-semibold">Reset password</a></p>
                     </div>
                 </div>
             </div>
