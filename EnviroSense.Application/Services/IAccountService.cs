@@ -13,4 +13,6 @@ public interface IAccountService
 
     Guid? GetAccountIdFromSession();
     Task<Account> ResetPasswordFromSettings(Guid id, string password);
+
+    void Logout();
 }

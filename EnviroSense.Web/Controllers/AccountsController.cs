@@ -169,5 +169,12 @@ namespace EnviroSense.Web.Controllers
             ViewBag.Message = "Password reset successfully";
             return View(model);
         }
+
+        [TypeFilter(typeof(SignedInFilter))]
+        public ActionResult LogOut()
+        {
+            _accountService.Logout();
+            return RedirectToAction("SignIn");
+        }
     }
 }
