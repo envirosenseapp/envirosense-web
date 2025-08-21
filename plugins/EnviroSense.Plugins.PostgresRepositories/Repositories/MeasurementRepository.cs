@@ -36,8 +36,8 @@ internal class MeasurementRepository : IMeasurementRepository
 
     public async Task<List<Measurement?>> TakeMeasurementsForGivenDay(Guid deviceId, DateTime date)
     {
-        var startDate = date.Date;               
-        var endDate = date.Date.AddDays(1);       
+        var startDate = date.Date;
+        var endDate = date.Date.AddDays(1);
 
         var measurementsList = await _context.Measurements
             .Where(m => m.DeviceId == deviceId &&
