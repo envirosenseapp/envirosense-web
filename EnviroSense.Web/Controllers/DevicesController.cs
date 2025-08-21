@@ -143,30 +143,41 @@ namespace EnviroSense.Web.Controllers
         [HttpGet]
         public ActionResult Graph(Guid Id)
         {
-            var viewModel = new GraphViewModel { Id = Id };
+            var viewModel = new GraphViewModel
+            {
+                Id = Id,
+                date = DateTime.Today
+            };
             return View(viewModel);
         }
 
         [HttpPost]
         public async Task<ActionResult> Graph(GraphViewModel model)
         {
-            var measurementList = await _measurementService.ListDataForGraph(model.Id, model.date);
-            var device = await _deviceService.Get(model.Id);
-
-            var viewModel = new GraphViewModel
+            try
             {
-                Id = model.Id,
-                DeviceName = device.Name,
-                date = model.date,
-                Measurements = measurementList.Select(m => new HourlyMeasurementViewModel
-                {
-                    Hour = m.Hour,
-                    AvgHumidity = m.AvgHumidity,
-                    AvgTemperature = m.AvgTemperature,
-                }).ToList()
-            };
+                var measurementList = await _measurementService.ListDataForGraph(model.Id, model.date);
+                var device = await _deviceService.Get(model.Id);
 
-            return View(viewModel);
+                var viewModel = new GraphViewModel
+                {
+                    Id = model.Id,
+                    DeviceName = device.Name,
+                    date = model.date,
+                    Measurements = measurementList.Select(m => new HourlyMeasurementViewModel
+                    {
+                        Hour = m.Hour,
+                        AvgHumidity = m.AvgHumidity,
+                        AvgTemperature = m.AvgTemperature,
+                    }).ToList()
+                };
+                return View(viewModel);
+            }
+            catch (MeasurementsForThisDayNotFoundException)
+            {
+                TempData["GraphMessage"] = "No measurements were found for this day. Please try another date";
+                return RedirectToAction("Graph", new { id = model.Id });
+            }
         }
     }
 }

@@ -58,6 +58,10 @@ public class MeasurementService : IMeasurementService
     public async Task<List<HourlyMeasurement>> ListDataForGraph(Guid deviceId, DateTime date)
     {
         var measurementsList = await _measureRepository.TakeMeasurementsForGivenDay(deviceId, date);
+        if (measurementsList == null || !measurementsList.Any())
+        {
+            throw new MeasurementsForThisDayNotFoundException();
+        }
         var hourlyAverage = measurementsList
             .GroupBy(m => m.RecordingDate.Hour)
             .Select(g => new HourlyMeasurement
