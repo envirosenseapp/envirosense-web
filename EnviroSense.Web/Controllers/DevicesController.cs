@@ -5,6 +5,7 @@ using EnviroSense.Web.Filters;
 using EnviroSense.Web.ViewModels.Devices;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace EnviroSense.Web.Controllers
 {
     [TypeFilter(typeof(SignedInFilter))]
@@ -137,6 +138,35 @@ namespace EnviroSense.Web.Controllers
             }).ToList();
 
             return View(viewModelList);
+        }
+
+        [HttpGet]
+        public ActionResult Graph(Guid Id)
+        {
+            var viewModel = new GraphViewModel { Id = Id };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Graph(GraphViewModel model)
+        {
+            var measurementList = await _measurementService.ListDataForGraph(model.Id, model.date);
+            var device = await _deviceService.Get(model.Id);
+
+            var viewModel = new GraphViewModel
+            {
+                Id = model.Id,
+                DeviceName = device.Name,
+                date = model.date,
+                Measurements = measurementList.Select(m => new HourlyMeasurementViewModel
+                {
+                    Hour = m.Hour,
+                    AvgHumidity = m.AvgHumidity,
+                    AvgTemperature = m.AvgTemperature,
+                }).ToList()
+            };
+
+            return View(viewModel);
         }
     }
 }

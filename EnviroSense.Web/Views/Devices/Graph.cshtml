@@ -1,0 +1,17 @@
+@model EnviroSense.Web.ViewModels.Devices.GraphViewModel
+
+@{
+    ViewData["Title"] = "Graph";
+}
+<form asp-action="Graph" method="post">
+    <input type="hidden" name="Id" value="@Model.Id"/>
+
+    <label for="date">Select date:</label>
+    <input type="date" id="date" name="date" class="form-control" value="@Model.date.ToString("yyyy-MM-dd")"/>
+
+    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+</form>
+
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+
+
