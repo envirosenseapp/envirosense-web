@@ -1,4 +1,5 @@
 ﻿using EnviroSense.Domain.Entities;
+using EnviroSense.Domain.Exceptions;
 using EnviroSense.Repositories.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,16 @@ internal class MeasurementRepository : IMeasurementRepository
         await _context.SaveChangesAsync();
 
         return createMeasurement.Entity;
+    }
+
+    public async Task<Measurement> GetAsync(Guid id)
+    {
+        var measurement = await _context.Measurements.FirstOrDefaultAsync(m => m.Id == id);
+        if (measurement == null)
+        {
+            throw new MeasurementNotFoundException(id);
+        }
+        return measurement;
     }
 
     public async Task<List<Measurement>> ListAsync(Guid deviceId)
