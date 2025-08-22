@@ -1,0 +1,21 @@
+# API and Dashboard
+api:
+  dashboard: true # Enable the dashboard
+  insecure: true # IMPORTANT: For local development only. Do not use in production without a router.
+
+# Log
+log:
+  level: DEBUG
+
+# EntryPoints
+entryPoints:
+  http:
+    address: ":80"
+  traefik:
+    address: ":8080"
+
+# Providers
+providers:
+  file:
+    filename: "/etc/traefik/dynamic.yml" # Path inside the container
+    watch: true # Watch for changes
