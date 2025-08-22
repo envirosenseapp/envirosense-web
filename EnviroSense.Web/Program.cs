@@ -1,6 +1,7 @@
 ﻿using EnviroSense.Application;
 using EnviroSense.Plugins.PostgresRepositories;
 using EnviroSense.Plugins.SMTPClient;
+using EnviroSense.Web;
 using EnviroSense.Web.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,23 +24,8 @@ builder.Services.AddDistributedPostgresCache(options =>
 builder.Services.AddSMTPClient(builder.Configuration.GetRequiredSection("EmailSettings") ??
                                throw new Exception("Missing email settings"));
 
-// Add app related services.
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
-builder.Services.AddControllersWithViews();
-builder.Services.AddHttpContextAccessor();
-var mvcBuilder = builder.Services.AddControllersWithViews(opts =>
-{
-    opts.Filters.Add<AccessTrackingFilter>();
-});
+builder.Services.AddWebServices();
 
-#if DEBUG
-mvcBuilder.AddRazorRuntimeCompilation();
-#endif
 
 var app = builder.Build();
 

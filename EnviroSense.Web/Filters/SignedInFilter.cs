@@ -16,7 +16,7 @@ public class SignedInFilter : IActionFilter
 
     public void OnActionExecuting(ActionExecutingContext context)
     {
-        if (_authenticationRetriever.GetAccountIdFromSession() == null)
+        if (_authenticationRetriever.GetCurrentAccountId() == null)
         {
             context.Result = new RedirectToActionResult("SignIn", "Accounts", null);
         }

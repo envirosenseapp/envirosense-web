@@ -16,7 +16,7 @@ public class SignedOutFilter : IActionFilter
 
     public void OnActionExecuting(ActionExecutingContext filterContext)
     {
-        if (_authenticationRetriever.GetAccountIdFromSession() != null)
+        if (_authenticationRetriever.GetCurrentAccountId() != null)
         {
             filterContext.Result = new RedirectToActionResult("Index", "Home", null);
         }

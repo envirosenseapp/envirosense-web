@@ -19,9 +19,6 @@ public static class Configurator
         serviceCollection.AddScoped<IAccountService, AccountService>();
         serviceCollection.AddScoped<IAccountPasswordResetService, AccountPasswordResetService>();
         serviceCollection.AddScoped<IDeviceApiKeyService, DeviceApiKeyService>();
-        
-        // authentication
-        serviceCollection.AddScoped<IAuthenticationRetriever, AuthenticationRetriever>();
 
         // authorization
         serviceCollection.AddScoped<IAccessRule<Device>, DeviceAccessRule>();

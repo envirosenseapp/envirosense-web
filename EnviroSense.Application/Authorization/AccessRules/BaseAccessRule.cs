@@ -24,7 +24,7 @@ public abstract class BaseAccessRule<T> : IAccessRule<T>
 
     private Guid MustGetAccountId()
     {
-        var accountId = _authenticationRetriever.GetAccountIdFromSession();
+        var accountId = _authenticationRetriever.GetCurrentAccountId();
         if (accountId == null)
         {
             throw new AccessToForbiddenEntityException("Access forbidden (reason: Must be logged in).");

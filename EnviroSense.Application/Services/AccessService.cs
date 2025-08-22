@@ -34,7 +34,7 @@ public class AccessService : IAccessService
         }
 
         var ipAddress = httpContext.Connection.RemoteIpAddress.ToString();
-        Guid? accountId = _authenticationRetriever.GetAccountIdFromSession();
+        Guid? accountId = _authenticationRetriever.GetCurrentAccountId();
         Account? account = null;
 
         if (accountId != null)

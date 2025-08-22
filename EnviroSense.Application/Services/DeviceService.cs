@@ -28,7 +28,7 @@ public class DeviceService : IDeviceService
 
     protected virtual Guid GetAccountId()
     {
-        var accountId = _authenticationRetriever.GetAccountIdFromSession();
+        var accountId = _authenticationRetriever.GetCurrentAccountId();
         if (accountId == null)
         {
             throw new SessionIsNotAvailableException();
