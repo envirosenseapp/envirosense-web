@@ -1,0 +1,22 @@
+http:
+  routers:
+    api:
+      entryPoints: http
+      rule:
+        Host(`api.envirosense.local`)
+      service: api-service
+    web:
+      entryPoints: http
+      rule:
+        Host(`web.envirosense.local`)
+      service: web-service
+
+  services:
+    api-service:
+      loadBalancer:
+        servers:
+          - url: http://api-service:8080/
+    web-service:
+      loadBalancer:
+        servers:
+          - url: http://web-service:8080/

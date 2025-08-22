@@ -4,6 +4,9 @@ using EnviroSense.Plugins.SMTPClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Adjust configuration
+builder.Configuration.AddJsonFile("/etc/secrets/appsettings.Production.json", optional: true);
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -33,6 +36,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.MustMigrate();
 app.UseRouting();
 app.MapControllers();
 
