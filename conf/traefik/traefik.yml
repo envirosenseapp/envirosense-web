@@ -17,5 +17,5 @@ entryPoints:
 # Providers
 providers:
   file:
-    filename: "/etc/traefik/dynamic.yml" # Path inside the container
+    directory: "/etc/traefik/config/" # Folder inside the container
     watch: true # Watch for changes
