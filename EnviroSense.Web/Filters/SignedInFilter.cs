@@ -1,4 +1,5 @@
-﻿using EnviroSense.Application.Services;
+﻿using EnviroSense.Application.Authentication;
+using EnviroSense.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -6,16 +7,16 @@ namespace EnviroSense.Web.Filters;
 
 public class SignedInFilter : IActionFilter
 {
-    private readonly IAccountService _accountService;
+    private readonly IAuthenticationRetriever _authenticationRetriever;
 
-    public SignedInFilter(IAccountService accountService)
+    public SignedInFilter(IAuthenticationRetriever authenticationRetriever)
     {
-        _accountService = accountService;
+        _authenticationRetriever = authenticationRetriever;
     }
 
     public void OnActionExecuting(ActionExecutingContext context)
     {
-        if (_accountService.GetAccountIdFromSession() == null)
+        if (_authenticationRetriever.GetAccountIdFromSession() == null)
         {
             context.Result = new RedirectToActionResult("SignIn", "Accounts", null);
         }

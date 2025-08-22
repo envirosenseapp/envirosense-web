@@ -1,11 +1,12 @@
-﻿using EnviroSense.Application.Services;
+﻿using EnviroSense.Application.Authentication;
+using EnviroSense.Application.Services;
 using EnviroSense.Domain.Entities;
 
 namespace EnviroSense.Application.Authorization.AccessRules;
 
 public class DeviceApiKeyAccessRule : BaseAccessRule<DeviceApiKey>
 {
-    public DeviceApiKeyAccessRule(IAccountService accountService) : base(accountService)
+    public DeviceApiKeyAccessRule(IAuthenticationRetriever authenticationRetriever) : base(authenticationRetriever)
     {
     }
 

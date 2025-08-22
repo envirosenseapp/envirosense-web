@@ -1,11 +1,12 @@
-﻿using EnviroSense.Application.Services;
+﻿using EnviroSense.Application.Authentication;
+using EnviroSense.Application.Services;
 using EnviroSense.Domain.Entities;
 
 namespace EnviroSense.Application.Authorization.AccessRules;
 
 public class MeasurementAccessRule : BaseAccessRule<Measurement>
 {
-    public MeasurementAccessRule(IAccountService accountService) : base(accountService)
+    public MeasurementAccessRule(IAuthenticationRetriever authenticationRetriever) : base(authenticationRetriever)
     {
     }
 

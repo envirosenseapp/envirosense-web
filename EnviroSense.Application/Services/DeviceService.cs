@@ -1,4 +1,5 @@
-﻿using EnviroSense.Application.Authorization;
+﻿using EnviroSense.Application.Authentication;
+using EnviroSense.Application.Authorization;
 using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
 using EnviroSense.Repositories.Repositories;
@@ -10,21 +11,24 @@ public class DeviceService : IDeviceService
     private readonly IDeviceRepository _deviceRepository;
     private readonly IAccountService _accountService;
     private readonly IAuthorizationResolver _authorizationResolver;
+    private readonly IAuthenticationRetriever _authenticationRetriever;
 
     public DeviceService(
         IDeviceRepository deviceRepository,
         IAccountService accountService,
-        IAuthorizationResolver authorizationResolver
+        IAuthorizationResolver authorizationResolver,
+        IAuthenticationRetriever authenticationRetriever
     )
     {
         _deviceRepository = deviceRepository;
         _accountService = accountService;
         _authorizationResolver = authorizationResolver;
+        _authenticationRetriever = authenticationRetriever;
     }
 
     protected virtual Guid GetAccountId()
     {
-        var accountId = _accountService.GetAccountIdFromSession();
+        var accountId = _authenticationRetriever.GetAccountIdFromSession();
         if (accountId == null)
         {
             throw new SessionIsNotAvailableException();

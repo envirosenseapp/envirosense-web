@@ -1,4 +1,5 @@
 ﻿using EnviroSense.Application.Algorithms;
+using EnviroSense.Application.Authentication;
 using EnviroSense.Application.Authorization;
 using EnviroSense.Application.Authorization.AccessRules;
 using EnviroSense.Application.Services;
@@ -18,6 +19,9 @@ public static class Configurator
         serviceCollection.AddScoped<IAccountService, AccountService>();
         serviceCollection.AddScoped<IAccountPasswordResetService, AccountPasswordResetService>();
         serviceCollection.AddScoped<IDeviceApiKeyService, DeviceApiKeyService>();
+        
+        // authentication
+        serviceCollection.AddScoped<IAuthenticationRetriever, AuthenticationRetriever>();
 
         // authorization
         serviceCollection.AddScoped<IAccessRule<Device>, DeviceAccessRule>();
