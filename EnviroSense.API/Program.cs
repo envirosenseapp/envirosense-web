@@ -1,4 +1,5 @@
-﻿using EnviroSense.Application;
+﻿using EnviroSense.API.Filters;
+using EnviroSense.Application;
 using EnviroSense.Plugins.PostgresRepositories;
 using EnviroSense.Plugins.SMTPClient;
 
@@ -25,7 +26,10 @@ builder.Services.AddDistributedPostgresCache(options =>
 builder.Services.AddSMTPClient(builder.Configuration.GetRequiredSection("EmailSettings") ?? throw new Exception("Missing email settings"));
 
 // Add app related services.
-builder.Services.AddControllers();
+builder.Services.AddControllers(opts =>
+{
+    opts.Filters.Add<HandleInternalServiceErrors>();
+});
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
