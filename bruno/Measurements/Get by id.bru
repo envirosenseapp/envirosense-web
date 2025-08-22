@@ -1,0 +1,19 @@
+meta {
+  name: Get by id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{apiUrl}}/measurements/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 0198c3ff-39dc-7c93-a5ae-c1585e4bd9d8
+}
+
+settings {
+  encodeUrl: true
+}
