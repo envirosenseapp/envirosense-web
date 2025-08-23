@@ -6,7 +6,7 @@ using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace EnviroSense.Web.Authentication;
 
-public class SessionAuthentication: ISessionAuthentication
+public class SessionAuthentication : ISessionAuthentication
 {
     private readonly IAccountService _accountService;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -18,7 +18,7 @@ public class SessionAuthentication: ISessionAuthentication
         _httpContextAccessor = httpContextAccessor;
         _emailClient = emailClient;
     }
-    
+
     public async Task<Account> Login(string email, string password)
     {
         var account = await _accountService.GetAccountByEmail(email);

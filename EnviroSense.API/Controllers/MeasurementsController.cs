@@ -57,7 +57,7 @@ public class MeasurementsController : BaseController
             return NotFound();
         }
     }
-    
+
     private static Measurement ToModel(Entities.Measurement source)
     {
         return new Measurement

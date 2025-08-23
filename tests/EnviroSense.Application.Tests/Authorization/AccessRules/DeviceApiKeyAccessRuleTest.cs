@@ -14,7 +14,7 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
     public DeviceApiKeyAccessRuleTest()
     {
         _accountService = new Mock<IAccountService>();
-        _accessRule = new DeviceApiKeyAccessRule(_accountService.Object);
+        _accessRule = new DeviceApiKeyAccessRule((Authentication.IAuthenticationRetriever)_accountService.Object);
     }
 
     [Fact]

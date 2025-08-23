@@ -3,7 +3,7 @@
 public abstract class BaseError
 {
     public string Code { get; set; }
-    
+
     public string Message { get; set; }
 
     public IList<Entry> Context { get; set; } = new List<Entry>();
@@ -14,7 +14,7 @@ public abstract class BaseError
         Message = message;
         Context = context ?? new List<Entry>();
     }
-    
+
     public class Entry
     {
         public Entry(string key, string message)

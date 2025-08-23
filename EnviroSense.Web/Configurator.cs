@@ -17,7 +17,7 @@ public static class Configurator
         });
         serviceCollection.AddScoped<IAuthenticationRetriever, SessionAuthentication>();
         serviceCollection.AddScoped<ISessionAuthentication, SessionAuthentication>();
-        
+
         // add mvc related
         serviceCollection.AddControllersWithViews();
         serviceCollection.AddHttpContextAccessor();

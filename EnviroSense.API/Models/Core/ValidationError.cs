@@ -2,8 +2,9 @@
 
 namespace EnviroSense.API.Models.Core;
 
-public class ValidationError: BaseError{
-    
+public class ValidationError : BaseError
+{
+
     public ValidationError(ModelStateDictionary modelStateDictionary) : base(
         "validation_error",
         "validation failed"
@@ -13,7 +14,7 @@ public class ValidationError: BaseError{
         {
             foreach (var error in state.Value.Errors)
             {
-                
+
                 Context.Add(new Entry(
                     state.Key,
                     error.ErrorMessage

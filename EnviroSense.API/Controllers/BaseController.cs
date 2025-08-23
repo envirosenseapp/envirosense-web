@@ -10,7 +10,7 @@ public abstract class BaseController : Controller
     {
         return Json(result);
     }
-    
+
     public IActionResult ValidationError()
     {
         return BadRequest(new ValidationError(ModelState));

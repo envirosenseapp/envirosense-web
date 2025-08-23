@@ -14,7 +14,7 @@ public class MeasurementAccessRuleTest : IDisposable
     public MeasurementAccessRuleTest()
     {
         _accountService = new Mock<IAccountService>();
-        _accessRule = new MeasurementAccessRule(_accountService.Object);
+        _accessRule = new MeasurementAccessRule((Authentication.IAuthenticationRetriever)_accountService.Object);
     }
 
     [Fact]

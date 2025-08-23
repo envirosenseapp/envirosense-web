@@ -14,7 +14,7 @@ public class DeviceAccessRuleTest : IDisposable
     public DeviceAccessRuleTest()
     {
         _accountService = new Mock<IAccountService>();
-        _accessRule = new DeviceAccessRule(_accountService.Object);
+        _accessRule = new DeviceAccessRule((Authentication.IAuthenticationRetriever)_accountService.Object);
     }
 
     [Fact]

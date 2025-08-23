@@ -16,7 +16,7 @@ public class HandleInternalServiceErrors : IActionFilter
 
     public void OnActionExecuting(ActionExecutingContext context)
     {
-        
+
     }
 
     public void OnActionExecuted(ActionExecutedContext context)
@@ -28,8 +28,8 @@ public class HandleInternalServiceErrors : IActionFilter
             var result = new JsonResult(new InternalServiceError());
             result.StatusCode = (int)HttpStatusCode.InternalServerError;
             context.Result = result;
-            
-            _logger.LogError(context.Exception,"Unexpected error occured");
+
+            _logger.LogError(context.Exception, "Unexpected error occured");
         }
     }
 }
