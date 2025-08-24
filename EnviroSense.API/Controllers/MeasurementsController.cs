@@ -38,6 +38,42 @@ public class MeasurementsController : BaseController
         return Success(result);
     }
 
+    [HttpPost()]
+    public async Task<IActionResult> Create(
+        [FromBody] [Required] CreateMeasurement model
+    )
+    {
+        if (!ModelState.IsValid)
+        {
+            return ValidationError();
+        }
+
+        try
+        {
+            var device = await _deviceService.Get(model.DeviceId);
+            var measurement = await _measurementService.Create(new Entities.Measurement
+            {
+                Device = device,
+                Temperature = model.Temperature,
+                Humidity = model.Humidity,
+                RecordingDate = model.RecordingDate,
+            });
+
+            return Success(ToModel(measurement));
+        }
+        catch (DeviceNotFoundException)
+        {
+            return CustomValidationError(
+                new BaseError.Entry("deviceId", "not found")
+                );
+        }
+        catch (MeasurementNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
+
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(
         [FromRoute] [Required] Guid id
