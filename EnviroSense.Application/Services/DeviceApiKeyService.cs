@@ -53,6 +53,6 @@ public class DeviceApiKeyService : IDeviceApiKeyService
         apiKey = await _deviceApiKeyRepository.CreateAsync(apiKey);
         _logger.LogInformation($"Successfully created api key {apiKey.Id} for device {device.Id}");
 
-        return (apiKey, hash);
+        return (apiKey, key);
     }
 }
