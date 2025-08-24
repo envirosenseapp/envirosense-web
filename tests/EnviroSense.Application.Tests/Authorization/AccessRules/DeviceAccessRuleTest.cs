@@ -1,4 +1,5 @@
-﻿using EnviroSense.Application.Authorization.AccessRules;
+﻿using EnviroSense.Application.Authentication;
+using EnviroSense.Application.Authorization.AccessRules;
 using EnviroSense.Application.Services;
 using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
@@ -8,13 +9,13 @@ namespace EnviroSense.Application.Tests.Authorization.AccessRules;
 
 public class DeviceAccessRuleTest : IDisposable
 {
-    private readonly Mock<IAccountService> _accountService;
+    private readonly Mock<IAuthenticationRetriever> _authenticationRetriever;
     private readonly DeviceAccessRule _accessRule;
 
     public DeviceAccessRuleTest()
     {
-        _accountService = new Mock<IAccountService>();
-        _accessRule = new DeviceAccessRule((Authentication.IAuthenticationRetriever)_accountService.Object);
+        _authenticationRetriever = new Mock<IAuthenticationRetriever>();
+        _accessRule = new DeviceAccessRule(_authenticationRetriever.Object);
     }
 
     [Fact]
@@ -23,8 +24,8 @@ public class DeviceAccessRuleTest : IDisposable
         // Arrange
         var device = SampleDevice();
 
-        _accountService.Setup(s => s.GetAccountIdFromSession())
-            .Returns(SampleGuid());
+        _authenticationRetriever.Setup(s => s.GetCurrentAccountId())
+            .ReturnsAsync(SampleGuid());
 
         // Act
         var result = await _accessRule.HasAccess(device);
@@ -39,8 +40,8 @@ public class DeviceAccessRuleTest : IDisposable
         // Arrange
         var device = SampleDevice();
 
-        _accountService.Setup(s => s.GetAccountIdFromSession())
-            .Returns(Guid.NewGuid());
+        _authenticationRetriever.Setup(s => s.GetCurrentAccountId())
+            .ReturnsAsync(Guid.NewGuid());
 
         // Act
         var result = await _accessRule.HasAccess(device);
@@ -55,8 +56,8 @@ public class DeviceAccessRuleTest : IDisposable
         // Arrange
         var device = SampleDevice();
 
-        _accountService.Setup(s => s.GetAccountIdFromSession())
-            .Returns(Utils.Null<Guid?>());
+        _authenticationRetriever.Setup(s => s.GetCurrentAccountId())
+            .ReturnsAsync(Utils.Null<Guid?>());
 
         // Act
         await Assert.ThrowsAsync<AccessToForbiddenEntityException>(async () => await _accessRule.HasAccess(device));
@@ -64,7 +65,7 @@ public class DeviceAccessRuleTest : IDisposable
 
     public void Dispose()
     {
-        _accountService.VerifyAll();
+        _authenticationRetriever.VerifyAll();
     }
 
     private Guid SampleGuid()
