@@ -5,6 +5,7 @@ namespace EnviroSense.Application.Services;
 public interface IDeviceApiKeyService
 {
     public Task<DeviceApiKey> GetByIdAsync(Guid deviceId);
+    public Task<DeviceApiKey> GetByRawAPIKey(string rawKey);
 
     public Task<(DeviceApiKey key, string revealedApiKey)> CreateAsync(Device device, string name);
 }

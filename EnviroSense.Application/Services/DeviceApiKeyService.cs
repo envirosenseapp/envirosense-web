@@ -35,6 +35,13 @@ public class DeviceApiKeyService : IDeviceApiKeyService
         return deviceApiKey;
     }
 
+    public async Task<DeviceApiKey> GetByRawAPIKey(string rawKey)
+    {
+        var hash = _apiKeyGenerator.Hash(rawKey);
+
+        return await _deviceApiKeyRepository.GetByHashAsync(hash);
+    }
+
     public async Task<(DeviceApiKey key, string revealedApiKey)> CreateAsync(Device device, string name)
     {
         await _authorizationResolver.MustHaveAccess(device);
