@@ -1,0 +1,28 @@
+meta {
+  name: Create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{apiUrl}}/measurements
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "deviceId": "0198c3ff-39dc-7c93-a5ae-c1585e4bd9d8",
+    "temperature": 24,
+    "humidity": 55,
+    "recordingDate": "{{$isoTimestamp}}"
+  }
+}
+
+vars:post-response {
+  measurementID: res.body.id
+}
+
+settings {
+  encodeUrl: true
+}

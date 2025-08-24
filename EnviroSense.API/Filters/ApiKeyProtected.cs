@@ -1,4 +1,6 @@
-﻿using EnviroSense.Application.Services;
+﻿using EnviroSense.API.Exceptions;
+using EnviroSense.Application.Authentication;
+using EnviroSense.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -6,16 +8,20 @@ namespace EnviroSense.API.Filters;
 
 public class ApiKeyProtected : IActionFilter
 {
-    private readonly IAccountService _accountService;
+    private readonly IAuthenticationRetriever _authenticationRetriever;
 
-    public ApiKeyProtected(IAccountService accountService)
+    public ApiKeyProtected(IAuthenticationRetriever authenticationRetriever)
     {
-        _accountService = accountService;
+        _authenticationRetriever = authenticationRetriever;
     }
 
     public void OnActionExecuting(ActionExecutingContext context)
     {
-        //TODO
+        var accountId = _authenticationRetriever.GetCurrentAccountId();
+        if (accountId == null)
+        {
+            throw new UnauthenticatedException();
+        }
     }
 
     public void OnActionExecuted(ActionExecutedContext context)

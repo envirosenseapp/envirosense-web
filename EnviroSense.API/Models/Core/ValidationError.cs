@@ -8,7 +8,7 @@ public class ValidationError : BaseError
     public ValidationError(ModelStateDictionary modelStateDictionary) : base(
         "validation_error",
         "validation failed"
-        )
+    )
     {
         foreach (var state in modelStateDictionary)
         {
@@ -20,6 +20,17 @@ public class ValidationError : BaseError
                     error.ErrorMessage
                 ));
             }
+        }
+    }
+    
+    public ValidationError(params Entry[] entries) : base(
+        "validation_error",
+        "validation failed"
+    )
+    {
+        foreach (var entry in entries)
+        {
+            Context.Add(entry);
         }
     }
 }

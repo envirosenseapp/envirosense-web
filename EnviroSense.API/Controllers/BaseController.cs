@@ -15,4 +15,9 @@ public abstract class BaseController : Controller
     {
         return BadRequest(new ValidationError(ModelState));
     }
+
+    public IActionResult CustomValidationError(params BaseError.Entry[] entries)
+    {
+        return BadRequest(new ValidationError(entries));
+    }
 }

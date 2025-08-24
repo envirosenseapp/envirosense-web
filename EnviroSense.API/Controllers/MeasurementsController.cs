@@ -12,16 +12,18 @@ namespace EnviroSense.API.Controllers;
 public class MeasurementsController : BaseController
 {
     private readonly IMeasurementService _measurementService;
+    private readonly IDeviceService _deviceService;
 
-    public MeasurementsController(IMeasurementService measurementService)
+    public MeasurementsController(IMeasurementService measurementService, IDeviceService deviceService)
     {
         _measurementService = measurementService;
+        _deviceService = deviceService;
     }
 
     [HttpGet]
     public async Task<IActionResult> List(
-        [FromQuery][Required] Guid deviceId
-        )
+        [FromQuery] [Required] Guid deviceId
+    )
     {
         if (!ModelState.IsValid)
         {
@@ -38,7 +40,7 @@ public class MeasurementsController : BaseController
 
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(
-        [FromRoute][Required] Guid id
+        [FromRoute] [Required] Guid id
     )
     {
         if (!ModelState.IsValid)

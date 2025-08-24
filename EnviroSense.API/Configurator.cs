@@ -1,4 +1,7 @@
-﻿using EnviroSense.API.Filters;
+﻿using EnviroSense.API.Authentication;
+using EnviroSense.API.Filters;
+using EnviroSense.Application.Authentication;
+using EnviroSense.Application.Authorization;
 
 namespace EnviroSense.API;
 
@@ -13,9 +16,10 @@ public static class Configurator
         // Add app related services.
         serviceCollection.AddControllers(opts =>
         {
-            opts.Filters.Add<HandleInternalServiceErrors>();
+            opts.Filters.Add<HandleGenericErrors>();
         });
         serviceCollection.AddHttpContextAccessor();
+        serviceCollection.AddScoped<IAuthenticationRetriever, APIKeyAuthentication>();
     }
 
 }
