@@ -22,7 +22,7 @@ public class ValidationError : BaseError
             }
         }
     }
-    
+
     public ValidationError(params Entry[] entries) : base(
         "validation_error",
         "validation failed"

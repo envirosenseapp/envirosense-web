@@ -4,5 +4,6 @@ namespace EnviroSense.Application.Authentication;
 
 public interface IAuthenticationRetriever
 {
-    Guid? GetCurrentAccountId();
+    Task<Guid?> GetCurrentAccountId();
+    Task<Account?> GetCurrentAccount();
 }

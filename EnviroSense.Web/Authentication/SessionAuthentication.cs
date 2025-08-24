@@ -42,7 +42,14 @@ public class SessionAuthentication : ISessionAuthentication
         _httpContextAccessor.HttpContext?.Session.Clear();
     }
 
-    public Guid? GetCurrentAccountId()
+    public async Task<Guid?> GetCurrentAccountId()
+    {
+        var account = await GetCurrentAccount();
+
+        return account?.Id;
+    }
+
+    public async Task<Account?> GetCurrentAccount()
     {
         var httpContext = _httpContextAccessor.HttpContext;
 
@@ -63,8 +70,14 @@ public class SessionAuthentication : ISessionAuthentication
             throw new Exception("Unexpected format for account id. Must be guid.");
         }
 
-        return accountGuid;
+        try
+        {
+            return await _accountService.GetAccountById(accountGuid);
+        }
+        catch (AccountNotFoundException)
+        {
+            return null;
+        }
     }
-
 }
 

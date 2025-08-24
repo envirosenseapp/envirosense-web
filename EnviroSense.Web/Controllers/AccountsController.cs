@@ -151,8 +151,8 @@ namespace EnviroSense.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Settings()
         {
-            var accountId = _sessionAuthentication.GetCurrentAccountId();
-            var account = await _accountService.GetAccountById(accountId.Value);
+            var account = await _sessionAuthentication.GetCurrentAccount();
+
             var viewModel = new SettingsViewModel
             {
                 Email = account.Email,
@@ -170,7 +170,7 @@ namespace EnviroSense.Web.Controllers
                 ViewBag.Message = "Invalid data";
                 return View(model);
             }
-            var accountId = _sessionAuthentication.GetCurrentAccountId();
+            var accountId = await _sessionAuthentication.GetCurrentAccountId();
             await _accountService.ResetPasswordFromSettings(accountId.Value, model.NewPassword);
             ViewBag.Message = "Password reset successfully";
             return View(model);

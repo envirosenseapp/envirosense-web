@@ -10,17 +10,14 @@ public class AccessService : IAccessService
 {
     private readonly IAccessRepository _accessRepository;
     private readonly IHttpContextAccessor _httpContextAccesor;
-    private readonly IAccountService _accountService;
     private readonly IAuthenticationRetriever _authenticationRetriever;
 
     public AccessService(IAccessRepository accessRepository, IHttpContextAccessor httpContextAccesor,
-        IAccountService accountService,
         IAuthenticationRetriever authenticationRetriever
     )
     {
         _accessRepository = accessRepository;
         _httpContextAccesor = httpContextAccesor;
-        _accountService = accountService;
         _authenticationRetriever = authenticationRetriever;
     }
 
@@ -34,13 +31,7 @@ public class AccessService : IAccessService
         }
 
         var ipAddress = httpContext.Connection.RemoteIpAddress.ToString();
-        Guid? accountId = _authenticationRetriever.GetCurrentAccountId();
-        Account? account = null;
-
-        if (accountId != null)
-        {
-            account = await _accountService.GetAccountById(accountId.Value);
-        }
+        var account = await _authenticationRetriever.GetCurrentAccount();
 
         var access = new Access
         {

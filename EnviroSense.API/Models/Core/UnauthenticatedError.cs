@@ -1,6 +1,6 @@
 ﻿namespace EnviroSense.API.Models.Core;
 
-public class UnauthenticatedError: BaseError
+public class UnauthenticatedError : BaseError
 {
     public UnauthenticatedError(params BaseError.Entry[] entries) : base(
         "unauthenticated",

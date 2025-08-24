@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using EnviroSense.API.Filters;
 using EnviroSense.API.Models;
 using EnviroSense.API.Models.Core;
 using EnviroSense.Application.Services;
@@ -8,6 +9,7 @@ using Entities = EnviroSense.Domain.Entities;
 
 namespace EnviroSense.API.Controllers;
 
+[TypeFilter(typeof(ApiKeyProtected))]
 [Route("/measurements")]
 public class MeasurementsController : BaseController
 {
@@ -22,7 +24,7 @@ public class MeasurementsController : BaseController
 
     [HttpGet]
     public async Task<IActionResult> List(
-        [FromQuery] [Required] Guid deviceId
+        [FromQuery][Required] Guid deviceId
     )
     {
         if (!ModelState.IsValid)
@@ -40,7 +42,7 @@ public class MeasurementsController : BaseController
 
     [HttpPost()]
     public async Task<IActionResult> Create(
-        [FromBody] [Required] CreateMeasurement model
+        [FromBody][Required] CreateMeasurement model
     )
     {
         if (!ModelState.IsValid)
@@ -76,7 +78,7 @@ public class MeasurementsController : BaseController
 
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(
-        [FromRoute] [Required] Guid id
+        [FromRoute][Required] Guid id
     )
     {
         if (!ModelState.IsValid)

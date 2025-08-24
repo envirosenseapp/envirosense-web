@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace EnviroSense.Web.Filters;
 
-public class SignedOutFilter : IActionFilter
+public class SignedOutFilter : IAsyncActionFilter
 {
     private readonly IAuthenticationRetriever _authenticationRetriever;
 
@@ -14,15 +14,15 @@ public class SignedOutFilter : IActionFilter
         _authenticationRetriever = authenticationRetriever;
     }
 
-    public void OnActionExecuting(ActionExecutingContext filterContext)
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        if (_authenticationRetriever.GetCurrentAccountId() != null)
+        var currentAccountId = await _authenticationRetriever.GetCurrentAccountId();
+        if (currentAccountId != null)
         {
-            filterContext.Result = new RedirectToActionResult("Index", "Home", null);
+            context.Result = new RedirectToActionResult("Index", "Home", null);
+            return;
         }
-    }
 
-    public void OnActionExecuted(ActionExecutedContext filterContext)
-    {
+        await next();
     }
 }

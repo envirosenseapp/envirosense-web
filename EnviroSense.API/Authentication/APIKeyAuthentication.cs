@@ -18,18 +18,24 @@ public class APIKeyAuthentication : IAuthenticationRetriever
         _httpContextAccessor = httpContextAccessor;
         _apiKeyService = apiKeyService;
     }
-    
-    public Guid? GetCurrentAccountId()
+
+    public async Task<Guid?> GetCurrentAccountId()
     {
-        if (_httpContextAccessor.HttpContext  == null)
+        var account = await GetCurrentAccount();
+
+        return account?.Id;
+    }
+
+    public async Task<Account?> GetCurrentAccount()
+    {
+        if (_httpContextAccessor.HttpContext == null)
         {
             throw new Exception("could not get http context");
         }
 
-        if(!_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("X-Api-Key", out var headerValues))
+        if (!_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("X-Api-Key", out var headerValues))
         {
-            Guid? nullGuid = null;
-            return nullGuid;
+            return null;
         }
 
         if (headerValues.Count != 1)
@@ -41,15 +47,14 @@ public class APIKeyAuthentication : IAuthenticationRetriever
 
         try
         {
-            var apiKey = _apiKeyService.GetByRawAPIKey(key).Result; // todo: fix
+            var apiKey = await _apiKeyService.GetByRawAPIKey(key);
 
-            return apiKey.Device.AccountId;
+            return apiKey.Device.Account;
         }
         catch (DeviceApiKeyNotFound)
         {
             throw new InvalidApiKeyException("api key not found");
         }
     }
-
 }
 

@@ -19,7 +19,7 @@ public class DeviceServiceTest : IDisposable
         _accountService = new Mock<IAccountService>();
         _authorizationResolver = new Mock<IAuthorizationResolver>();
 
-        _deviceService = new DeviceService(_deviceRepository.Object, _accountService.Object, _authorizationResolver.Object);
+        _deviceService = new DeviceService(_deviceRepository.Object, _authorizationResolver.Object);
     }
 
     [Fact]

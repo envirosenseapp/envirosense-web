@@ -9,38 +9,29 @@ namespace EnviroSense.Application.Services;
 public class DeviceService : IDeviceService
 {
     private readonly IDeviceRepository _deviceRepository;
-    private readonly IAccountService _accountService;
     private readonly IAuthorizationResolver _authorizationResolver;
     private readonly IAuthenticationRetriever _authenticationRetriever;
 
     public DeviceService(
         IDeviceRepository deviceRepository,
-        IAccountService accountService,
         IAuthorizationResolver authorizationResolver,
         IAuthenticationRetriever authenticationRetriever
     )
     {
         _deviceRepository = deviceRepository;
-        _accountService = accountService;
         _authorizationResolver = authorizationResolver;
         _authenticationRetriever = authenticationRetriever;
     }
 
-    protected virtual Guid GetAccountId()
+    public async Task<List<Device>> List()
     {
-        var accountId = _authenticationRetriever.GetCurrentAccountId();
+        var accountId = await _authenticationRetriever.GetCurrentAccountId();
         if (accountId == null)
         {
             throw new SessionIsNotAvailableException();
         }
 
-        return accountId.Value;
-    }
-
-    public Task<List<Device>> List()
-    {
-        var acountId = GetAccountId();
-        return _deviceRepository.ListAsync(acountId);
+        return await _deviceRepository.ListAsync(accountId.Value);
     }
 
     public async Task<Device?> Get(Guid id)
@@ -53,8 +44,12 @@ public class DeviceService : IDeviceService
 
     public async Task<Device> Create(string name)
     {
-        var accountId = GetAccountId();
-        var account = await _accountService.GetAccountById(accountId);
+        var account = await _authenticationRetriever.GetCurrentAccount();
+        if (account == null)
+        {
+            throw new SessionIsNotAvailableException();
+        }
+
         var device = new Device
         {
             Name = name,

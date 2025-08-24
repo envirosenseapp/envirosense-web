@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace EnviroSense.API.Filters;
 
-public class ApiKeyProtected : IActionFilter
+public class ApiKeyProtected : IAsyncActionFilter
 {
     private readonly IAuthenticationRetriever _authenticationRetriever;
 
@@ -15,16 +15,14 @@ public class ApiKeyProtected : IActionFilter
         _authenticationRetriever = authenticationRetriever;
     }
 
-    public void OnActionExecuting(ActionExecutingContext context)
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        var accountId = _authenticationRetriever.GetCurrentAccountId();
+        var accountId = await _authenticationRetriever.GetCurrentAccountId();
         if (accountId == null)
         {
             throw new UnauthenticatedException();
         }
-    }
 
-    public void OnActionExecuted(ActionExecutedContext context)
-    {
+        await next();
     }
 }

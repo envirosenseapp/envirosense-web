@@ -15,16 +15,16 @@ public abstract class BaseAccessRule<T> : IAccessRule<T>
 
     public async Task<bool> HasAccess(T entity)
     {
-        var accountId = MustGetAccountId();
+        var accountId = await MustGetAccountId();
 
         return await AccountHasAccess(accountId, entity);
     }
 
     protected abstract Task<bool> AccountHasAccess(Guid accountId, T entity);
 
-    private Guid MustGetAccountId()
+    private async Task<Guid> MustGetAccountId()
     {
-        var accountId = _authenticationRetriever.GetCurrentAccountId();
+        var accountId = await _authenticationRetriever.GetCurrentAccountId();
         if (accountId == null)
         {
             throw new AccessToForbiddenEntityException("Access forbidden (reason: Must be logged in).");
