@@ -6,7 +6,7 @@ namespace EnviroSense.Application.Authorization.AccessRules;
 
 public class DeviceAccessRule : BaseAccessRule<Device>
 {
-    public DeviceAccessRule(IAuthenticationRetriever authenticationRetriever) : base(authenticationRetriever)
+    public DeviceAccessRule(IAuthenticationContext authenticationContext) : base(authenticationContext)
     {
     }
 

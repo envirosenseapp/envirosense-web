@@ -9,13 +9,13 @@ namespace EnviroSense.Application.Tests.Authorization.AccessRules;
 
 public class DeviceApiKeyAccessRuleTest : IDisposable
 {
-    private readonly Mock<IAuthenticationRetriever> _authenticationRetriever;
+    private readonly Mock<IAuthenticationContext> _authenticationContext;
     private readonly DeviceApiKeyAccessRule _accessRule;
 
     public DeviceApiKeyAccessRuleTest()
     {
-        _authenticationRetriever = new Mock<IAuthenticationRetriever>();
-        _accessRule = new DeviceApiKeyAccessRule(_authenticationRetriever.Object);
+        _authenticationContext = new Mock<IAuthenticationContext>();
+        _accessRule = new DeviceApiKeyAccessRule(_authenticationContext.Object);
     }
 
     [Fact]
@@ -24,7 +24,7 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
         // Arrange
         var apiKey = SampleDeviceApiKey();
 
-        _authenticationRetriever.Setup(s => s.GetCurrentAccountId())
+        _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(SampleGuid());
 
         // Act
@@ -40,7 +40,7 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
         // Arrange
         var apiKey = SampleDeviceApiKey();
 
-        _authenticationRetriever.Setup(s => s.GetCurrentAccountId())
+        _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(Guid.NewGuid());
 
         // Act
@@ -56,7 +56,7 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
         // Arrange
         var apiKey = SampleDeviceApiKey();
 
-        _authenticationRetriever.Setup(s => s.GetCurrentAccountId())
+        _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(Utils.Null<Guid?>());
 
         // Act
@@ -65,7 +65,7 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
 
     public void Dispose()
     {
-        _authenticationRetriever.VerifyAll();
+        _authenticationContext.VerifyAll();
     }
 
     private Guid SampleGuid()

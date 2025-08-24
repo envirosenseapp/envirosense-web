@@ -10,23 +10,23 @@ namespace EnviroSense.Application.Tests.Services;
 public class DeviceServiceTest : IDisposable
 {
     private readonly Mock<IDeviceRepository> _deviceRepository;
-    private readonly Mock<IAuthenticationRetriever> _authenticationRetriever;
+    private readonly Mock<IAuthenticationContext> _authenticationContext;
     private readonly Mock<IAuthorizationResolver> _authorizationResolver;
     private readonly DeviceService _deviceService;
 
     public DeviceServiceTest()
     {
         _deviceRepository = new Mock<IDeviceRepository>();
-        _authenticationRetriever = new Mock<IAuthenticationRetriever>();
+        _authenticationContext = new Mock<IAuthenticationContext>();
         _authorizationResolver = new Mock<IAuthorizationResolver>();
 
-        _deviceService = new DeviceService(_deviceRepository.Object, _authorizationResolver.Object, _authenticationRetriever.Object);
+        _deviceService = new DeviceService(_deviceRepository.Object, _authorizationResolver.Object, _authenticationContext.Object);
     }
 
     [Fact]
     public async Task List_It_successfully_fetches_data()
     {
-        _authenticationRetriever.Setup(e => e.GetCurrentAccountId()).ReturnsAsync(Guid.Parse("01a4260a-ef07-47ef-97f8-1ca333fd930a"));
+        _authenticationContext.Setup(e => e.CurrentAccountId()).ReturnsAsync(Guid.Parse("01a4260a-ef07-47ef-97f8-1ca333fd930a"));
 
         _deviceRepository.Setup(e => e.ListAsync(It.IsAny<Guid>())).Returns(Task.FromResult(new List<Device>()
         {
@@ -50,7 +50,7 @@ public class DeviceServiceTest : IDisposable
     [Fact]
     public async Task List_It_fails_when_account_id_from_session_is_not_found()
     {
-        _authenticationRetriever.Setup(e => e.GetCurrentAccountId()).Throws(new Exception("Session is available"));
+        _authenticationContext.Setup(e => e.CurrentAccountId()).Throws(new Exception("Session is available"));
 
         await Assert.ThrowsAsync<Exception>(async () => await _deviceService.List());
     }
@@ -89,7 +89,7 @@ public class DeviceServiceTest : IDisposable
     {
         var testId = Guid.NewGuid();
 
-        _authenticationRetriever.Setup(a => a.GetCurrentAccount()).ReturnsAsync(new Account
+        _authenticationContext.Setup(a => a.CurrentAccount()).ReturnsAsync(new Account
         {
             Id = testId,
             Email = "123",
@@ -108,7 +108,7 @@ public class DeviceServiceTest : IDisposable
     public void Dispose()
     {
         _deviceRepository.VerifyAll();
-        _authenticationRetriever.VerifyAll();
+        _authenticationContext.VerifyAll();
         _authorizationResolver.VerifyAll();
     }
 }

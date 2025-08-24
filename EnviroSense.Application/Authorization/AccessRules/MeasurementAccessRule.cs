@@ -6,7 +6,7 @@ namespace EnviroSense.Application.Authorization.AccessRules;
 
 public class MeasurementAccessRule : BaseAccessRule<Measurement>
 {
-    public MeasurementAccessRule(IAuthenticationRetriever authenticationRetriever) : base(authenticationRetriever)
+    public MeasurementAccessRule(IAuthenticationContext authenticationContext) : base(authenticationContext)
     {
     }
 

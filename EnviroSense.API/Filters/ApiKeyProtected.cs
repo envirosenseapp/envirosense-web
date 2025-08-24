@@ -8,16 +8,16 @@ namespace EnviroSense.API.Filters;
 
 public class ApiKeyProtected : IAsyncActionFilter
 {
-    private readonly IAuthenticationRetriever _authenticationRetriever;
+    private readonly IAuthenticationContext _authenticationContext;
 
-    public ApiKeyProtected(IAuthenticationRetriever authenticationRetriever)
+    public ApiKeyProtected(IAuthenticationContext authenticationContext)
     {
-        _authenticationRetriever = authenticationRetriever;
+        _authenticationContext = authenticationContext;
     }
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        var accountId = await _authenticationRetriever.GetCurrentAccountId();
+        var accountId = await _authenticationContext.CurrentAccountId();
         if (accountId == null)
         {
             throw new UnauthenticatedException();

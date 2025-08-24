@@ -42,14 +42,14 @@ public class SessionAuthentication : ISessionAuthentication
         _httpContextAccessor.HttpContext?.Session.Clear();
     }
 
-    public async Task<Guid?> GetCurrentAccountId()
+    public async Task<Guid?> CurrentAccountId()
     {
-        var account = await GetCurrentAccount();
+        var account = await CurrentAccount();
 
         return account?.Id;
     }
 
-    public async Task<Account?> GetCurrentAccount()
+    public async Task<Account?> CurrentAccount()
     {
         var httpContext = _httpContextAccessor.HttpContext;
 

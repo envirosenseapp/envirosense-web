@@ -19,7 +19,7 @@ public static class Configurator
             opts.Filters.Add<HandleGenericErrors>();
         });
         serviceCollection.AddHttpContextAccessor();
-        serviceCollection.AddScoped<IAuthenticationRetriever, APIKeyAuthentication>();
+        serviceCollection.AddScoped<IAuthenticationContext, APIKeyAuthentication>();
     }
 
 }

@@ -6,11 +6,11 @@ namespace EnviroSense.Application.Authorization.AccessRules;
 
 public abstract class BaseAccessRule<T> : IAccessRule<T>
 {
-    private readonly IAuthenticationRetriever _authenticationRetriever;
+    private readonly IAuthenticationContext _authenticationContext;
 
-    protected BaseAccessRule(IAuthenticationRetriever authenticationRetriever)
+    protected BaseAccessRule(IAuthenticationContext authenticationContext)
     {
-        _authenticationRetriever = authenticationRetriever;
+        _authenticationContext = authenticationContext;
     }
 
     public async Task<bool> HasAccess(T entity)
@@ -24,7 +24,7 @@ public abstract class BaseAccessRule<T> : IAccessRule<T>
 
     private async Task<Guid> MustGetAccountId()
     {
-        var accountId = await _authenticationRetriever.GetCurrentAccountId();
+        var accountId = await _authenticationContext.CurrentAccountId();
         if (accountId == null)
         {
             throw new AccessToForbiddenEntityException("Access forbidden (reason: Must be logged in).");

@@ -9,13 +9,13 @@ namespace EnviroSense.Application.Tests.Authorization.AccessRules;
 
 public class MeasurementAccessRuleTest : IDisposable
 {
-    private readonly Mock<IAuthenticationRetriever> _authenticationRetriever;
+    private readonly Mock<IAuthenticationContext> _authenticationContext;
     private readonly MeasurementAccessRule _accessRule;
 
     public MeasurementAccessRuleTest()
     {
-        _authenticationRetriever = new Mock<IAuthenticationRetriever>();
-        _accessRule = new MeasurementAccessRule(_authenticationRetriever.Object);
+        _authenticationContext = new Mock<IAuthenticationContext>();
+        _accessRule = new MeasurementAccessRule(_authenticationContext.Object);
     }
 
     [Fact]
@@ -24,7 +24,7 @@ public class MeasurementAccessRuleTest : IDisposable
         // Arrange
         var measurement = SampleMeasurement();
 
-        _authenticationRetriever.Setup(s => s.GetCurrentAccountId())
+        _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(SampleGuid());
 
         // Act
@@ -40,7 +40,7 @@ public class MeasurementAccessRuleTest : IDisposable
         // Arrange
         var measurement = SampleMeasurement();
 
-        _authenticationRetriever.Setup(s => s.GetCurrentAccountId())
+        _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(Guid.NewGuid());
 
         // Act
@@ -56,7 +56,7 @@ public class MeasurementAccessRuleTest : IDisposable
         // Arrange
         var measurement = SampleMeasurement();
 
-        _authenticationRetriever.Setup(s => s.GetCurrentAccountId())
+        _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(Utils.Null<Guid?>());
 
         // Act
@@ -65,7 +65,7 @@ public class MeasurementAccessRuleTest : IDisposable
 
     public void Dispose()
     {
-        _authenticationRetriever.VerifyAll();
+        _authenticationContext.VerifyAll();
     }
 
     private Guid SampleGuid()

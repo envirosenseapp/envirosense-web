@@ -10,15 +10,15 @@ public class AccessService : IAccessService
 {
     private readonly IAccessRepository _accessRepository;
     private readonly IHttpContextAccessor _httpContextAccesor;
-    private readonly IAuthenticationRetriever _authenticationRetriever;
+    private readonly IAuthenticationContext _authenticationContext;
 
     public AccessService(IAccessRepository accessRepository, IHttpContextAccessor httpContextAccesor,
-        IAuthenticationRetriever authenticationRetriever
+        IAuthenticationContext authenticationContext
     )
     {
         _accessRepository = accessRepository;
         _httpContextAccesor = httpContextAccesor;
-        _authenticationRetriever = authenticationRetriever;
+        _authenticationContext = authenticationContext;
     }
 
     public async Task<Access> Create(
@@ -31,7 +31,7 @@ public class AccessService : IAccessService
         }
 
         var ipAddress = httpContext.Connection.RemoteIpAddress.ToString();
-        var account = await _authenticationRetriever.GetCurrentAccount();
+        var account = await _authenticationContext.CurrentAccount();
 
         var access = new Access
         {

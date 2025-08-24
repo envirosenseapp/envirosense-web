@@ -10,22 +10,22 @@ public class DeviceService : IDeviceService
 {
     private readonly IDeviceRepository _deviceRepository;
     private readonly IAuthorizationResolver _authorizationResolver;
-    private readonly IAuthenticationRetriever _authenticationRetriever;
+    private readonly IAuthenticationContext _authenticationContext;
 
     public DeviceService(
         IDeviceRepository deviceRepository,
         IAuthorizationResolver authorizationResolver,
-        IAuthenticationRetriever authenticationRetriever
+        IAuthenticationContext authenticationContext
     )
     {
         _deviceRepository = deviceRepository;
         _authorizationResolver = authorizationResolver;
-        _authenticationRetriever = authenticationRetriever;
+        _authenticationContext = authenticationContext;
     }
 
     public async Task<List<Device>> List()
     {
-        var accountId = await _authenticationRetriever.GetCurrentAccountId();
+        var accountId = await _authenticationContext.CurrentAccountId();
         if (accountId == null)
         {
             throw new SessionIsNotAvailableException();
@@ -44,7 +44,7 @@ public class DeviceService : IDeviceService
 
     public async Task<Device> Create(string name)
     {
-        var account = await _authenticationRetriever.GetCurrentAccount();
+        var account = await _authenticationContext.CurrentAccount();
         if (account == null)
         {
             throw new SessionIsNotAvailableException();

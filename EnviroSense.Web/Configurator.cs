@@ -15,7 +15,7 @@ public static class Configurator
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
         });
-        serviceCollection.AddScoped<IAuthenticationRetriever, SessionAuthentication>();
+        serviceCollection.AddScoped<IAuthenticationContext, SessionAuthentication>();
         serviceCollection.AddScoped<ISessionAuthentication, SessionAuthentication>();
 
         // add mvc related

@@ -7,16 +7,16 @@ namespace EnviroSense.Web.Filters;
 
 public class SignedOutFilter : IAsyncActionFilter
 {
-    private readonly IAuthenticationRetriever _authenticationRetriever;
+    private readonly IAuthenticationContext _authenticationContext;
 
-    public SignedOutFilter(IAuthenticationRetriever authenticationRetriever)
+    public SignedOutFilter(IAuthenticationContext authenticationContext)
     {
-        _authenticationRetriever = authenticationRetriever;
+        _authenticationContext = authenticationContext;
     }
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        var currentAccountId = await _authenticationRetriever.GetCurrentAccountId();
+        var currentAccountId = await _authenticationContext.CurrentAccountId();
         if (currentAccountId != null)
         {
             context.Result = new RedirectToActionResult("Index", "Home", null);

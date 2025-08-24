@@ -8,7 +8,7 @@ using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace EnviroSense.API.Authentication;
 
-public class APIKeyAuthentication : IAuthenticationRetriever
+public class APIKeyAuthentication : IAuthenticationContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IDeviceApiKeyService _apiKeyService;
@@ -19,14 +19,14 @@ public class APIKeyAuthentication : IAuthenticationRetriever
         _apiKeyService = apiKeyService;
     }
 
-    public async Task<Guid?> GetCurrentAccountId()
+    public async Task<Guid?> CurrentAccountId()
     {
-        var account = await GetCurrentAccount();
+        var account = await CurrentAccount();
 
         return account?.Id;
     }
 
-    public async Task<Account?> GetCurrentAccount()
+    public async Task<Account?> CurrentAccount()
     {
         if (_httpContextAccessor.HttpContext == null)
         {
