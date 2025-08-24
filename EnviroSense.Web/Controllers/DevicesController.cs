@@ -140,42 +140,55 @@ namespace EnviroSense.Web.Controllers
             return View(viewModelList);
         }
 
-        [HttpGet]
-        public ActionResult Graph(Guid Id)
+        private async Task<GraphViewModel> GetHourlyMeasurement(Guid id, DateTime date)
         {
+            var device = await _deviceService.Get(id);
+
+            var measurementList = await _measurementService.ListDataForGraph(id, date, device);
+
             var viewModel = new GraphViewModel
             {
-                Id = Id,
-                date = DateTime.Today
+                Id = id,
+                DeviceName = device.Name,
+                Date = date,
+                Measurements = measurementList.Select(m => new HourlyMeasurementViewModel
+                {
+                    Hour = m.Hour,
+                    AvgHumidity = m.AvgHumidity,
+                    AvgTemperature = m.AvgTemperature,
+                }).ToList()
             };
-            return View(viewModel);
+
+            return viewModel;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Graph(GraphViewModel model)
+
+        [HttpGet]
+        public async Task<ActionResult> Graph(Guid id)
         {
             try
             {
-                var measurementList = await _measurementService.ListDataForGraph(model.Id, model.date);
-                var device = await _deviceService.Get(model.Id);
-
-                var viewModel = new GraphViewModel
-                {
-                    Id = model.Id,
-                    DeviceName = device.Name,
-                    date = model.date,
-                    Measurements = measurementList.Select(m => new HourlyMeasurementViewModel
-                    {
-                        Hour = m.Hour,
-                        AvgHumidity = m.AvgHumidity,
-                        AvgTemperature = m.AvgTemperature,
-                    }).ToList()
-                };
+                var viewModel = await GetHourlyMeasurement(id, date: DateTime.Today);
                 return View(viewModel);
             }
             catch (MeasurementsForThisDayNotFoundException)
             {
-                TempData["GraphMessage"] = "No measurements were found for this day. Please try another date";
+                TempData["GraphMessage"] = "No measurements were found for today.";
+                return RedirectToAction("Graph", new { id });
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Graph(Guid id, GraphViewModel model)
+        {
+            try
+            {
+                var viewModel = await GetHourlyMeasurement(id, model.Date);
+                return View(viewModel);
+            }
+            catch (MeasurementsForThisDayNotFoundException)
+            {
+                TempData["GraphMessage"] = "No measurements were found for this day. Please try another Date";
                 return RedirectToAction("Graph", new { id = model.Id });
             }
         }

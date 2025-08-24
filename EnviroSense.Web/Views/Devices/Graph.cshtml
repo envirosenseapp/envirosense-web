@@ -5,11 +5,8 @@
     var message = TempData["GraphMessage"] as string;
 }
 <form asp-action="Graph" method="post">
-    <input type="hidden" name="Id" value="@Model.Id"/>
-
-    <label for="date">Select date:</label>
-    <input type="date" id="date" name="date" class="form-control" value="@Model.date.ToString("yyyy-MM-dd")"/>
-
+    <label for="date">Select Date:</label>
+    <input asp-for="Date" type="date" id="date" name="Date" class="form-control"  value="@(DateTime.Now.ToString("yyyy-MM-dd"))"/>
     <button type="submit" class="btn btn-primary mt-2">Submit</button>
 </form>
 
@@ -40,11 +37,11 @@ else
                 {
                     <text>
                         dataPointsTemp.push({
-                            x: new Date(@Model.date.Year, @Model.date.Month - 1, @Model.date.Day, @m.Hour, 0, 0),
+                            x: new Date(@Model.Date.Year, @Model.Date.Month - 1, @Model.Date.Day, @m.Hour, 0, 0),
                             y: @(m.AvgTemperature.HasValue ? m.AvgTemperature.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "null")
                         });
                         dataPointsHumidity.push({
-                            x: new Date(@Model.date.Year, @Model.date.Month - 1, @Model.date.Day, @m.Hour, 0, 0),
+                            x: new Date(@Model.Date.Year, @Model.Date.Month - 1, @Model.Date.Day, @m.Hour, 0, 0),
                             y: @(m.AvgHumidity.HasValue ? m.AvgHumidity.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "null")
                         });
                     </text>
@@ -57,10 +54,16 @@ else
                     },
                     axisX: {
                         title: "Hour",
-                        valueFormatString: "HH:mm"
+                        valueFormatString: "HH:mm",
+                        viewportMinimum: new Date(@Model.Date.Year, @Model.Date.Month - 1, @Model.Date.Day, 0, 0, 0),
+                        viewportMaximum: new Date(@Model.Date.Year, @Model.Date.Month - 1, @Model.Date.Day, 23, 0, 0)
+
                     },
                     axisY: {
-                        title: "Value"
+                        title: "Value",
+                        viewportMinimum: -50,
+                        viewportMaximum: 100
+
                     },
                     toolTip: {
                         shared: true

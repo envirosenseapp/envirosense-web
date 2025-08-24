@@ -9,5 +9,5 @@ public interface IMeasurementService
     Task<Measurement> Create(Measurement measurement);
     Task<List<Measurement>> List(Guid deviceId);
     Task<Measurement?> GetLastest(Guid deviceId);
-    Task<List<HourlyMeasurement>> ListDataForGraph(Guid deviceId, DateTime date);
+    Task<List<HourlyMeasurement>> ListDataForGraph(Guid deviceId, DateTime date, Device device);
 }

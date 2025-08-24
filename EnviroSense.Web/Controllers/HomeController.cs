@@ -42,6 +42,7 @@ public class HomeController : Controller
             {
                 allMeasurements.Add(new DeviceMeasurmentViewModel
                 {
+                    DeviceId = device.Id,
                     DeviceName = device.Name,
                     Temperature = measurement.Temperature,
                     Humidity = measurement.Humidity,

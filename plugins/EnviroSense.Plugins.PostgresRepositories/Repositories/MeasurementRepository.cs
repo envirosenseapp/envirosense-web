@@ -34,15 +34,12 @@ internal class MeasurementRepository : IMeasurementRepository
             .FirstOrDefaultAsync();
     }
 
-    public async Task<List<Measurement?>> TakeMeasurementsForGivenDay(Guid deviceId, DateTime date)
+    public async Task<List<Measurement>> TakeMeasurementsForGivenDay(Guid deviceId, DateTime date)
     {
-        var startDate = date.Date;
-        var endDate = date.Date.AddDays(1);
-
         var measurementsList = await _context.Measurements
             .Where(m => m.DeviceId == deviceId &&
-                        m.RecordingDate >= startDate &&
-                        m.RecordingDate < endDate)
+                        m.RecordingDate >= date.Date &&
+                        m.RecordingDate < date.Date.AddDays(1))
             .ToListAsync();
         return measurementsList;
     }

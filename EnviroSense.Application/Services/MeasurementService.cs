@@ -55,8 +55,9 @@ public class MeasurementService : IMeasurementService
         return record;
     }
 
-    public async Task<List<HourlyMeasurement>> ListDataForGraph(Guid deviceId, DateTime date)
+    public async Task<List<HourlyMeasurement>> ListDataForGraph(Guid deviceId, DateTime date, Device device)
     {
+        await _authorizationResolver.MustHaveAccess(device);
         var measurementsList = await _measureRepository.TakeMeasurementsForGivenDay(deviceId, date);
         if (measurementsList == null || !measurementsList.Any())
         {
