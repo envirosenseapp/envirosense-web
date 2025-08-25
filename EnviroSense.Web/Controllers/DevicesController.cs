@@ -144,7 +144,7 @@ namespace EnviroSense.Web.Controllers
         {
             var device = await _deviceService.Get(id);
 
-            var measurementList = await _measurementService.ListDataForGraph(id, date, device);
+            var measurementList = await _measurementService.ListDataForGraph(date, device);
 
             var viewModel = new GraphViewModel
             {
@@ -174,7 +174,7 @@ namespace EnviroSense.Web.Controllers
             catch (MeasurementsForThisDayNotFoundException)
             {
                 TempData["GraphMessage"] = "No measurements were found for today.";
-                return RedirectToAction("Graph", new { id });
+                return View(new GraphViewModel());
             }
         }
 

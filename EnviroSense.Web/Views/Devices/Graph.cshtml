@@ -6,7 +6,7 @@
 }
 <form asp-action="Graph" method="post">
     <label for="date">Select Date:</label>
-    <input asp-for="Date" type="date" id="date" name="Date" class="form-control"  value="@(DateTime.Now.ToString("yyyy-MM-dd"))"/>
+    <input asp-for="Date" type="date" id="date" name="Date" class="form-control"  value="@(Model.Date.ToString("yyyy-MM-dd"))"/>
     <button type="submit" class="btn btn-primary mt-2">Submit</button>
 </form>
 

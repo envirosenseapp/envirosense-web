@@ -55,10 +55,10 @@ public class MeasurementService : IMeasurementService
         return record;
     }
 
-    public async Task<List<HourlyMeasurement>> ListDataForGraph(Guid deviceId, DateTime date, Device device)
+    public async Task<List<HourlyMeasurement>> ListDataForGraph(DateTime date, Device device)
     {
         await _authorizationResolver.MustHaveAccess(device);
-        var measurementsList = await _measureRepository.TakeMeasurementsForGivenDay(deviceId, date);
+        var measurementsList = await _measureRepository.TakeMeasurementsForGivenDay(device.Id, date);
         if (measurementsList == null || !measurementsList.Any())
         {
             throw new MeasurementsForThisDayNotFoundException();

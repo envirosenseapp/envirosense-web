@@ -7,7 +7,7 @@
     <!-- Titlu principal -->
     <div class="text-center mb-4">
         <h2 class="fw-bold">Your Settings</h2>
-        <p class="text-muted">Here you can view your account details and upDate your password</p>
+        <p class="text-muted">Here you can view your account details and update your password</p>
     </div>
 
     <div class="row justify-content-center">
@@ -27,7 +27,7 @@
                         <dt class="col-sm-3">Created At</dt>
                         <dd class="col-sm-9">@Model.CreatedAt.ToString("dd MMM yyyy, HH:mm")</dd>
 
-                        <dt class="col-sm-3">Last UpDated</dt>
+                        <dt class="col-sm-3">Last Updated</dt>
                         <dd class="col-sm-9">@Model.UpdatedAt.ToString("dd MMM yyyy, HH:mm") </dd>
                     </dl>
                 </div>
@@ -36,7 +36,7 @@
             <!-- Card cu formular mai subtil -->
             <div class="card shadow-sm border-0 rounded-3">
                 <div class="card-header bg-light">
-                    <h5 class="mb-0">UpDate Password</h5>
+                    <h5 class="mb-0">Update Password</h5>
                 </div>
                 <div class="card-body">
                     <form asp-action="Settings" method="post">
