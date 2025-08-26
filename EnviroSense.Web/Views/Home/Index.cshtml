@@ -47,6 +47,12 @@
                                     <strong>Humidity:</strong>
                                     <span class="text-success fw-bold">@($"{measurement.Humidity:F0}%")</span>
                                 </p>
+                                <a asp-controller="Devices" 
+                                   asp-action="Graph" 
+                                   asp-route-id="@measurement.DeviceId" 
+                                   class="btn btn-outline-warning btn-sm">
+                                    <i class="bi bi-graph-up"></i> Switch to graph mode
+                                </a>
                             }
                         </div>
                         <div class="card-footer text-muted small text-end fst-italic">

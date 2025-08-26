@@ -1,0 +1,97 @@
+@model EnviroSense.Web.ViewModels.Devices.GraphViewModel
+
+@{
+    ViewData["Title"] = "Graph";
+    var message = TempData["GraphMessage"] as string;
+}
+<form asp-action="Graph" method="post">
+    <label for="date">Select Date:</label>
+    <input asp-for="Date" type="date" id="date" name="Date" class="form-control"  value="@(Model.Date.ToString("yyyy-MM-dd"))"/>
+    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+</form>
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <div class="container mt-3">
+        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+            <strong>Info:</strong> @message
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+else
+{
+    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+
+    @section Scripts
+    {
+        <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+
+        <script>
+            window.onload = function () {
+                var dataPointsTemp = [];
+                var dataPointsHumidity = [];
+
+                @foreach (var m in Model.Measurements)
+                {
+                    <text>
+                        dataPointsTemp.push({
+                            x: new Date(@Model.Date.Year, @Model.Date.Month - 1, @Model.Date.Day, @m.Hour, 0, 0),
+                            y: @(m.AvgTemperature.HasValue ? m.AvgTemperature.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "null")
+                        });
+                        dataPointsHumidity.push({
+                            x: new Date(@Model.Date.Year, @Model.Date.Month - 1, @Model.Date.Day, @m.Hour, 0, 0),
+                            y: @(m.AvgHumidity.HasValue ? m.AvgHumidity.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "null")
+                        });
+                    </text>
+                }
+
+                var options = {
+                    animationEnabled: true,
+                    title: {
+                        text: "@Model.DeviceName"
+                    },
+                    axisX: {
+                        title: "Hour",
+                        valueFormatString: "HH:mm",
+                        viewportMinimum: new Date(@Model.Date.Year, @Model.Date.Month - 1, @Model.Date.Day, 0, 0, 0),
+                        viewportMaximum: new Date(@Model.Date.Year, @Model.Date.Month - 1, @Model.Date.Day, 23, 0, 0)
+
+                    },
+                    axisY: {
+                        title: "Value",
+                        viewportMinimum: -50,
+                        viewportMaximum: 100
+
+                    },
+                    toolTip: {
+                        shared: true
+                    },
+                    legend: {
+                        cursor: "pointer"
+                    },
+                    data: [
+                        {
+                            type: "spline",
+                            name: "Temperature (°C)",
+                            showInLegend: true,
+                            dataPoints: dataPointsTemp
+                        },
+                        {
+                            type: "spline",
+                            name: "Humidity (%)",
+                            showInLegend: true,
+                            dataPoints: dataPointsHumidity
+                        }
+                    ]
+                };
+
+                var chart = new CanvasJS.Chart("chartContainer", options);
+                chart.render();
+            }
+        </script>
+    }
+
+}
+

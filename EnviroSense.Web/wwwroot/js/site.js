@@ -4,3 +4,4 @@
         window.location.href = '@Url.Action("LogOut", "Accounts")';
     }
 }
+

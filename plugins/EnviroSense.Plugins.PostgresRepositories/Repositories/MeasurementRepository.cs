@@ -33,4 +33,14 @@ internal class MeasurementRepository : IMeasurementRepository
             .OrderByDescending(m => m.RecordingDate)
             .FirstOrDefaultAsync();
     }
+
+    public async Task<List<Measurement>> TakeMeasurementsForGivenDay(Guid deviceId, DateTime date)
+    {
+        var measurementsList = await _context.Measurements
+            .Where(m => m.DeviceId == deviceId &&
+                        m.RecordingDate >= date.Date &&
+                        m.RecordingDate < date.Date.AddDays(1))
+            .ToListAsync();
+        return measurementsList;
+    }
 }

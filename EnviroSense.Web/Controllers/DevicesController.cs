@@ -5,6 +5,7 @@ using EnviroSense.Web.Filters;
 using EnviroSense.Web.ViewModels.Devices;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace EnviroSense.Web.Controllers
 {
     [TypeFilter(typeof(SignedInFilter))]
@@ -137,6 +138,59 @@ namespace EnviroSense.Web.Controllers
             }).ToList();
 
             return View(viewModelList);
+        }
+
+        private async Task<GraphViewModel> GetHourlyMeasurement(Guid id, DateTime date)
+        {
+            var device = await _deviceService.Get(id);
+
+            var measurementList = await _measurementService.ListDataForGraph(date, device);
+
+            var viewModel = new GraphViewModel
+            {
+                Id = id,
+                DeviceName = device.Name,
+                Date = date,
+                Measurements = measurementList.Select(m => new HourlyMeasurementViewModel
+                {
+                    Hour = m.Hour,
+                    AvgHumidity = m.AvgHumidity,
+                    AvgTemperature = m.AvgTemperature,
+                }).ToList()
+            };
+
+            return viewModel;
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult> Graph(Guid id)
+        {
+            try
+            {
+                var viewModel = await GetHourlyMeasurement(id, date: DateTime.Today);
+                return View(viewModel);
+            }
+            catch (MeasurementsForThisDayNotFoundException)
+            {
+                TempData["GraphMessage"] = "No measurements were found for today.";
+                return View(new GraphViewModel());
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Graph(Guid id, GraphViewModel model)
+        {
+            try
+            {
+                var viewModel = await GetHourlyMeasurement(id, model.Date);
+                return View(viewModel);
+            }
+            catch (MeasurementsForThisDayNotFoundException)
+            {
+                TempData["GraphMessage"] = "No measurements were found for this day. Please try another Date";
+                return RedirectToAction("Graph", new { id = model.Id });
+            }
         }
     }
 }
