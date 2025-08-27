@@ -1,32 +1,113 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
+using EnviroSense.API.Filters;
+using EnviroSense.API.Models;
+using EnviroSense.API.Models.Core;
+using EnviroSense.Application.Services;
+using EnviroSense.Domain.Exceptions;
+using Microsoft.AspNetCore.Mvc;
+using Entities = EnviroSense.Domain.Entities;
 
 namespace EnviroSense.API.Controllers;
 
+[TypeFilter(typeof(ApiKeyProtected))]
 [Route("/measurements")]
 public class MeasurementsController : BaseController
 {
-    [HttpGet]
-    public IActionResult List()
+    private readonly IMeasurementService _measurementService;
+    private readonly IDeviceService _deviceService;
+
+    public MeasurementsController(IMeasurementService measurementService, IDeviceService deviceService)
     {
-        var summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-
-        return Success(forecast);
+        _measurementService = measurementService;
+        _deviceService = deviceService;
     }
 
-    record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+    [HttpGet]
+    public async Task<IActionResult> List(
+        [FromQuery][Required] Guid deviceId
+    )
     {
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        if (!ModelState.IsValid)
+        {
+            return ValidationError();
+        }
+
+        var measurements = await _measurementService.List(deviceId);
+        var result = new PagedResult<Measurement>(
+            measurements.Select(ToModel)
+        );
+
+        return Success(result);
+    }
+
+    [HttpPost()]
+    public async Task<IActionResult> Create(
+        [FromBody][Required] CreateMeasurement model
+    )
+    {
+        if (!ModelState.IsValid)
+        {
+            return ValidationError();
+        }
+
+        try
+        {
+            var device = await _deviceService.Get(model.DeviceId);
+            var measurement = await _measurementService.Create(new Entities.Measurement
+            {
+                Device = device,
+                Temperature = model.Temperature,
+                Humidity = model.Humidity,
+                RecordingDate = model.RecordingDate,
+            });
+
+            return Success(ToModel(measurement));
+        }
+        catch (DeviceNotFoundException)
+        {
+            return CustomValidationError(
+                new BaseError.Entry("deviceId", "not found")
+                );
+        }
+        catch (MeasurementNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(
+        [FromRoute][Required] Guid id
+    )
+    {
+        if (!ModelState.IsValid)
+        {
+            return ValidationError();
+        }
+
+        try
+        {
+            var measurement = await _measurementService.Get(id);
+
+            return Success(ToModel(measurement));
+        }
+        catch (MeasurementNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
+    private static Measurement ToModel(Entities.Measurement source)
+    {
+        return new Measurement
+        {
+            Id = source.Id,
+            DeviceId = source.DeviceId,
+            Temperature = source.Temperature,
+            Humidity = source.Humidity,
+            RecordingDate = source.RecordingDate,
+            CreatedAt = source.CreatedAt,
+        };
     }
 }

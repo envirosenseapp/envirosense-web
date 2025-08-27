@@ -1,4 +1,6 @@
-﻿using EnviroSense.Application;
+﻿using EnviroSense.API;
+using EnviroSense.API.Filters;
+using EnviroSense.Application;
 using EnviroSense.Plugins.PostgresRepositories;
 using EnviroSense.Plugins.SMTPClient;
 
@@ -7,9 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Adjust configuration
 builder.Configuration.AddJsonFile("/etc/secrets/appsettings.Production.json", optional: true);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 
 // Add services to the container.
 builder.Services.AddApplicationServices();
@@ -23,10 +22,7 @@ builder.Services.AddDistributedPostgresCache(options =>
     options.UseWAL = false;
 });
 builder.Services.AddSMTPClient(builder.Configuration.GetRequiredSection("EmailSettings") ?? throw new Exception("Missing email settings"));
-
-// Add app related services.
-builder.Services.AddControllers();
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddAPIServices();
 
 var app = builder.Build();
 

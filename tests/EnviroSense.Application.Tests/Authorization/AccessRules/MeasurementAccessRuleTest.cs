@@ -1,4 +1,5 @@
-﻿using EnviroSense.Application.Authorization.AccessRules;
+﻿using EnviroSense.Application.Authentication;
+using EnviroSense.Application.Authorization.AccessRules;
 using EnviroSense.Application.Services;
 using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
@@ -8,13 +9,13 @@ namespace EnviroSense.Application.Tests.Authorization.AccessRules;
 
 public class MeasurementAccessRuleTest : IDisposable
 {
-    private readonly Mock<IAccountService> _accountService;
+    private readonly Mock<IAuthenticationContext> _authenticationContext;
     private readonly MeasurementAccessRule _accessRule;
 
     public MeasurementAccessRuleTest()
     {
-        _accountService = new Mock<IAccountService>();
-        _accessRule = new MeasurementAccessRule(_accountService.Object);
+        _authenticationContext = new Mock<IAuthenticationContext>();
+        _accessRule = new MeasurementAccessRule(_authenticationContext.Object);
     }
 
     [Fact]
@@ -23,8 +24,8 @@ public class MeasurementAccessRuleTest : IDisposable
         // Arrange
         var measurement = SampleMeasurement();
 
-        _accountService.Setup(s => s.GetAccountIdFromSession())
-            .Returns(SampleGuid());
+        _authenticationContext.Setup(s => s.CurrentAccountId())
+            .ReturnsAsync(SampleGuid());
 
         // Act
         var result = await _accessRule.HasAccess(measurement);
@@ -39,8 +40,8 @@ public class MeasurementAccessRuleTest : IDisposable
         // Arrange
         var measurement = SampleMeasurement();
 
-        _accountService.Setup(s => s.GetAccountIdFromSession())
-            .Returns(Guid.NewGuid());
+        _authenticationContext.Setup(s => s.CurrentAccountId())
+            .ReturnsAsync(Guid.NewGuid());
 
         // Act
         var result = await _accessRule.HasAccess(measurement);
@@ -55,8 +56,8 @@ public class MeasurementAccessRuleTest : IDisposable
         // Arrange
         var measurement = SampleMeasurement();
 
-        _accountService.Setup(s => s.GetAccountIdFromSession())
-            .Returns(Utils.Null<Guid?>());
+        _authenticationContext.Setup(s => s.CurrentAccountId())
+            .ReturnsAsync(Utils.Null<Guid?>());
 
         // Act
         await Assert.ThrowsAsync<AccessToForbiddenEntityException>(async () => await _accessRule.HasAccess(measurement));
@@ -64,7 +65,7 @@ public class MeasurementAccessRuleTest : IDisposable
 
     public void Dispose()
     {
-        _accountService.VerifyAll();
+        _authenticationContext.VerifyAll();
     }
 
     private Guid SampleGuid()

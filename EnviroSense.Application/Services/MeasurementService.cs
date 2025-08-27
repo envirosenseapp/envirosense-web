@@ -9,26 +9,23 @@ namespace EnviroSense.Application.Services;
 public class MeasurementService : IMeasurementService
 {
     private readonly IMeasurementRepository _measureRepository;
-    private readonly IDeviceRepository _deviceRepository;
     private readonly IAuthorizationResolver _authorizationResolver;
 
     public MeasurementService(
         IMeasurementRepository measurementRepository,
-        IDeviceRepository deviceRepository,
         IAuthorizationResolver authorizationResolver
     )
     {
         _measureRepository = measurementRepository;
-        _deviceRepository = deviceRepository;
         _authorizationResolver = authorizationResolver;
     }
 
-    public async Task<Device> Get(Guid deviceId)
+    public async Task<Measurement> Get(Guid id)
     {
-        var device = await _deviceRepository.GetAsync(deviceId);
-        await _authorizationResolver.MustHaveAccess(device);
+        var measurement = await _measureRepository.GetAsync(id);
+        await _authorizationResolver.MustHaveAccess(measurement);
 
-        return device;
+        return measurement;
     }
 
     public async Task<Measurement> Create(Measurement measurement)

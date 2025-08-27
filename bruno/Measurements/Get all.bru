@@ -1,0 +1,19 @@
+meta {
+  name: Get all
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{apiUrl}}/measurements?deviceId=0198c3ff-39dc-7c93-a5ae-c1585e4bd9d8
+  body: none
+  auth: inherit
+}
+
+params:query {
+  deviceId: 0198c3ff-39dc-7c93-a5ae-c1585e4bd9d8
+}
+
+settings {
+  encodeUrl: true
+}

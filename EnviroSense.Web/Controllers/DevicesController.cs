@@ -103,7 +103,7 @@ namespace EnviroSense.Web.Controllers
                 ViewBag.DeviceId = model.DeviceId;
 
                 model.RecordingDate = model.RecordingDate.ToUniversalTime();
-                var device = await _measurementService.Get(model.DeviceId);
+                var device = await _deviceService.Get(model.DeviceId);
                 var measurementModel = new Measurement()
                 {
                     Temperature = model.Temperature.Value,

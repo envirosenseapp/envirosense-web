@@ -316,43 +316,13 @@ INSERT INTO public.device_api_keys (
 )
 VALUES (
     --- Outside thermometer API Key ---
-    --- wk/9tQ+d5RagmA6ygG3ol7iSwV1e1TAB9CgY0aQh4/s= ---
-    '828db438-20f1-49e8-8187-261c6a599ec8',
-    'Outside thermometer Device API Key',
-    'wk/9tQ+d5RagmA6ygG3ol7iSwV1e1TAB9CgY0aQh4/s=',
+    --- 41ae5fe52f1e4dcabc017b6eaedbd1bc ---
+    'b9cf1f88-2838-40b1-9cb4-ecf23e610215',
+    'First API key',
+    'gr3ko+vvD20PyPJbRNvP11nGt4gCcUJ2zKOxjrPdScY=',
     '1be27889-adcc-49a5-b686-00f2b09c8510',
     null,
     '2025-08-18 20:28:27.231119'
-), (
-    --- Living thermometer API Key ---
-    --- 9pvz3Zd6lRNRoV3mdLMyj7LJt2SFYbLt6OB5RE5f2fM= ---
-    'ab2f2abc-0de5-4fe2-b74c-9a664e6fd680',
-    'Living room thermometer API Key',
-    '9pvz3Zd6lRNRoV3mdLMyj7LJt2SFYbLt6OB5RE5f2fM=',
-    '01765984-66f7-11f0-9a50-be1cb330f7bb',
-    null,
-    '2025-08-18 20:34:14.592456'
-
-),
-(
-    --- Kitchen thermometer API Key ---
-    --- STuZPEyRaO5nQ482B0bcZLzlxaf8SCHMN+xhnGzGZx8= ---
-    '36efe7b1-a5fe-4206-a4be-bcfeac92662b',
-    'Kitchen thermometer API Key',
-    'STuZPEyRaO5nQ482B0bcZLzlxaf8SCHMN+xhnGzGZx8=',
-    '017646c4-66f7-11f0-9a50-be1cb330f7bb',
-    null,
-    '2025-08-18 20:35:27.604062'
-),
-(
-    --- Bedroom thermometer API Key ---
-    --- gsvGE5Cf+NOI1pt8YGV4YD6XSHW/4XbSFUPEcCAp7Fk= ---
-    'ca64ad9d-398b-472f-a7bf-250e24a28b71',
-    'Bedroom thermometer API Key',
-    'gsvGE5Cf+NOI1pt8YGV4YD6XSHW/4XbSFUPEcCAp7Fk=',
-    '017659c0-66f7-11f0-9a50-be1cb330f7bb',
-    null,
-    '2025-08-18 20:36:30.640857'
 )
 
 ON CONFLICT (id) DO UPDATE

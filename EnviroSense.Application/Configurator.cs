@@ -1,4 +1,5 @@
 ﻿using EnviroSense.Application.Algorithms;
+using EnviroSense.Application.Authentication;
 using EnviroSense.Application.Authorization;
 using EnviroSense.Application.Authorization.AccessRules;
 using EnviroSense.Application.Services;

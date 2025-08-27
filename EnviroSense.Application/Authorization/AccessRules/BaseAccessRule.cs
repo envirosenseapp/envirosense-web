@@ -1,29 +1,30 @@
-﻿using EnviroSense.Application.Services;
+﻿using EnviroSense.Application.Authentication;
+using EnviroSense.Application.Services;
 using EnviroSense.Domain.Exceptions;
 
 namespace EnviroSense.Application.Authorization.AccessRules;
 
 public abstract class BaseAccessRule<T> : IAccessRule<T>
 {
-    private readonly IAccountService _accountService;
+    private readonly IAuthenticationContext _authenticationContext;
 
-    protected BaseAccessRule(IAccountService accountService)
+    protected BaseAccessRule(IAuthenticationContext authenticationContext)
     {
-        _accountService = accountService;
+        _authenticationContext = authenticationContext;
     }
 
     public async Task<bool> HasAccess(T entity)
     {
-        var accountId = MustGetAccountId();
+        var accountId = await MustGetAccountId();
 
         return await AccountHasAccess(accountId, entity);
     }
 
     protected abstract Task<bool> AccountHasAccess(Guid accountId, T entity);
 
-    private Guid MustGetAccountId()
+    private async Task<Guid> MustGetAccountId()
     {
-        var accountId = _accountService.GetAccountIdFromSession();
+        var accountId = await _authenticationContext.CurrentAccountId();
         if (accountId == null)
         {
             throw new AccessToForbiddenEntityException("Access forbidden (reason: Must be logged in).");

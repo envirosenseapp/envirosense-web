@@ -1,4 +1,5 @@
-﻿using EnviroSense.Domain.Entities;
+﻿using EnviroSense.Application.Authentication;
+using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
 using EnviroSense.Repositories.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -9,28 +10,19 @@ public class AccessService : IAccessService
 {
     private readonly IAccessRepository _accessRepository;
     private readonly IHttpContextAccessor _httpContextAccesor;
-    private readonly IAccountService _accountService;
+    private readonly IAuthenticationContext _authenticationContext;
 
     public AccessService(IAccessRepository accessRepository, IHttpContextAccessor httpContextAccesor,
-        IAccountService accountService)
+        IAuthenticationContext authenticationContext
+    )
     {
         _accessRepository = accessRepository;
         _httpContextAccesor = httpContextAccesor;
-        _accountService = accountService;
+        _authenticationContext = authenticationContext;
     }
 
-    private Guid? GetAccountId()
-    {
-        var accountId = _accountService.GetAccountIdFromSession();
-        if (accountId == null)
-        {
-            return null;
-        }
-
-        return accountId;
-    }
-
-    public async Task<Access> Create()
+    public async Task<Access> Create(
+        )
     {
         var httpContext = _httpContextAccesor.HttpContext;
         if (httpContext?.Connection.RemoteIpAddress == null)
@@ -39,13 +31,7 @@ public class AccessService : IAccessService
         }
 
         var ipAddress = httpContext.Connection.RemoteIpAddress.ToString();
-        Guid? accountId = GetAccountId();
-        Account? account = null;
-
-        if (accountId != null)
-        {
-            account = await _accountService.GetAccountById(accountId.Value);
-        }
+        var account = await _authenticationContext.CurrentAccount();
 
         var access = new Access
         {

@@ -1,27 +1,28 @@
-﻿using EnviroSense.Application.Services;
+﻿using EnviroSense.Application.Authentication;
+using EnviroSense.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace EnviroSense.Web.Filters;
 
-public class SignedOutFilter : IActionFilter
+public class SignedOutFilter : IAsyncActionFilter
 {
-    private readonly IAccountService _accountService;
+    private readonly IAuthenticationContext _authenticationContext;
 
-    public SignedOutFilter(IAccountService accountService)
+    public SignedOutFilter(IAuthenticationContext authenticationContext)
     {
-        _accountService = accountService;
+        _authenticationContext = authenticationContext;
     }
 
-    public void OnActionExecuting(ActionExecutingContext filterContext)
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        if (_accountService.GetAccountIdFromSession() != null)
+        var currentAccountId = await _authenticationContext.CurrentAccountId();
+        if (currentAccountId != null)
         {
-            filterContext.Result = new RedirectToActionResult("Index", "Home", null);
+            context.Result = new RedirectToActionResult("Index", "Home", null);
+            return;
         }
-    }
 
-    public void OnActionExecuted(ActionExecutedContext filterContext)
-    {
+        await next();
     }
 }

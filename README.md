@@ -32,3 +32,11 @@ or run following command to automatically fix linter issues(if possible)
 ```
 make format
 ```
+
+## Bruno API Collection
+
+
+This project includes a [Bruno](https://www.usebruno.com/) collection located in the `bruno/` directory. Bruno is an open-source API client that allows you to easily test and interact with the `Envirosense.API`.
+
+You can download Bruno from their official website and import the collection from the `bruno` folder to start making requests to the API endpoints.
+

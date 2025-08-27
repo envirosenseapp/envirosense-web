@@ -14,6 +14,17 @@ internal class DeviceApiKeyRepository : IDeviceApiKeyRepository
         _context = context;
     }
 
+    public async Task<DeviceApiKey> GetByHashAsync(string hash)
+    {
+        var apiKey = await _context.DeviceApiKeys.FirstOrDefaultAsync(d => d.KeyHash == hash);
+        if (apiKey == null)
+        {
+            throw new DeviceApiKeyNotFound("Device API Key not found");
+        }
+
+        return apiKey;
+    }
+
     public async Task<DeviceApiKey> GetByIdAsync(Guid deviceId)
     {
         var apiKey = await _context.DeviceApiKeys.FirstOrDefaultAsync(d => d.Id == deviceId);

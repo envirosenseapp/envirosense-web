@@ -1,5 +1,7 @@
-﻿using EnviroSense.Application.Services;
+﻿using EnviroSense.Application.Authentication;
+using EnviroSense.Application.Services;
 using EnviroSense.Domain.Exceptions;
+using EnviroSense.Web.Authentication;
 using EnviroSense.Web.Filters;
 using EnviroSense.Web.ViewModels.Accounts;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +13,16 @@ namespace EnviroSense.Web.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IAccountPasswordResetService _accountPasswordResetService;
+        private readonly ISessionAuthentication _sessionAuthentication;
 
         public AccountsController(IAccountService accountService,
-            IAccountPasswordResetService accountPasswordResetService)
+            IAccountPasswordResetService accountPasswordResetService,
+            ISessionAuthentication sessionAuthentication
+        )
         {
             _accountService = accountService;
             _accountPasswordResetService = accountPasswordResetService;
+            _sessionAuthentication = sessionAuthentication;
         }
 
         [TypeFilter(typeof(SignedOutFilter))]
@@ -64,7 +70,7 @@ namespace EnviroSense.Web.Controllers
 
             try
             {
-                await _accountService.Login(model.Email, model.Password);
+                await _sessionAuthentication.Login(model.Email, model.Password);
                 return RedirectToAction("Index", "Home");
             }
             catch (AccountNotFoundException ex)
@@ -145,8 +151,8 @@ namespace EnviroSense.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Settings()
         {
-            var accountId = _accountService.GetAccountIdFromSession();
-            var account = await _accountService.GetAccountById(accountId.Value);
+            var account = await _sessionAuthentication.CurrentAccount();
+
             var viewModel = new SettingsViewModel
             {
                 Email = account.Email,
@@ -164,7 +170,7 @@ namespace EnviroSense.Web.Controllers
                 ViewBag.Message = "Invalid data";
                 return View(model);
             }
-            var accountId = _accountService.GetAccountIdFromSession();
+            var accountId = await _sessionAuthentication.CurrentAccountId();
             await _accountService.ResetPasswordFromSettings(accountId.Value, model.NewPassword);
             ViewBag.Message = "Password reset successfully";
             return View(model);
@@ -173,7 +179,7 @@ namespace EnviroSense.Web.Controllers
         [TypeFilter(typeof(SignedInFilter))]
         public ActionResult LogOut()
         {
-            _accountService.Logout();
+            _sessionAuthentication.Logout();
             return RedirectToAction("SignIn");
         }
     }
