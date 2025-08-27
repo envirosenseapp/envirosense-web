@@ -61,3 +61,5 @@ nunit-*.xml
 *.DotSettings.user
 
 
+# Bruno
+bruno/environments/Prod.bru
