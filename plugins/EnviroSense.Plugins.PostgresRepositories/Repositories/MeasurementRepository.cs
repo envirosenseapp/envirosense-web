@@ -34,7 +34,7 @@ internal class MeasurementRepository : IMeasurementRepository
 
     public async Task<List<Measurement>> ListAsync(Guid deviceId)
     {
-        return await _context.Measurements.OrderByDescending(m =>m.RecordingDate).Where(m => m.DeviceId == deviceId).ToListAsync();
+        return await _context.Measurements.OrderByDescending(m => m.RecordingDate).Where(m => m.DeviceId == deviceId).ToListAsync();
     }
 
     public async Task<Measurement?> GetLastestAsync(Guid deviceId)
