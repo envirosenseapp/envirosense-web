@@ -1,3 +1,4 @@
+@using EnviroSense.Web.ViewModels.Devices
 @model EnviroSense.Web.ViewModels.Devices.GraphViewModel
 
 @{
@@ -92,6 +93,10 @@ else
             }
         </script>
     }
+    <a href="@Url.Action("Measurements", "Devices", new { deviceId = @Model.Id })"
+       class="btn btn-outline-secondary btn-sm shadow-sm">
+        <i class="bi bi-bar-chart me-1"></i> View Measurements
+    </a>
 
 }
 
