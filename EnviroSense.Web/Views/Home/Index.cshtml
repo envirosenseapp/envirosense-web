@@ -52,6 +52,10 @@
                                    asp-route-id="@measurement.DeviceId" 
                                    class="btn btn-outline-warning btn-sm">
                                     <i class="bi bi-graph-up"></i> Switch to graph mode
+                                </a><br>
+                                <a href="@Url.Action("Measurements", "Devices", new { deviceId = @measurement.DeviceId })"
+                                   class="btn btn-outline-secondary btn-sm shadow-sm">
+                                    <i class="bi bi-bar-chart me-1"></i> View Measurements
                                 </a>
                             }
                         </div>
