@@ -4,9 +4,9 @@ namespace EnviroSense.API.Models.Core;
 
 public static class PagedResultExtensions
 {
-    public static PagedResult<TDst> ToPagedResult<TSrc, TDst>(this PagedList<TSrc> source, Func<TSrc, TDst> mapper)
+    public static PagedApiResult<TDst> ToPagedApiResult<TSrc, TDst>(this PagedList<TSrc> source, Func<TSrc, TDst> mapper)
     {
-        return new PagedResult<TDst>(
+        return new PagedApiResult<TDst>(
             source.Records.Select(mapper),
             source.PageSize,
             source.PageIndex,

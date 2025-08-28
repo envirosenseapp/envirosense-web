@@ -2,6 +2,7 @@
 using EnviroSense.API.Filters;
 using EnviroSense.API.Models;
 using EnviroSense.API.Models.Core;
+using EnviroSense.API.Models.Filters;
 using EnviroSense.Application.Services;
 using EnviroSense.Domain.Exceptions;
 using EnviroSense.Domain.Filters;
@@ -26,7 +27,7 @@ public class MeasurementsController : BaseController
     [HttpGet]
     public async Task<IActionResult> List(
         [FromQuery]
-        Models.Filters.MeasurementFilters filters
+        MeasurementQueryFilters queryFilters
     )
     {
         if (!ModelState.IsValid)
@@ -34,13 +35,8 @@ public class MeasurementsController : BaseController
             return ValidationError();
         }
 
-        var measurements = await _measurementService.List(new MeasurementFilters
-        {
-            DeviceId = filters.DeviceId,
-            PageIndex = filters.PageIndex,
-            PageSize = filters.PageSize,
-        });
-        var result = measurements.ToPagedResult(ToModel);
+        var measurements = await _measurementService.List(MapFilters(queryFilters));
+        var result = measurements.ToPagedApiResult(MapModel);
 
         return Success(result);
     }
@@ -66,7 +62,7 @@ public class MeasurementsController : BaseController
                 RecordingDate = model.RecordingDate,
             });
 
-            return Success(ToModel(measurement));
+            return Success(MapModel(measurement));
         }
         catch (DeviceNotFoundException)
         {
@@ -95,7 +91,7 @@ public class MeasurementsController : BaseController
         {
             var measurement = await _measurementService.Get(id);
 
-            return Success(ToModel(measurement));
+            return Success(MapModel(measurement));
         }
         catch (MeasurementNotFoundException)
         {
@@ -103,7 +99,7 @@ public class MeasurementsController : BaseController
         }
     }
 
-    private static Measurement ToModel(Entities.Measurement source)
+    private static Measurement MapModel(Entities.Measurement source)
     {
         return new Measurement
         {
@@ -113,6 +109,16 @@ public class MeasurementsController : BaseController
             Humidity = source.Humidity,
             RecordingDate = source.RecordingDate,
             CreatedAt = source.CreatedAt,
+        };
+    }
+
+    private static MeasurementFilters MapFilters(MeasurementQueryFilters queryFilters)
+    {
+        return new MeasurementFilters
+        {
+            DeviceId = queryFilters.DeviceId!.Value,
+            PageIndex = queryFilters.PageIndex,
+            PageSize = queryFilters.PageSize,
         };
     }
 }

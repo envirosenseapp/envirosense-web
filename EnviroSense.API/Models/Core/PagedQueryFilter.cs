@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EnviroSense.API.Models.Core;
 
-public class PagedFilter
+public class PagedQueryFilter
 {
 
     [FromQuery]

@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EnviroSense.API.Models.Filters;
 
-public class MeasurementFilters : PagedFilter
+public class MeasurementQueryFilters : PagedQueryFilter
 {
     [FromQuery]
     [Required]
-    public Guid DeviceId { get; set; }
+    public Guid? DeviceId { get; set; }
 }

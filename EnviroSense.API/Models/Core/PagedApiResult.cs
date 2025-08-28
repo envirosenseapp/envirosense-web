@@ -2,9 +2,9 @@
 
 namespace EnviroSense.API.Models.Core;
 
-public class PagedResult<T>
+public class PagedApiResult<T>
 {
-    public PagedResult(
+    public PagedApiResult(
         IEnumerable<T> records,
         int pageSize,
         int pageIndex,
