@@ -1,5 +1,8 @@
 ﻿using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
+using EnviroSense.Domain.Filters;
+using EnviroSense.Plugins.PostgresRepositories.Extensions;
+using EnviroSense.Repositories.Core;
 using EnviroSense.Repositories.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,9 +35,12 @@ internal class MeasurementRepository : IMeasurementRepository
         return measurement;
     }
 
-    public async Task<List<Measurement>> ListAsync(Guid deviceId)
+    public async Task<PagedList<Measurement>> ListAsync(MeasurementFilters filters)
     {
-        return await _context.Measurements.OrderByDescending(m => m.RecordingDate).Where(m => m.DeviceId == deviceId).ToListAsync();
+        return await _context.Measurements
+            .OrderByDescending(m => m.RecordingDate)
+            .Where(m => m.DeviceId == filters.DeviceId)
+            .ToPagedListAsync(filters);
     }
 
     public async Task<Measurement?> GetLastestAsync(Guid deviceId)

@@ -5,13 +5,15 @@ meta {
 }
 
 get {
-  url: {{apiUrl}}/measurements?deviceId=0198c3ff-39dc-7c93-a5ae-c1585e4bd9d8
+  url: {{apiUrl}}/measurements?deviceId=0198c3ff-39dc-7c93-a5ae-c1585e4bd9d8&pageSize=10&pageIndex=0
   body: none
   auth: inherit
 }
 
 params:query {
   deviceId: 0198c3ff-39dc-7c93-a5ae-c1585e4bd9d8
+  pageSize: 10
+  pageIndex: 0
 }
 
 settings {
