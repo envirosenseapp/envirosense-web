@@ -4,6 +4,7 @@ using EnviroSense.API.Models;
 using EnviroSense.API.Models.Core;
 using EnviroSense.Application.Services;
 using EnviroSense.Domain.Exceptions;
+using EnviroSense.Domain.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Entities = EnviroSense.Domain.Entities;
 
@@ -24,7 +25,8 @@ public class MeasurementsController : BaseController
 
     [HttpGet]
     public async Task<IActionResult> List(
-        [FromQuery][Required] Guid deviceId
+        [FromQuery]
+        Models.Filters.MeasurementFilters filters
     )
     {
         if (!ModelState.IsValid)
@@ -32,10 +34,13 @@ public class MeasurementsController : BaseController
             return ValidationError();
         }
 
-        var measurements = await _measurementService.List(deviceId);
-        var result = new PagedResult<Measurement>(
-            measurements.Select(ToModel)
-        );
+        var measurements = await _measurementService.List(new MeasurementFilters
+        {
+            DeviceId = filters.DeviceId,
+            PageIndex = filters.PageIndex,
+            PageSize = filters.PageSize,
+        });
+        var result = measurements.ToPagedResult(ToModel);
 
         return Success(result);
     }

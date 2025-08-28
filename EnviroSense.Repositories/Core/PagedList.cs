@@ -1,16 +1,14 @@
-﻿using EnviroSense.Repositories.Core;
+﻿namespace EnviroSense.Repositories.Core;
 
-namespace EnviroSense.API.Models.Core;
-
-public class PagedResult<T>
+public class PagedList<T>
 {
-    public PagedResult(
+    public PagedList(
         IEnumerable<T> records,
         int pageSize,
         int pageIndex,
         int totalCount,
         int totalPages
-    )
+        )
     {
         Records = records;
         PageSize = pageSize;

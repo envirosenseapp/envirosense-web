@@ -1,6 +1,7 @@
 ﻿using EnviroSense.Application.Services;
 using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
+using EnviroSense.Domain.Filters;
 using EnviroSense.Web.Filters;
 using EnviroSense.Web.ViewModels.Devices;
 using Microsoft.AspNetCore.Mvc;
@@ -125,17 +126,20 @@ namespace EnviroSense.Web.Controllers
 
         public async Task<ActionResult> Measurements(Guid deviceId)
         {
-            var measurementList = await _measurementService.List(deviceId);
+            var measurementList = await _measurementService.List(new MeasurementFilters { DeviceId = deviceId, });
 
-            var viewModelList = measurementList.Select(m => new MeasurementViewModel
-            {
-                Id = m.Id,
-                DeviceName = m.Device.Name,
-                DeviceId = m.DeviceId,
-                Temperature = m.Temperature,
-                Humidity = m.Humidity,
-                RecordingDate = m.RecordingDate
-            }).ToList();
+            //TOOD: handle pagination
+            var viewModelList = measurementList.Records
+                .Select(m => new MeasurementViewModel
+                {
+                    Id = m.Id,
+                    DeviceName = m.Device.Name,
+                    DeviceId = m.DeviceId,
+                    Temperature = m.Temperature,
+                    Humidity = m.Humidity,
+                    RecordingDate = m.RecordingDate
+                })
+                .ToList();
 
             return View(viewModelList);
         }

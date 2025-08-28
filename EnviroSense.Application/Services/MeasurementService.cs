@@ -2,6 +2,8 @@
 using EnviroSense.Application.MeasurementsAggregation;
 using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
+using EnviroSense.Domain.Filters;
+using EnviroSense.Repositories.Core;
 using EnviroSense.Repositories.Repositories;
 
 namespace EnviroSense.Application.Services;
@@ -35,9 +37,9 @@ public class MeasurementService : IMeasurementService
         return await _measureRepository.CreateAsync(measurement);
     }
 
-    public async Task<List<Measurement>> List(Guid deviceId)
+    public async Task<PagedList<Measurement>> List(MeasurementFilters filters)
     {
-        return await _measureRepository.ListAsync(deviceId);
+        return await _measureRepository.ListAsync(filters);
     }
 
     public async Task<Measurement?> GetLastest(Guid deviceId)
