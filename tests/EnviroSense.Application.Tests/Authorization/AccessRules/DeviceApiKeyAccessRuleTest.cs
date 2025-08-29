@@ -81,7 +81,7 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
         {
             Id = accountId,
             Email = "test@test.com",
-            Password = "1234" 
+            Password = "1234"
         };
 
         return new List<ApiKey>
@@ -92,7 +92,7 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
                 Name = "Test Key 1",
                 KeyHash = "hash1",
                 AccountId = accountId,
-                Account = account   
+                Account = account
             },
             new ApiKey
             {
@@ -101,7 +101,7 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
                 KeyHash = "hash2",
                 DisabledAt = DateTime.UtcNow,
                 AccountId = accountId,
-                Account = account   
+                Account = account
             }
         };
     }
