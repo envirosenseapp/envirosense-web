@@ -1,5 +1,7 @@
-﻿using EnviroSense.Application;
+﻿using System.Reflection;
+using EnviroSense.Application;
 using EnviroSense.Plugins.PostgresRepositories;
+using EnviroSense.Plugins.RazorEmailing;
 using EnviroSense.Plugins.SMTPClient;
 using EnviroSense.Web;
 using EnviroSense.Web.Filters;
@@ -23,6 +25,7 @@ builder.Services.AddDistributedPostgresCache(options =>
 });
 builder.Services.AddSMTPClient(builder.Configuration.GetRequiredSection("EmailSettings") ??
                                throw new Exception("Missing email settings"));
+builder.Services.AddRazorEmailing();
 
 builder.Services.AddWebServices();
 
