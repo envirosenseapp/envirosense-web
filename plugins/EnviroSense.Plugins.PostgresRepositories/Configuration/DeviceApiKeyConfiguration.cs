@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EnviroSense.Plugins.PostgresRepositories.Configuration;
 
-internal class DeviceApiKeyConfiguration : IEntityTypeConfiguration<DeviceApiKey>
+internal class ApiKeyConfiguration : IEntityTypeConfiguration<ApiKey>
 {
-    public void Configure(EntityTypeBuilder<DeviceApiKey> builder)
+    public void Configure(EntityTypeBuilder<ApiKey> builder)
     {
-        builder.ToTable("device_api_keys");
+        builder.ToTable("api_keys");
 
         builder.HasKey(e => e.Id);
 
@@ -22,12 +22,12 @@ internal class DeviceApiKeyConfiguration : IEntityTypeConfiguration<DeviceApiKey
             .HasColumnName("key_hash")
             .IsRequired();
 
-        builder.Property(e => e.DeviceId)
-            .HasColumnName("device_id");
+        builder.Property(e => e.AccountId)
+            .HasColumnName("account_id");
 
-        builder.HasOne(e => e.Device)
+        builder.HasOne(e => e.Account)
             .WithMany(e => e.ApiKeys)
-            .HasForeignKey(e => e.DeviceId)
+            .HasForeignKey(e => e.AccountId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(e => e.DisabledAt)

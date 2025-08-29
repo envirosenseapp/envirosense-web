@@ -1,0 +1,60 @@
+@model List<EnviroSense.Web.ViewModels.ApiKeys.ApiKeysViewModel>
+@{
+    ViewData["Title"] = "API Key";
+}
+
+<div class="card shadow-lg rounded-4 mb-4">
+    <div class="card-header bg-secondary text-white rounded-top-4">
+        <h5 class="card-title mb-0 fw-semibold">API Keys</h5>
+    </div>
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var k in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@k.Name</td>
+                            <td>
+                                @if (k.DisabledAt.HasValue)
+                                {
+                                    <span class="badge bg-danger">Disabled</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">Active</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <a asp-action="Details" asp-controller="ApiKeys" asp-route-id="@k.Id"
+                                   class="btn btn-outline-primary btn-sm shadow-sm">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted fst-italic mb-0">No API keys found for this device.</p>
+        }
+    </div>
+</div>
+
+<div class="d-flex flex-wrap gap-2 mb-5">
+    <a  asp-action="Create" asp-controller="ApiKeys" class="btn btn-success shadow-sm">
+        Create API Key
+    </a>
+</div>

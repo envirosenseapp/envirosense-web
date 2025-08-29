@@ -1,4 +1,4 @@
-﻿@model EnviroSense.Web.ViewModels.DeviceApiKeys.DetailsDeviceApiKeyViewModel
+﻿@model EnviroSense.Web.ViewModels.ApiKeys.DetailsDeviceApiKeyViewModel
 
 @{
     ViewData["Title"] = "API Key Details";
@@ -8,7 +8,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">@Model.Name</h4>
+        <h4 class="card-title">@Model.KeyName</h4>
     </div>
     <div class="card-body">
         @if (!string.IsNullOrEmpty(Model.RevealedKey))
@@ -24,11 +24,11 @@
             <dt class="col-sm-3">ID</dt>
             <dd class="col-sm-9">@Model.Id</dd>
 
-            <dt class="col-sm-3">DeviceName</dt>
-            <dd class="col-sm-9">@Model.Name</dd>
+            <dt class="col-sm-3">KeyName</dt>
+            <dd class="col-sm-9">@Model.KeyName</dd>
 
-            <dt class="col-sm-3">Device</dt>
-            <dd class="col-sm-9"><a asp-action="Details" asp-controller="Devices" asp-route-id="@Model.DeviceId">@Model.DeviceName</a></dd>
+            <dt class="col-sm-3">Owner</dt>
+            <dd class="col-sm-9"><a asp-action="Details" asp-controller="Devices">@Model.Owner</a></dd>
 
             <dt class="col-sm-3">Status</dt>
             <dd class="col-sm-9">
@@ -51,8 +51,5 @@
             <dt class="col-sm-3">Created At</dt>
             <dd class="col-sm-9">@Model.CreatedAt</dd>
         </dl>
-    </div>
-    <div class="card-footer">
-        <a asp-action="Details" asp-controller="Devices" asp-route-id="@Model.DeviceId" class="btn btn-secondary">Back to Device</a>
     </div>
 </div>

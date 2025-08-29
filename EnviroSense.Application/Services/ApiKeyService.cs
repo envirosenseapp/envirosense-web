@@ -7,58 +7,62 @@ using Microsoft.Extensions.Logging;
 
 namespace EnviroSense.Application.Services;
 
-public class DeviceApiKeyService : IDeviceApiKeyService
+public class ApiKeyService : IApiKeyService
 {
-    private readonly IDeviceApiKeyRepository _deviceApiKeyRepository;
+    private readonly IApiKeyRepository _apiKeyRepository;
     private readonly IApiKeyGenerator _apiKeyGenerator;
     private readonly IAuthorizationResolver _authorizationResolver;
-    private readonly ILogger<DeviceApiKeyService> _logger;
+    private readonly ILogger<ApiKeyService> _logger;
 
-    public DeviceApiKeyService(
-        IDeviceApiKeyRepository deviceApiKeyRepository,
+    public ApiKeyService(
+        IApiKeyRepository apiKeyRepository,
         IApiKeyGenerator apiKeyGenerator,
         IAuthorizationResolver authorizationResolver,
-        ILogger<DeviceApiKeyService> logger
+        ILogger<ApiKeyService> logger
     )
     {
-        _deviceApiKeyRepository = deviceApiKeyRepository;
+        _apiKeyRepository = apiKeyRepository;
         _apiKeyGenerator = apiKeyGenerator;
         _authorizationResolver = authorizationResolver;
         _logger = logger;
     }
 
-    public async Task<DeviceApiKey> GetByIdAsync(Guid deviceId)
+    public async Task<List<ApiKey>> List(Guid id)
     {
-        var deviceApiKey = await _deviceApiKeyRepository.GetByIdAsync(deviceId);
+        return await _apiKeyRepository.ListAsync(id);
+    }
+
+    public async Task<ApiKey> GetByIdAsync(Guid apiId)
+    {
+        var deviceApiKey = await _apiKeyRepository.GetByIdAsync(apiId);
         await _authorizationResolver.MustHaveAccess(deviceApiKey);
 
         return deviceApiKey;
     }
 
-    public async Task<DeviceApiKey> GetByRawAPIKey(string rawKey)
+    public async Task<ApiKey> GetByRawAPIKey(string rawKey)
     {
         var hash = _apiKeyGenerator.Hash(rawKey);
 
-        return await _deviceApiKeyRepository.GetByHashAsync(hash);
+        return await _apiKeyRepository.GetByHashAsync(hash);
     }
 
-    public async Task<(DeviceApiKey key, string revealedApiKey)> CreateAsync(Device device, string name)
+    public async Task<(ApiKey key, string revealedApiKey)> CreateAsync(string name, Account account)
     {
-        await _authorizationResolver.MustHaveAccess(device);
 
         var key = _apiKeyGenerator.Generate();
         var hash = _apiKeyGenerator.Hash(key);
 
-        var apiKey = new DeviceApiKey()
+        var apiKey = new ApiKey()
         {
-            Device = device,
+            Account = account,
             KeyHash = hash,
             Id = Guid.NewGuid(),
             Name = name,
         };
 
-        apiKey = await _deviceApiKeyRepository.CreateAsync(apiKey);
-        _logger.LogInformation($"Successfully created api key {apiKey.Id} for device {device.Id}");
+        apiKey = await _apiKeyRepository.CreateAsync(apiKey);
+        _logger.LogInformation($"Successfully created api key {apiKey.Id} for  {account.Email}");
 
         return (apiKey, key);
     }

@@ -1,12 +1,10 @@
-﻿namespace EnviroSense.Web.ViewModels.DeviceApiKeys;
+﻿namespace EnviroSense.Web.ViewModels.ApiKeys;
 
 public class DetailsDeviceApiKeyViewModel
 {
-    public string? DeviceName { get; set; }
-    public Guid DeviceId { get; set; }
-
+    public string? KeyName { get; set; }
     public Guid Id { get; set; }
-    public string? Name { get; set; }
+    public string? Owner { get; set; }
     public string? RevealedKey { get; set; }
     public DateTime? DisabledAt { get; set; }
     public DateTime CreatedAt { get; set; }

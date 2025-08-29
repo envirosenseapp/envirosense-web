@@ -5,18 +5,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EnviroSense.Plugins.PostgresRepositories.Repositories;
 
-internal class DeviceApiKeyRepository : IDeviceApiKeyRepository
+internal class ApiKeyRepository : IApiKeyRepository
 {
     private readonly AppDbContext _context;
 
-    public DeviceApiKeyRepository(AppDbContext context)
+    public ApiKeyRepository(AppDbContext context)
     {
         _context = context;
     }
 
-    public async Task<DeviceApiKey> GetByHashAsync(string hash)
+    public async Task<List<ApiKey>> ListAsync(Guid id)
     {
-        var apiKey = await _context.DeviceApiKeys.FirstOrDefaultAsync(d => d.KeyHash == hash);
+        var list = await _context.ApiKeys.Where(x => x.AccountId == id).ToListAsync();
+        return list;
+
+    }
+    public async Task<ApiKey> GetByHashAsync(string hash)
+    {
+        var apiKey = await _context.ApiKeys.FirstOrDefaultAsync(d => d.KeyHash == hash);
         if (apiKey == null)
         {
             throw new DeviceApiKeyNotFound("Device API Key not found");
@@ -25,9 +31,9 @@ internal class DeviceApiKeyRepository : IDeviceApiKeyRepository
         return apiKey;
     }
 
-    public async Task<DeviceApiKey> GetByIdAsync(Guid deviceId)
+    public async Task<ApiKey> GetByIdAsync(Guid apiId)
     {
-        var apiKey = await _context.DeviceApiKeys.FirstOrDefaultAsync(d => d.Id == deviceId);
+        var apiKey = await _context.ApiKeys.FirstOrDefaultAsync(d => d.Id == apiId);
         if (apiKey == null)
         {
             throw new DeviceApiKeyNotFound("Device API Key not found");
@@ -36,9 +42,9 @@ internal class DeviceApiKeyRepository : IDeviceApiKeyRepository
         return apiKey;
     }
 
-    public async Task<DeviceApiKey> CreateAsync(DeviceApiKey apiKey)
+    public async Task<ApiKey> CreateAsync(ApiKey apiKey)
     {
-        var createdEntity = await _context.DeviceApiKeys.AddAsync(apiKey);
+        var createdEntity = await _context.ApiKeys.AddAsync(apiKey);
         await _context.SaveChangesAsync();
 
         return createdEntity.Entity;

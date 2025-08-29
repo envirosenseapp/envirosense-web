@@ -22,7 +22,7 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
     public async Task HasAccess_ShouldCompleteSuccessfully()
     {
         // Arrange
-        var apiKey = SampleDeviceApiKey();
+        var apiKey = SampleDeviceApiKeys().First();
 
         _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(SampleGuid());
@@ -38,7 +38,7 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
     public async Task HasAccess_ShouldFailWhenAccountIDDoesNotMatch()
     {
         // Arrange
-        var apiKey = SampleDeviceApiKey();
+        var apiKey = SampleDeviceApiKeys().First();
 
         _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(Guid.NewGuid());
@@ -54,7 +54,7 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
     public async Task HasAccess_ShouldThrowWhenAccountIDIsNotFound()
     {
         // Arrange
-        var apiKey = SampleDeviceApiKey();
+        var apiKey = SampleDeviceApiKeys().First();
 
         _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(Utils.Null<Guid?>());
@@ -73,22 +73,35 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
         return Guid.Parse("5fe7be6c-4ce6-43ce-94f5-e4f91df55a74");
     }
 
-    private DeviceApiKey SampleDeviceApiKey()
+    private List<ApiKey> SampleDeviceApiKeys()
     {
-        return new DeviceApiKey()
+        var accountId = SampleGuid();
+
+        var account = new Account
         {
-            Id = Guid.NewGuid(),
-            Name = "Test Key",
-            KeyHash = "",
-            Device = new Device()
+            Id = accountId,
+            Email = "test@test.com",
+            Password = "1234"
+        };
+
+        return new List<ApiKey>
+        {
+            new ApiKey
             {
-                Name = "Test device",
-                AccountId = SampleGuid(),
-                Account = new Account
-                {
-                    Email = "a@a.com",
-                    Password = "p"
-                },
+                Id = Guid.NewGuid(),
+                Name = "Test Key 1",
+                KeyHash = "hash1",
+                AccountId = accountId,
+                Account = account
+            },
+            new ApiKey
+            {
+                Id = Guid.NewGuid(),
+                Name = "Test Key 2",
+                KeyHash = "hash2",
+                DisabledAt = DateTime.UtcNow,
+                AccountId = accountId,
+                Account = account
             }
         };
     }

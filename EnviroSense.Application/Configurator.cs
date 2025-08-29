@@ -19,12 +19,12 @@ public static class Configurator
         serviceCollection.AddScoped<IAccessService, AccessService>();
         serviceCollection.AddScoped<IAccountService, AccountService>();
         serviceCollection.AddScoped<IAccountPasswordResetService, AccountPasswordResetService>();
-        serviceCollection.AddScoped<IDeviceApiKeyService, DeviceApiKeyService>();
+        serviceCollection.AddScoped<IApiKeyService, ApiKeyService>();
 
         // authorization
         serviceCollection.AddScoped<IAccessRule<Device>, DeviceAccessRule>();
         serviceCollection.AddScoped<IAccessRule<Measurement>, MeasurementAccessRule>();
-        serviceCollection.AddScoped<IAccessRule<DeviceApiKey>, DeviceApiKeyAccessRule>();
+        serviceCollection.AddScoped<IAccessRule<ApiKey>, DeviceApiKeyAccessRule>();
         serviceCollection.AddScoped<IAuthorizationResolver, AuthorizationResolver>();
 
         // other
