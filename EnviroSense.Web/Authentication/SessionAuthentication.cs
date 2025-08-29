@@ -28,10 +28,8 @@ public class SessionAuthentication : ISessionAuthentication
         if (isPasswordValid)
         {
             _httpContextAccessor.HttpContext?.Session.SetString("authenticated_account_id", account.Id.ToString());
-            await _emailSender.SendEmailAsync(new SendSignedInEmail()
+            await _emailSender.SendEmailAsync(account.Email, new SendSignedInEmailPayload()
             {
-                Email = account.Email,
-                Title = "You are successfully signed in.",
                 LoginDate = DateTime.UtcNow,
             });
             return account;

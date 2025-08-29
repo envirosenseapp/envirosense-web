@@ -12,9 +12,7 @@ public static class Configurator
     public static void AddRazorEmailing(this IServiceCollection serviceCollection)
     {
         // renders
-        serviceCollection.AddSingleton<IEmailRenderer<SendSignedInEmail>, SendSignedInEmailRender>();
-
-        var resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+        serviceCollection.AddSingleton<IEmailRenderer<SendSignedInEmailPayload>, SendSignedInEmailRender>();
 
         // engine
         var razor = new RazorLightEngineBuilder()

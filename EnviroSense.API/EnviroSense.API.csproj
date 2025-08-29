@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EnviroSense.Application\EnviroSense.Application.csproj" />
     <ProjectReference Include="..\plugins\EnviroSense.Plugins.PostgresRepositories\EnviroSense.Plugins.PostgresRepositories.csproj" />
+    <ProjectReference Include="..\plugins\EnviroSense.Plugins.RazorEmailing\EnviroSense.Plugins.RazorEmailing.csproj" />
     <ProjectReference Include="..\plugins\EnviroSense.Plugins.SMTPClient\EnviroSense.Plugins.SMTPClient.csproj" />
   </ItemGroup>
 

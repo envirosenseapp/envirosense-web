@@ -2,7 +2,7 @@
 
 namespace EnviroSense.Domain.Emailing;
 
-public class SendSignedInEmail : BaseEmail
+public class SendSignedInEmailPayload : BaseEmail
 {
     public required DateTime LoginDate { get; set; }
 }

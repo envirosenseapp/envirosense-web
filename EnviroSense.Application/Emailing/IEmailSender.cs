@@ -4,5 +4,5 @@ namespace EnviroSense.Application.Emailing;
 
 public interface IEmailSender
 {
-    Task SendEmailAsync<T>(T payload) where T : BaseEmail;
+    Task SendEmailAsync<T>(string email, T payload) where T : BaseEmail;
 }

@@ -2,6 +2,7 @@
 using EnviroSense.API.Filters;
 using EnviroSense.Application;
 using EnviroSense.Plugins.PostgresRepositories;
+using EnviroSense.Plugins.RazorEmailing;
 using EnviroSense.Plugins.SMTPClient;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,7 @@ builder.Services.AddDistributedPostgresCache(options =>
     options.UseWAL = false;
 });
 builder.Services.AddSMTPClient(builder.Configuration.GetRequiredSection("EmailSettings") ?? throw new Exception("Missing email settings"));
+builder.Services.AddRazorEmailing();
 builder.Services.AddAPIServices();
 
 var app = builder.Build();

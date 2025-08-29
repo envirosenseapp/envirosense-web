@@ -21,18 +21,18 @@ public class EmailSender : IEmailSender
         _logger = logger;
     }
 
-    public async Task SendEmailAsync<T>(T payload) where T : BaseEmail
+    public async Task SendEmailAsync<T>(string email, T payload) where T : BaseEmail
     {
         var renderer = _serviceProvider.GetRequiredService<IEmailRenderer<T>>();
 
         _logger.LogDebug("Rendering email body");
-        var body = await renderer.Render(payload);
+        var renderedEmail = await renderer.Render(payload);
 
         _logger.LogDebug("Sending email");
         await _emailClient.SendMail(
-            payload.Title,
-            body,
-            payload.Email
+            renderedEmail.Title,
+            renderedEmail.Body,
+            email
             );
 
         _logger.LogInformation("Email sent");

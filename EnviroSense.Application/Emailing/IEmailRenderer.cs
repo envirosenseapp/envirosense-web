@@ -1,6 +1,8 @@
-﻿namespace EnviroSense.Application.Emailing;
+﻿using EnviroSense.Domain.Emailing;
+
+namespace EnviroSense.Application.Emailing;
 
 public interface IEmailRenderer<T>
 {
-    Task<string> Render(T model);
+    Task<RenderedEmail> Render(T model);
 }
