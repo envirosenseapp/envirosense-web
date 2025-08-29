@@ -18,7 +18,7 @@ internal class ApiKeyRepository : IApiKeyRepository
     {
         var list = await _context.ApiKeys.Where(x => x.AccountId == id).ToListAsync();
         return list;
-        
+
     }
     public async Task<ApiKey> GetByHashAsync(string hash)
     {

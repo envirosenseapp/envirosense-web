@@ -10,5 +10,5 @@ public class Device
     public DateTime CreatedAt { get; set; }
 
     public virtual ICollection<Measurement> Measurements { get; set; } = new List<Measurement>();
-   
+
 }

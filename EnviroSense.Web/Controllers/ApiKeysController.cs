@@ -29,7 +29,7 @@ public class ApiKeysController : Controller
     {
         var accountId = await _sessionAuthentication.CurrentAccountId();
         var list = await _apiKeyService.List(accountId.Value);
-        var viewModel = list.Select(a=> new ApiKeysViewModel
+        var viewModel = list.Select(a => new ApiKeysViewModel
         {
             Id = a.Id,
             Name = a.Name,
