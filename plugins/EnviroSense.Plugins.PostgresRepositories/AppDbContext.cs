@@ -12,7 +12,7 @@ internal class AppDbContext : DbContext
     }
     public required DbSet<Access> Accesses { get; set; }
     public required DbSet<Device> Devices { get; set; }
-    public required DbSet<DeviceApiKey> DeviceApiKeys { get; set; }
+    public required DbSet<ApiKey> ApiKeys { get; set; }
     public required DbSet<Measurement> Measurements { get; set; }
     public required DbSet<Account> Accounts { get; set; }
     public required DbSet<AccountPasswordReset> AccountPasswordResets { get; set; }
@@ -28,6 +28,6 @@ internal class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new MeasurementConfiguration());
         modelBuilder.ApplyConfiguration(new AccountConfiguration());
         modelBuilder.ApplyConfiguration(new AccountPasswordResetConfiguration());
-        modelBuilder.ApplyConfiguration(new DeviceApiKeyConfiguration());
+        modelBuilder.ApplyConfiguration(new ApiKeyConfiguration());
     }
 }

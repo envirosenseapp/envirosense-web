@@ -73,22 +73,17 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
         return Guid.Parse("5fe7be6c-4ce6-43ce-94f5-e4f91df55a74");
     }
 
-    private DeviceApiKey SampleDeviceApiKey()
+    private ApiKey SampleDeviceApiKey()
     {
-        return new DeviceApiKey()
+        return new ApiKey()
         {
             Id = Guid.NewGuid(),
             Name = "Test Key",
             KeyHash = "",
-            Device = new Device()
+            Account = new Account()
             {
-                Name = "Test device",
-                AccountId = SampleGuid(),
-                Account = new Account
-                {
-                    Email = "a@a.com",
-                    Password = "p"
-                },
+                Email = "a@a.com",
+                Password = "p"
             }
         };
     }

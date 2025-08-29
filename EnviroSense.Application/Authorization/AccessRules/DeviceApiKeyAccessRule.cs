@@ -4,14 +4,14 @@ using EnviroSense.Domain.Entities;
 
 namespace EnviroSense.Application.Authorization.AccessRules;
 
-public class DeviceApiKeyAccessRule : BaseAccessRule<DeviceApiKey>
+public class DeviceApiKeyAccessRule : BaseAccessRule<ApiKey>
 {
     public DeviceApiKeyAccessRule(IAuthenticationContext authenticationContext) : base(authenticationContext)
     {
     }
 
-    protected override Task<bool> AccountHasAccess(Guid accountId, DeviceApiKey entity)
+    protected override Task<bool> AccountHasAccess(Guid accountId, ApiKey entity)
     {
-        return Task.FromResult(entity.Device.AccountId == accountId);
+        return Task.FromResult(entity.AccountId == accountId);
     }
 }

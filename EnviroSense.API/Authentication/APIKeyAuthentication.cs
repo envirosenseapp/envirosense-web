@@ -11,9 +11,9 @@ namespace EnviroSense.API.Authentication;
 public class APIKeyAuthentication : IAuthenticationContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IDeviceApiKeyService _apiKeyService;
+    private readonly IApiKeyService _apiKeyService;
 
-    public APIKeyAuthentication(IHttpContextAccessor httpContextAccessor, IDeviceApiKeyService apiKeyService)
+    public APIKeyAuthentication(IHttpContextAccessor httpContextAccessor, IApiKeyService apiKeyService)
     {
         _httpContextAccessor = httpContextAccessor;
         _apiKeyService = apiKeyService;
@@ -49,7 +49,7 @@ public class APIKeyAuthentication : IAuthenticationContext
         {
             var apiKey = await _apiKeyService.GetByRawAPIKey(key);
 
-            return apiKey.Device.Account;
+            return apiKey.Account;
         }
         catch (DeviceApiKeyNotFound)
         {

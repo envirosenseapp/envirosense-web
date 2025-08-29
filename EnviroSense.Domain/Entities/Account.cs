@@ -11,4 +11,5 @@ public class Account
     public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
     public virtual ICollection<Access> Accesses { get; set; } = new List<Access>();
     public virtual ICollection<AccountPasswordReset> PasswordResets { get; set; } = new List<AccountPasswordReset>();
+    public virtual ICollection<ApiKey> ApiKeys { get; set; } = new List<ApiKey>();
 }

@@ -1,4 +1,4 @@
-@model EnviroSense.Web.ViewModels.DeviceApiKeys.CreateDeviceApiKeyViewModel
+@model EnviroSense.Web.ViewModels.ApiKeys.CreateDeviceApiKeyViewModel
 @{
     ViewData["Title"] = "Add Device API Key";
 }
@@ -6,11 +6,8 @@
 <div class="row">
     <div class="col-md-6 offset-md-3">
         <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Add a New API Key to @Model.DeviceName</h4>
-            </div>
             <div class="card-body">
-                <form asp-action="Create" method="post" asp-route-deviceId="@Model.DeviceId">
+                <form asp-action="Create" method="post" >
                     <div class="form-group mb-3">
                         <label asp-for="Name" class="form-label">DeviceName</label>
                         <input asp-for="Name"  type="text" class="form-control" placeholder="Enter name for this key" required/>
@@ -18,9 +15,6 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Add API Key</button>
                 </form>
-            </div>
-            <div class="card-footer text-muted">
-                <a asp-action="Details" asp-controller="Devices" asp-route-id="@Model.DeviceId">Back to Devices</a>
             </div>
         </div>
     </div>

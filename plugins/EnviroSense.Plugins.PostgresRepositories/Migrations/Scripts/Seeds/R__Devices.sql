@@ -311,8 +311,8 @@ ON CONFLICT (id) DO UPDATE
 
 --- API Keys ---
 
-INSERT INTO public.device_api_keys (
-    id, name, key_hash, device_id, disabled_at, created_at
+INSERT INTO public.api_keys (
+    id, name, key_hash, account_id, disabled_at, created_at
 )
 VALUES (
     --- Outside thermometer API Key ---
@@ -320,7 +320,7 @@ VALUES (
     'b9cf1f88-2838-40b1-9cb4-ecf23e610215',
     'First API key',
     'gr3ko+vvD20PyPJbRNvP11nGt4gCcUJ2zKOxjrPdScY=',
-    '1be27889-adcc-49a5-b686-00f2b09c8510',
+    'c237acfd-2a83-4390-923f-26bf4e84065c',
     null,
     '2025-08-18 20:28:27.231119'
 )
@@ -329,6 +329,6 @@ ON CONFLICT (id) DO UPDATE
     SET
         name = excluded.name,
         key_hash = excluded.key_hash,
-        device_id = excluded.device_id,
+        account_id = excluded.account_id,
         disabled_at = excluded.disabled_at,
         created_at = excluded.created_at;
