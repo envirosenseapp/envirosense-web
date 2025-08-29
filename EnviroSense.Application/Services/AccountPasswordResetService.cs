@@ -1,6 +1,6 @@
-﻿using EnviroSense.Domain.Entities;
+﻿using EnviroSense.Application.Emailing;
+using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
-using EnviroSense.Repositories.Clients;
 using EnviroSense.Repositories.Repositories;
 using BCryptNet = BCrypt.Net.BCrypt;
 

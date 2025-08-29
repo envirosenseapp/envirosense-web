@@ -2,6 +2,7 @@
 using EnviroSense.Application.Authentication;
 using EnviroSense.Application.Authorization;
 using EnviroSense.Application.Authorization.AccessRules;
+using EnviroSense.Application.Emailing;
 using EnviroSense.Application.Services;
 using EnviroSense.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,5 +29,6 @@ public static class Configurator
 
         // other
         serviceCollection.AddSingleton<IApiKeyGenerator, GuidApiKeyGenerator>();
+        serviceCollection.AddSingleton<IEmailSender, EmailSender>();
     }
 }

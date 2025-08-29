@@ -1,4 +1,4 @@
-﻿namespace EnviroSense.Repositories.Clients;
+﻿namespace EnviroSense.Application.Emailing;
 
 public interface IEmailClient
 {

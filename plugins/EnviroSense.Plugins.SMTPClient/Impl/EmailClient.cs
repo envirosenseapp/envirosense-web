@@ -1,4 +1,4 @@
-﻿using EnviroSense.Repositories.Clients;
+﻿using EnviroSense.Application.Emailing;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

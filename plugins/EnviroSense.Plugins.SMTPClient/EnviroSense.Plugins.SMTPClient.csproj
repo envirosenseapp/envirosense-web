@@ -7,6 +7,7 @@
     </PropertyGroup>
     
     <ItemGroup>
+      <ProjectReference Include="..\..\EnviroSense.Application\EnviroSense.Application.csproj" />
       <ProjectReference Include="..\..\EnviroSense.Repositories\EnviroSense.Repositories.csproj" />
     </ItemGroup>
 

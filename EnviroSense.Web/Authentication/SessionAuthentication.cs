@@ -1,7 +1,8 @@
-﻿using EnviroSense.Application.Services;
+﻿using EnviroSense.Application.Emailing;
+using EnviroSense.Application.Services;
+using EnviroSense.Domain.Emailing;
 using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
-using EnviroSense.Repositories.Clients;
 using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace EnviroSense.Web.Authentication;
@@ -10,13 +11,13 @@ public class SessionAuthentication : ISessionAuthentication
 {
     private readonly IAccountService _accountService;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IEmailClient _emailClient;
+    private readonly IEmailSender _emailSender;
 
-    public SessionAuthentication(IAccountService accountService, IHttpContextAccessor httpContextAccessor, IEmailClient emailClient)
+    public SessionAuthentication(IAccountService accountService, IHttpContextAccessor httpContextAccessor, IEmailSender emailSender)
     {
         _accountService = accountService;
         _httpContextAccessor = httpContextAccessor;
-        _emailClient = emailClient;
+        _emailSender = emailSender;
     }
 
     public async Task<Account> Login(string email, string password)
@@ -27,8 +28,10 @@ public class SessionAuthentication : ISessionAuthentication
         if (isPasswordValid)
         {
             _httpContextAccessor.HttpContext?.Session.SetString("authenticated_account_id", account.Id.ToString());
-            await _emailClient.SendMail("Welcome to EnviroSense!",
-                "You are successfully signed in.", account.Email);
+            await _emailSender.SendEmailAsync(account.Email, new SendSignedInEmailPayload()
+            {
+                LoginDate = DateTime.UtcNow,
+            });
             return account;
         }
         else
