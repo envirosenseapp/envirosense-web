@@ -1,58 +1,59 @@
 ﻿using EnviroSense.Application.Services;
 using EnviroSense.Domain.Exceptions;
+using EnviroSense.Web.Authentication;
 using EnviroSense.Web.Filters;
-using EnviroSense.Web.ViewModels.DeviceApiKeys;
+using EnviroSense.Web.ViewModels.ApiKeys;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnviroSense.Web.Controllers;
 
 [TypeFilter(typeof(SignedInFilter))]
-public class DeviceApiKeysController : Controller
+public class ApiKeysController : Controller
 {
     private const string TempDataRevealedKey = "RevealedKey";
 
     private readonly IDeviceService _deviceService;
-    private readonly IDeviceApiKeyService _apiKeyService;
+    private readonly IApiKeyService _apiKeyService;
+    private readonly ISessionAuthentication _sessionAuthentication;
+    private readonly IAccountService _accountService;
 
-    public DeviceApiKeysController(IDeviceService deviceService, IDeviceApiKeyService apiKeyService)
+    public ApiKeysController(IDeviceService deviceService, IApiKeyService apiKeyService, ISessionAuthentication sessionAuthentication, IAccountService accountService)
     {
         _deviceService = deviceService;
         _apiKeyService = apiKeyService;
+        _sessionAuthentication = sessionAuthentication;
+        _accountService = accountService;
+    }
+
+    public async Task<IActionResult> ApiKeys()
+    {
+        var list = await _apiKeyService.List();
+        var viewModel = list.Select(a => new ApiKeyViewModel
+        {
+            Id = a.Id,
+            Name = a.Name,
+            DisabledAt = a.DisabledAt,
+        }).ToList();
+        return View(viewModel);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Create(Guid deviceId)
+    public IActionResult Create()
     {
-        try
-        {
-            var device = await _deviceService.Get(deviceId);
-            var viewModel = new CreateDeviceApiKeyViewModel
-            {
-                DeviceId = device.Id,
-                DeviceName = device.Name,
-            };
-
-            return View(viewModel);
-        }
-        catch (DeviceNotFoundException)
-        {
-            return NotFound();
-        }
+        return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Guid deviceId, CreateDeviceApiKeyViewModel input)
+    public async Task<IActionResult> Create(CreateApiKeyViewModel input)
     {
         if (!ModelState.IsValid)
         {
-            return await Create(deviceId);
+            return Create();
         }
 
         try
         {
-            var device = await _deviceService.Get(deviceId);
-
-            var (apiKey, revealedKey) = await _apiKeyService.CreateAsync(device, input.Name);
+            var (apiKey, revealedKey) = await _apiKeyService.CreateAsync(input.Name);
             TempData[TempDataRevealedKey] = revealedKey;
 
             return RedirectToAction("Details", new { id = apiKey.Id });
@@ -69,12 +70,10 @@ public class DeviceApiKeysController : Controller
         try
         {
             var apiKey = await _apiKeyService.GetByIdAsync(id);
-            var viewModel = new DetailsDeviceApiKeyViewModel
+            var viewModel = new DetailsApiKeyViewModel
             {
                 Id = apiKey.Id,
-                DeviceId = apiKey.DeviceId,
-                DeviceName = apiKey.Device?.Name ?? "",
-                Name = apiKey.Name,
+                KeyName = apiKey.Name,
                 RevealedKey = TempData[TempDataRevealedKey]?.ToString(),
                 DisabledAt = apiKey.DisabledAt,
                 CreatedAt = apiKey.CreatedAt,
