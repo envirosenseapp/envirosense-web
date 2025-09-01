@@ -55,9 +55,7 @@ public class ApiKeysController : Controller
         try
         {
             var accountId = await _sessionAuthentication.CurrentAccountId();
-            var account = await _accountService.GetAccountById(accountId.Value);
-
-            var (apiKey, revealedKey) = await _apiKeyService.CreateAsync(input.Name, account);
+            var (apiKey, revealedKey) = await _apiKeyService.CreateAsync(input.Name, accountId.Value);
             TempData[TempDataRevealedKey] = revealedKey;
 
             return RedirectToAction("Details", new { id = apiKey.Id });
@@ -78,7 +76,6 @@ public class ApiKeysController : Controller
             {
                 Id = apiKey.Id,
                 KeyName = apiKey.Name,
-                Owner = apiKey.Account.Email,
                 RevealedKey = TempData[TempDataRevealedKey]?.ToString(),
                 DisabledAt = apiKey.DisabledAt,
                 CreatedAt = apiKey.CreatedAt,

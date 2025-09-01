@@ -12,18 +12,22 @@ public class ApiKeyService : IApiKeyService
     private readonly IApiKeyGenerator _apiKeyGenerator;
     private readonly IAuthorizationResolver _authorizationResolver;
     private readonly ILogger<ApiKeyService> _logger;
+    private readonly IAccountService _accountService;
 
     public ApiKeyService(
         IApiKeyRepository apiKeyRepository,
         IApiKeyGenerator apiKeyGenerator,
         IAuthorizationResolver authorizationResolver,
-        ILogger<ApiKeyService> logger
+        ILogger<ApiKeyService> logger,
+        IAccountService accountService
     )
     {
         _apiKeyRepository = apiKeyRepository;
         _apiKeyGenerator = apiKeyGenerator;
         _authorizationResolver = authorizationResolver;
         _logger = logger;
+        _accountService = accountService;
+
     }
 
     public async Task<List<ApiKey>> List(Guid accountId)
@@ -33,10 +37,10 @@ public class ApiKeyService : IApiKeyService
 
     public async Task<ApiKey> GetByIdAsync(Guid Id)
     {
-        var deviceApiKey = await _apiKeyRepository.GetByIdAsync(Id);
-        await _authorizationResolver.MustHaveAccess(deviceApiKey);
+        var apiKey = await _apiKeyRepository.GetByIdAsync(Id);
+        await _authorizationResolver.MustHaveAccess(apiKey);
 
-        return deviceApiKey;
+        return apiKey;
     }
 
     public async Task<ApiKey> GetByRawAPIKey(string rawKey)
@@ -46,9 +50,9 @@ public class ApiKeyService : IApiKeyService
         return await _apiKeyRepository.GetByHashAsync(hash);
     }
 
-    public async Task<(ApiKey key, string revealedApiKey)> CreateAsync(string name, Account account)
+    public async Task<(ApiKey key, string revealedApiKey)> CreateAsync(string name, Guid accountId)
     {
-
+        var account = await _accountService.GetAccountById(accountId);
         var key = _apiKeyGenerator.Generate();
         var hash = _apiKeyGenerator.Hash(key);
 
