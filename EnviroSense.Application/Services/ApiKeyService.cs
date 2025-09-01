@@ -1,4 +1,5 @@
 ﻿using EnviroSense.Application.Algorithms;
+using EnviroSense.Application.Authentication;
 using EnviroSense.Application.Authorization;
 using EnviroSense.Domain.Entities;
 using EnviroSense.Repositories.Repositories;
@@ -13,13 +14,15 @@ public class ApiKeyService : IApiKeyService
     private readonly IAuthorizationResolver _authorizationResolver;
     private readonly ILogger<ApiKeyService> _logger;
     private readonly IAccountService _accountService;
+    private readonly IAuthenticationContext _authenticationContext;
 
     public ApiKeyService(
         IApiKeyRepository apiKeyRepository,
         IApiKeyGenerator apiKeyGenerator,
         IAuthorizationResolver authorizationResolver,
         ILogger<ApiKeyService> logger,
-        IAccountService accountService
+        IAccountService accountService,
+        IAuthenticationContext authenticationContext
     )
     {
         _apiKeyRepository = apiKeyRepository;
@@ -27,17 +30,19 @@ public class ApiKeyService : IApiKeyService
         _authorizationResolver = authorizationResolver;
         _logger = logger;
         _accountService = accountService;
+        _authenticationContext = authenticationContext;
 
     }
 
-    public async Task<List<ApiKey>> List(Guid accountId)
+    public async Task<List<ApiKey>> List()
     {
-        return await _apiKeyRepository.ListAsync(accountId);
+        var accountId = await _authenticationContext.CurrentAccountId();
+        return await _apiKeyRepository.ListAsync(accountId.Value);
     }
 
-    public async Task<ApiKey> GetByIdAsync(Guid Id)
+    public async Task<ApiKey> GetByIdAsync(Guid id)
     {
-        var apiKey = await _apiKeyRepository.GetByIdAsync(Id);
+        var apiKey = await _apiKeyRepository.GetByIdAsync(id);
         await _authorizationResolver.MustHaveAccess(apiKey);
 
         return apiKey;
@@ -50,9 +55,10 @@ public class ApiKeyService : IApiKeyService
         return await _apiKeyRepository.GetByHashAsync(hash);
     }
 
-    public async Task<(ApiKey key, string revealedApiKey)> CreateAsync(string name, Guid accountId)
+    public async Task<(ApiKey key, string revealedApiKey)> CreateAsync(string name)
     {
-        var account = await _accountService.GetAccountById(accountId);
+        var accountId = await _authenticationContext.CurrentAccountId();
+        var account = await _accountService.GetAccountById(accountId.Value);
         var key = _apiKeyGenerator.Generate();
         var hash = _apiKeyGenerator.Hash(key);
 

@@ -27,9 +27,8 @@ public class ApiKeysController : Controller
 
     public async Task<IActionResult> ApiKeys()
     {
-        var accountId = await _sessionAuthentication.CurrentAccountId();
-        var list = await _apiKeyService.List(accountId.Value);
-        var viewModel = list.Select(a => new ApiKeysViewModel
+        var list = await _apiKeyService.List();
+        var viewModel = list.Select(a => new ApiKeyViewModel
         {
             Id = a.Id,
             Name = a.Name,
@@ -54,8 +53,7 @@ public class ApiKeysController : Controller
 
         try
         {
-            var accountId = await _sessionAuthentication.CurrentAccountId();
-            var (apiKey, revealedKey) = await _apiKeyService.CreateAsync(input.Name, accountId.Value);
+            var (apiKey, revealedKey) = await _apiKeyService.CreateAsync(input.Name);
             TempData[TempDataRevealedKey] = revealedKey;
 
             return RedirectToAction("Details", new { id = apiKey.Id });
@@ -72,7 +70,7 @@ public class ApiKeysController : Controller
         try
         {
             var apiKey = await _apiKeyService.GetByIdAsync(id);
-            var viewModel = new DetailsDeviceApiKeyViewModel
+            var viewModel = new DetailsApiKeyViewModel
             {
                 Id = apiKey.Id,
                 KeyName = apiKey.Name,

@@ -22,7 +22,7 @@ public class ApiKeyAccessRuleTest : IDisposable
     public async Task HasAccess_ShouldCompleteSuccessfully()
     {
         // Arrange
-        var apiKey = SampleDeviceApiKeys();
+        var apiKey = SampleApiKey();
 
         _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(SampleGuid());
@@ -38,7 +38,7 @@ public class ApiKeyAccessRuleTest : IDisposable
     public async Task HasAccess_ShouldFailWhenAccountIDDoesNotMatch()
     {
         // Arrange
-        var apiKey = SampleDeviceApiKeys();
+        var apiKey = SampleApiKey();
 
         _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(Guid.NewGuid());
@@ -54,7 +54,7 @@ public class ApiKeyAccessRuleTest : IDisposable
     public async Task HasAccess_ShouldThrowWhenAccountIDIsNotFound()
     {
         // Arrange
-        var apiKey = SampleDeviceApiKeys();
+        var apiKey = SampleApiKey();
 
         _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(Utils.Null<Guid?>());
@@ -73,7 +73,7 @@ public class ApiKeyAccessRuleTest : IDisposable
         return Guid.Parse("5fe7be6c-4ce6-43ce-94f5-e4f91df55a74");
     }
 
-    private ApiKey SampleDeviceApiKeys()
+    private ApiKey SampleApiKey()
     {
         var accountId = SampleGuid();
 

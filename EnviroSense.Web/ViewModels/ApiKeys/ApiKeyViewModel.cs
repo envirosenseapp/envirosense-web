@@ -1,6 +1,6 @@
 ﻿namespace EnviroSense.Web.ViewModels.ApiKeys;
 
-public class ApiKeysViewModel
+public class ApiKeyViewModel
 {
     public Guid Id { get; set; }
     public required string Name { get; set; }
