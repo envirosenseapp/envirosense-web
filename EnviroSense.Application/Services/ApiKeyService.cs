@@ -57,8 +57,7 @@ public class ApiKeyService : IApiKeyService
 
     public async Task<(ApiKey key, string revealedApiKey)> CreateAsync(string name)
     {
-        var accountId = await _authenticationContext.CurrentAccountId();
-        var account = await _accountService.GetAccountById(accountId.Value);
+        var account = await _authenticationContext.CurrentAccount();
         var key = _apiKeyGenerator.Generate();
         var hash = _apiKeyGenerator.Hash(key);
 
@@ -71,7 +70,7 @@ public class ApiKeyService : IApiKeyService
         };
 
         apiKey = await _apiKeyRepository.CreateAsync(apiKey);
-        _logger.LogInformation($"Successfully created api key {apiKey.Id} for  {account.Email}");
+        _logger.LogInformation($"Successfully created api key {apiKey.Id} for {account.Email}");
 
         return (apiKey, key);
     }
