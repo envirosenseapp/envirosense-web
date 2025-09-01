@@ -14,9 +14,9 @@ internal class ApiKeyRepository : IApiKeyRepository
         _context = context;
     }
 
-    public async Task<List<ApiKey>> ListAsync(Guid id)
+    public async Task<List<ApiKey>> ListAsync(Guid accountId)
     {
-        var list = await _context.ApiKeys.Where(x => x.AccountId == id).ToListAsync();
+        var list = await _context.ApiKeys.Where(x => x.AccountId == accountId).ToListAsync();
         return list;
 
     }
@@ -31,9 +31,9 @@ internal class ApiKeyRepository : IApiKeyRepository
         return apiKey;
     }
 
-    public async Task<ApiKey> GetByIdAsync(Guid apiId)
+    public async Task<ApiKey> GetByIdAsync(Guid Id)
     {
-        var apiKey = await _context.ApiKeys.FirstOrDefaultAsync(d => d.Id == apiId);
+        var apiKey = await _context.ApiKeys.FirstOrDefaultAsync(d => d.Id == Id);
         if (apiKey == null)
         {
             throw new DeviceApiKeyNotFound("Device API Key not found");

@@ -7,22 +7,22 @@ using Moq;
 
 namespace EnviroSense.Application.Tests.Authorization.AccessRules;
 
-public class DeviceApiKeyAccessRuleTest : IDisposable
+public class ApiKeyAccessRuleTest : IDisposable
 {
     private readonly Mock<IAuthenticationContext> _authenticationContext;
-    private readonly DeviceApiKeyAccessRule _accessRule;
+    private readonly ApiKeyAccessRule _accessRule;
 
-    public DeviceApiKeyAccessRuleTest()
+    public ApiKeyAccessRuleTest()
     {
         _authenticationContext = new Mock<IAuthenticationContext>();
-        _accessRule = new DeviceApiKeyAccessRule(_authenticationContext.Object);
+        _accessRule = new ApiKeyAccessRule(_authenticationContext.Object);
     }
 
     [Fact]
     public async Task HasAccess_ShouldCompleteSuccessfully()
     {
         // Arrange
-        var apiKey = SampleDeviceApiKeys().First();
+        var apiKey = SampleDeviceApiKeys();
 
         _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(SampleGuid());
@@ -38,7 +38,7 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
     public async Task HasAccess_ShouldFailWhenAccountIDDoesNotMatch()
     {
         // Arrange
-        var apiKey = SampleDeviceApiKeys().First();
+        var apiKey = SampleDeviceApiKeys();
 
         _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(Guid.NewGuid());
@@ -54,7 +54,7 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
     public async Task HasAccess_ShouldThrowWhenAccountIDIsNotFound()
     {
         // Arrange
-        var apiKey = SampleDeviceApiKeys().First();
+        var apiKey = SampleDeviceApiKeys();
 
         _authenticationContext.Setup(s => s.CurrentAccountId())
             .ReturnsAsync(Utils.Null<Guid?>());
@@ -73,7 +73,7 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
         return Guid.Parse("5fe7be6c-4ce6-43ce-94f5-e4f91df55a74");
     }
 
-    private List<ApiKey> SampleDeviceApiKeys()
+    private ApiKey SampleDeviceApiKeys()
     {
         var accountId = SampleGuid();
 
@@ -84,25 +84,13 @@ public class DeviceApiKeyAccessRuleTest : IDisposable
             Password = "1234"
         };
 
-        return new List<ApiKey>
+        return new ApiKey
         {
-            new ApiKey
-            {
-                Id = Guid.NewGuid(),
-                Name = "Test Key 1",
-                KeyHash = "hash1",
-                AccountId = accountId,
-                Account = account
-            },
-            new ApiKey
-            {
-                Id = Guid.NewGuid(),
-                Name = "Test Key 2",
-                KeyHash = "hash2",
-                DisabledAt = DateTime.UtcNow,
-                AccountId = accountId,
-                Account = account
-            }
+            Id = Guid.NewGuid(),
+            Name = "Test Key 1",
+            KeyHash = "hash1",
+            AccountId = accountId,
+            Account = account
         };
     }
 }

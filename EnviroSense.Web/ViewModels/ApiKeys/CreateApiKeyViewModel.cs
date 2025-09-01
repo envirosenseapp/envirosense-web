@@ -2,10 +2,10 @@
 
 namespace EnviroSense.Web.ViewModels.ApiKeys;
 
-public class CreateDeviceApiKeyViewModel
+public class CreateApiKeyViewModel
 {
     [MinLength(6)]
     [MaxLength(120)]
     [Required]
-    public string? Name { get; set; }
+    public required string Name { get; set; }
 }

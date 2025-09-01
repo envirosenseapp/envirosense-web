@@ -45,7 +45,7 @@ public class ApiKeysController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateDeviceApiKeyViewModel input)
+    public async Task<IActionResult> Create(CreateApiKeyViewModel input)
     {
         if (!ModelState.IsValid)
         {

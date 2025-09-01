@@ -1,7 +1,6 @@
 ﻿using EnviroSense.Application.Algorithms;
 using EnviroSense.Application.Authorization;
 using EnviroSense.Domain.Entities;
-using EnviroSense.Domain.Exceptions;
 using EnviroSense.Repositories.Repositories;
 using Microsoft.Extensions.Logging;
 
@@ -27,14 +26,14 @@ public class ApiKeyService : IApiKeyService
         _logger = logger;
     }
 
-    public async Task<List<ApiKey>> List(Guid id)
+    public async Task<List<ApiKey>> List(Guid accountId)
     {
-        return await _apiKeyRepository.ListAsync(id);
+        return await _apiKeyRepository.ListAsync(accountId);
     }
 
-    public async Task<ApiKey> GetByIdAsync(Guid apiId)
+    public async Task<ApiKey> GetByIdAsync(Guid Id)
     {
-        var deviceApiKey = await _apiKeyRepository.GetByIdAsync(apiId);
+        var deviceApiKey = await _apiKeyRepository.GetByIdAsync(Id);
         await _authorizationResolver.MustHaveAccess(deviceApiKey);
 
         return deviceApiKey;

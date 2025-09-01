@@ -24,7 +24,7 @@ public static class Configurator
         // authorization
         serviceCollection.AddScoped<IAccessRule<Device>, DeviceAccessRule>();
         serviceCollection.AddScoped<IAccessRule<Measurement>, MeasurementAccessRule>();
-        serviceCollection.AddScoped<IAccessRule<ApiKey>, DeviceApiKeyAccessRule>();
+        serviceCollection.AddScoped<IAccessRule<ApiKey>, ApiKeyAccessRule>();
         serviceCollection.AddScoped<IAuthorizationResolver, AuthorizationResolver>();
 
         // other
