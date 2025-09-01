@@ -13,6 +13,7 @@ public static class Configurator
     {
         // renders
         serviceCollection.AddSingleton<IEmailRenderer<SendSignedInEmailPayload>, SendSignedInEmailRender>();
+        serviceCollection.AddSingleton<IEmailRenderer<SendSignedUpEmailPayload>, SendSignedUpEmailRender>();
 
         // engine
         var razor = new RazorLightEngineBuilder()

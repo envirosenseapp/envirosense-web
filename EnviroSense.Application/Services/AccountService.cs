@@ -1,9 +1,9 @@
 ﻿using EnviroSense.Application.Emailing;
+using EnviroSense.Domain.Emailing;
 using EnviroSense.Domain.Entities;
-using EnviroSense.Domain.Exceptions;
 using EnviroSense.Repositories.Repositories;
-using Microsoft.AspNetCore.Http;
 using BCryptNet = BCrypt.Net.BCrypt;
+
 
 namespace EnviroSense.Application.Services;
 
@@ -11,12 +11,15 @@ public class AccountService : IAccountService
 {
     private readonly IAccountRepository _accountRepository;
     private readonly IEmailClient _emailClient;
+    private readonly IEmailSender _emailSender;
+
 
     public AccountService(IAccountRepository accountRepository,
-        IEmailClient emailClient)
+        IEmailClient emailClient, IEmailSender emailSender)
     {
         _accountRepository = accountRepository;
         _emailClient = emailClient;
+        _emailSender = emailSender;
     }
 
     public async Task<bool> IsEmailTaken(string email)
@@ -38,8 +41,10 @@ public class AccountService : IAccountService
             PasswordResets = new List<AccountPasswordReset>()
         };
         var accountAdded = await _accountRepository.AddAsync(account);
-        await _emailClient.SendMail("Welcome to EnviroSense!",
-            "Thank you for registering with us.", accountAdded.Email);
+        await _emailSender.SendEmailAsync(accountAdded.Email, new SendSignedUpEmailPayload()
+        {
+            LoginDate = DateTime.UtcNow,
+        });
         return accountAdded;
     }
 
