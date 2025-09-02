@@ -1,5 +1,4 @@
-﻿using EnviroSense.Application.Emailing;
-using EnviroSense.Domain.Emailing;
+﻿using EnviroSense.Domain.Emailing;
 using Microsoft.Extensions.Logging;
 using RazorLight;
 
