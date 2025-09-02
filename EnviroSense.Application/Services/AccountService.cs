@@ -1,8 +1,7 @@
 ﻿using EnviroSense.Application.Emailing;
+using EnviroSense.Domain.Emailing;
 using EnviroSense.Domain.Entities;
-using EnviroSense.Domain.Exceptions;
 using EnviroSense.Repositories.Repositories;
-using Microsoft.AspNetCore.Http;
 using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace EnviroSense.Application.Services;
@@ -10,13 +9,13 @@ namespace EnviroSense.Application.Services;
 public class AccountService : IAccountService
 {
     private readonly IAccountRepository _accountRepository;
-    private readonly IEmailClient _emailClient;
+    private readonly IEmailSender _emailSender;
 
     public AccountService(IAccountRepository accountRepository,
-        IEmailClient emailClient)
+        IEmailSender emailSender)
     {
         _accountRepository = accountRepository;
-        _emailClient = emailClient;
+        _emailSender = emailSender;
     }
 
     public async Task<bool> IsEmailTaken(string email)
@@ -38,8 +37,10 @@ public class AccountService : IAccountService
             PasswordResets = new List<AccountPasswordReset>()
         };
         var accountAdded = await _accountRepository.AddAsync(account);
-        await _emailClient.SendMail("Welcome to EnviroSense!",
-            "Thank you for registering with us.", accountAdded.Email);
+        await _emailSender.SendEmailAsync(accountAdded.Email, new SendSignedUpEmailPayload()
+        {
+            LoginDate = DateTime.UtcNow,
+        });
         return accountAdded;
     }
 
@@ -59,21 +60,13 @@ public class AccountService : IAccountService
         var account = await GetAccountById(id);
         account.Password = BCryptNet.HashPassword(password, 10);
         var updatedAccount = await _accountRepository.UpdateAsync(account);
-        await _emailClient.SendMail(
-            "Your Password for EnviroSense Has Been Changed",
-            $@"<p>Hi {updatedAccount.Email},</p>
-        <p>This email confirms that the password for your EnviroSense account has been successfully changed</p>.
-        <p>If you made this change, you can safely disregard this email.</p>
+        await _emailSender.SendEmailAsync(account.Email,
+            new SendPasswordChangedNotificationEmailPayload()
+            {
+                ChangedAt = DateTime.UtcNow,
+                PasswordResetEmail = account.Email
 
-        <p>However, if you did not change your password,</p> 
-        <p>your account may have been compromised.</p> 
-        <p>Please contact our support team immediately by replying to this email 
-        <p>so we can help you secure your account</p>.
-
-        <p>Thank you,</p>
-        The EnviroSense Team",
-            updatedAccount.Email
-        );
+            });
         return updatedAccount;
     }
 
