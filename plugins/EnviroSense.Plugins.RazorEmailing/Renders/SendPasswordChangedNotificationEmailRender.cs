@@ -13,5 +13,5 @@ public class SendPasswordChangedNotificationEmailRender : BaseRender<SendPasswor
     {
     }
     protected override string TemplateName { get; } = "SendPasswordChangedNotificationEmail.cshtml";
-    protected override string Title { get; } = "Password for EnviroSense Has Been Changed..";
+    protected override string Title { get; } = "Password for EnviroSense Has Been Changed.";
 }

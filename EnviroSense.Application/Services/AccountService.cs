@@ -63,7 +63,7 @@ public class AccountService : IAccountService
         await _emailSender.SendEmailAsync(account.Email,
             new SendPasswordChangedNotificationEmailPayload()
             {
-                LoginDate = DateTime.UtcNow,
+                ChangedAt = DateTime.UtcNow,
                 PasswordResetEmail = account.Email
 
             });

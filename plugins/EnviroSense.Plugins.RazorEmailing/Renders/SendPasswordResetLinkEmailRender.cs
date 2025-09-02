@@ -13,5 +13,5 @@ public class SendPasswordResetLinkEmailRender : BaseRender<SendPasswordResetLink
     {
     }
     protected override string TemplateName { get; } = "SendPasswordResetLinkEmail.cshtml";
-    protected override string Title { get; } = "Password reset Link";
+    protected override string Title { get; } = "Password reset";
 }

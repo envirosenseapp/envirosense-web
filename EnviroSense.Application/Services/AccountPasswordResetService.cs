@@ -35,7 +35,7 @@ public class AccountPasswordResetService : IAccountPasswordResetService
             var resetLink = $"http://localhost:5276/Accounts/ResetPassword/{accountToReset.SecurityCode}";
             await _emailSender.SendEmailAsync(account.Email, new SendPasswordResetLinkEmailPayload()
             {
-                LoginDate = DateTime.UtcNow,
+                GeneratedAt = DateTime.UtcNow,
                 PasswordResetEmail = account.Email,
                 PasswordResetLink = resetLink
             });
@@ -67,9 +67,9 @@ public class AccountPasswordResetService : IAccountPasswordResetService
         await _accountPasswordResetRepository.UpdateAsync(accountToReset);
         var updatedAccount = await _accountRepository.UpdateAsync(account);
         var signInLink = $"http://localhost:5276/Accounts/SignIn";
-        await _emailSender.SendEmailAsync(account.Email, new SendPasswordResetedNotificationEmailPayload()
+        await _emailSender.SendEmailAsync(account.Email, new SendPasswordResetNotificationEmailPayload()
         {
-            LoginDate = DateTime.UtcNow,
+            ResetAt = DateTime.UtcNow,
             PasswordResetEmail = account.Email,
             RedirectLink = signInLink
         });

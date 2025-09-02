@@ -4,14 +4,14 @@ using RazorLight;
 
 namespace EnviroSense.Plugins.RazorEmailing.Renders;
 
-public class SendPasswordResetedNotificationEmailRender : BaseRender<SendPasswordResetedNotificationEmailPayload>
+public class SendPasswordResetNotificationEmailRender : BaseRender<SendPasswordResetNotificationEmailPayload>
 {
-    public SendPasswordResetedNotificationEmailRender(
+    public SendPasswordResetNotificationEmailRender(
         RazorLightEngine razorLightEngine,
-        ILogger<BaseRender<SendPasswordResetedNotificationEmailPayload>> logger
+        ILogger<BaseRender<SendPasswordResetNotificationEmailPayload>> logger
     ) : base(razorLightEngine, logger)
     {
     }
     protected override string TemplateName { get; } = "SendPasswordResetNotificationEmail.cshtml";
-    protected override string Title { get; } = "Password for EnviroSense Has Been Reseted";
+    protected override string Title { get; } = "Password for EnviroSense Has Been Reset";
 }

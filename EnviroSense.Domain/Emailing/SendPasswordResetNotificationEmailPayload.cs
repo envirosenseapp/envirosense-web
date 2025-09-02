@@ -2,9 +2,9 @@
 
 namespace EnviroSense.Domain.Emailing;
 
-public class SendPasswordResetedNotificationEmailPayload : BaseEmail
+public class SendPasswordResetNotificationEmailPayload : BaseEmail
 {
-    public required DateTime LoginDate { get; set; }
+    public required DateTime ResetAt { get; set; }
     public required string PasswordResetEmail { get; set; }
     public required string RedirectLink { get; set; }
 }
