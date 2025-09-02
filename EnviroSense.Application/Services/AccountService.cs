@@ -39,7 +39,7 @@ public class AccountService : IAccountService
         var accountAdded = await _accountRepository.AddAsync(account);
         await _emailSender.SendEmailAsync(accountAdded.Email, new SendSignedUpEmailPayload()
         {
-            LoginDate = DateTime.UtcNow,
+            SignUpDate = DateTime.UtcNow,
         });
         return accountAdded;
     }

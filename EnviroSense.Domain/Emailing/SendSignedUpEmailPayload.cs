@@ -2,5 +2,5 @@
 
 public class SendSignedUpEmailPayload : BaseEmail
 {
-    public required DateTime LoginDate { get; set; }
+    public required DateTime SignUpDate { get; set; }
 }
