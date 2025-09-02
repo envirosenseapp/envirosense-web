@@ -14,7 +14,9 @@ public static class Configurator
         // renders
         serviceCollection.AddSingleton<IEmailRenderer<SendSignedInEmailPayload>, SendSignedInEmailRender>();
         serviceCollection.AddSingleton<IEmailRenderer<SendSignedUpEmailPayload>, SendSignedUpEmailRender>();
-
+        serviceCollection.AddSingleton<IEmailRenderer<SendPasswordChangedNotificationEmailPayload>, SendPasswordChangedNotificationEmailRender>();
+        serviceCollection.AddSingleton<IEmailRenderer<SendPasswordResetLinkEmailPayload>, SendPasswordResetLinkEmailRender>();
+        serviceCollection.AddSingleton<IEmailRenderer<SendPasswordResetedNotificationEmailPayload>, SendPasswordResetedNotificationEmailRender>();
         // engine
         var razor = new RazorLightEngineBuilder()
             .UseEmbeddedResourcesProject(Assembly.GetExecutingAssembly())
