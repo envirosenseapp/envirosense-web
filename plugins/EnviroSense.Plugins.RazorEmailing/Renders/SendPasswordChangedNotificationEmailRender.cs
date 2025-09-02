@@ -4,7 +4,7 @@ using RazorLight;
 
 namespace EnviroSense.Plugins.RazorEmailing.Renders;
 
-public class SendPasswordChangedNotificationEmailRender: BaseRender<SendPasswordChangedNotificationEmailPayload>
+public class SendPasswordChangedNotificationEmailRender : BaseRender<SendPasswordChangedNotificationEmailPayload>
 {
     public SendPasswordChangedNotificationEmailRender(
         RazorLightEngine razorLightEngine,

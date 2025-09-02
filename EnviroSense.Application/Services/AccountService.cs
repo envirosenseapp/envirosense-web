@@ -10,7 +10,7 @@ public class AccountService : IAccountService
 {
     private readonly IAccountRepository _accountRepository;
     private readonly IEmailSender _emailSender;
-    
+
     public AccountService(IAccountRepository accountRepository,
         IEmailSender emailSender)
     {

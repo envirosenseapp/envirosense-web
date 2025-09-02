@@ -4,7 +4,7 @@ using RazorLight;
 
 namespace EnviroSense.Plugins.RazorEmailing.Renders;
 
-public class SendSignedUpEmailRender: BaseRender<SendSignedUpEmailPayload>
+public class SendSignedUpEmailRender : BaseRender<SendSignedUpEmailPayload>
 {
     public SendSignedUpEmailRender(
         RazorLightEngine razorLightEngine,
