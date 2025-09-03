@@ -81,6 +81,15 @@
                     </table>
                 </div>
             }
+            <form asp-action="Measurements" method="get">
+                <div>
+                    <button name="pageIndex" value="0">1</button>
+                    <button name="pageIndex" value="1">2</button>
+                    <button name="pageIndex" value="2">3</button>
+                    <input type="hidden" name="deviceId" value="@ViewBag.DeviceId" />
+                </div>
+               
+            </form>
         </div>
     </div>
 </div>
