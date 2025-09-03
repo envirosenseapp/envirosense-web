@@ -1,9 +1,9 @@
-﻿@model List<EnviroSense.Web.ViewModels.Devices.MeasurementViewModel>
+﻿@model EnviroSense.Web.ViewModels.Devices.MeasurementViewModel
 
 @{
     ViewData["Title"] = "Device Measurements";
-    var name = Model?.FirstOrDefault()?.DeviceName ?? "Unknown Device";
-    var deviceId = Model?.FirstOrDefault()?.DeviceId;
+    var name = Model.DeviceName?? "Unknown Device";
+    var deviceId = Model.DeviceId;
 }
 
 <div class="container mt-4">
@@ -33,7 +33,7 @@
         </div>
 
         <div class="card-body">
-            @if (Model == null || !Model.Any())
+            @if (Model.Measurements== null || !Model.Measurements.Any())
             {
                 <div class="text-center py-5">
                     <h5 class="text-muted mb-3">No measurements found</h5>
@@ -58,7 +58,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach (var measurement in Model)
+                        @foreach (var measurement in Model.Measurements)
                         {
                             <tr>
                                 <td class="fw-bold">@measurement.Id</td>
@@ -82,13 +82,26 @@
                 </div>
             }
         </div>
-        <div>
-            <form asp-action="Measurements" method="get">
-                <input type="hidden" name="deviceId" value="@ViewBag.DeviceId"/>
-                <button name="pageIndex" value="0">1</button>
-                <button name="pageIndex" value="1">2</button>
-                <button name="pageIndex" value="2">3</button>
-            </form>
+        <div class="d-flex justify-content-center mt-3 mb-3">
+            @if (Model.PageIndex > 0)
+            {
+                <a asp-action="Measurements"
+                   asp-route-deviceId="@Model.DeviceId"
+                   asp-route-pageIndex="@(Model.PageIndex - 1)"
+                   class="btn btn-outline-primary btn-sm me-2">
+                    Previous page
+                </a>
+            }
+
+            @if (Model.PageIndex < Model.MaximumPageIndex)
+            {
+                <a asp-action="Measurements"
+                   asp-route-deviceId="@Model.DeviceId"
+                   asp-route-pageIndex="@(Model.PageIndex + 1)"
+                   class="btn btn-outline-primary btn-sm ms-2">
+                    Next page
+                </a>
+            }
         </div>
     </div>
 </div>

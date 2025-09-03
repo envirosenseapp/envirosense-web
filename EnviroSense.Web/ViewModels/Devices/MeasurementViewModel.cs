@@ -12,4 +12,10 @@ public class MeasurementViewModel
 
     [Range(0, 180)] public float? Humidity { get; set; }
     [Required] public DateTime RecordingDate { get; set; }
+
+    public int PageIndex { get; set; } = 0;
+
+    public int MaximumPageIndex { get; set; } = 0;
+
+    public List<MeasurementsListViewModel> Measurements { get; set; } = new List<MeasurementsListViewModel>();
 }

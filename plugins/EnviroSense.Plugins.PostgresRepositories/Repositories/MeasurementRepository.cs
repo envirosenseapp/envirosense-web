@@ -60,4 +60,9 @@ internal class MeasurementRepository : IMeasurementRepository
             .ToListAsync();
         return measurementsList;
     }
+
+    public Task<int> CountMeasurements()
+    {
+        return _context.Measurements.CountAsync();
+    }
 }

@@ -12,4 +12,5 @@ public interface IMeasurementService
     Task<PagedList<Measurement>> List(MeasurementFilters filters);
     Task<Measurement?> GetLastest(Guid deviceId);
     Task<List<HourlyMeasurement>> ListDataForGraph(DateTime date, Device device);
+    Task<int> TakeMaximumMeasurementPageIndex();
 }

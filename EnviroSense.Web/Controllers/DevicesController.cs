@@ -118,11 +118,17 @@ namespace EnviroSense.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Measurements(Guid deviceId, int pageIndex)
         {
-            var measurementList = await _measurementService.List(new MeasurementFilters { DeviceId = deviceId, PageIndex = pageIndex });
+            var maximumPageIndex = await _measurementService.TakeMaximumMeasurementPageIndex();
+            var measurementList =
+                await _measurementService.List(new MeasurementFilters { DeviceId = deviceId, PageIndex = pageIndex });
 
             //TOOD: handle pagination
-            var viewModelList = measurementList.Records
-                .Select(m => new MeasurementViewModel
+            var viewModelList = new MeasurementViewModel
+            {
+                DeviceId = measurementList.Records.First().DeviceId,
+                PageIndex = pageIndex,
+                MaximumPageIndex = maximumPageIndex,
+                Measurements = measurementList.Records.Select(m => new MeasurementsListViewModel
                 {
                     Id = m.Id,
                     DeviceName = m.Device.Name,
@@ -131,7 +137,8 @@ namespace EnviroSense.Web.Controllers
                     Humidity = m.Humidity,
                     RecordingDate = m.RecordingDate
                 })
-                .ToList();
+                    .ToList()
+            };
             ViewBag.DeviceId = deviceId;
             return View(viewModelList);
         }
