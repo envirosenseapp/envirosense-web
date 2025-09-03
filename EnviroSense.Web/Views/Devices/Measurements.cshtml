@@ -48,39 +48,47 @@
                 <div class="table-responsive">
                     <table class="table table-striped align-middle">
                         <thead class="table-primary">
-                            <tr>
-                                <th>ID</th>
-                                <th>Device ID</th>
-                                <th>Device DeviceName</th>
-                                <th>🌡️ Temperature</th>
-                                <th>💧 Humidity</th>
-                                <th>📅 Recording Date</th>
-                            </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Device ID</th>
+                            <th>Device DeviceName</th>
+                            <th>🌡️ Temperature</th>
+                            <th>💧 Humidity</th>
+                            <th>📅 Recording Date</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @foreach (var measurement in Model)
-                            {
-                                <tr>
-                                    <td class="fw-bold">@measurement.Id</td>
-                                    <td>@measurement.DeviceId</td>
-                                    <td>@measurement.DeviceName</td>
-                                    <td>
-                                        <span class="badge bg-warning text-dark px-3 py-2">
-                                            @measurement.Temperature&nbsp;°C
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-info text-dark px-3 py-2">
-                                            @measurement.Humidity&nbsp;%
-                                        </span>
-                                    </td>
-                                    <td>@measurement.RecordingDate.ToString("dd/MM/yyyy HH:mm")</td>
-                                </tr>
-                            }
+                        @foreach (var measurement in Model)
+                        {
+                            <tr>
+                                <td class="fw-bold">@measurement.Id</td>
+                                <td>@measurement.DeviceId</td>
+                                <td>@measurement.DeviceName</td>
+                                <td>
+                                    <span class="badge bg-warning text-dark px-3 py-2">
+                                        @measurement.Temperature&nbsp;°C
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-info text-dark px-3 py-2">
+                                        @measurement.Humidity&nbsp;%
+                                    </span>
+                                </td>
+                                <td>@measurement.RecordingDate.ToString("dd/MM/yyyy HH:mm")</td>
+                            </tr>
+                        }
                         </tbody>
                     </table>
                 </div>
             }
+        </div>
+        <div>
+            <form asp-action="Measurements" method="get">
+                <input type="hidden" name="deviceId" value="@ViewBag.DeviceId"/>
+                <button name="pageIndex" value="0">1</button>
+                <button name="pageIndex" value="1">2</button>
+                <button name="pageIndex" value="2">3</button>
+            </form>
         </div>
     </div>
 </div>

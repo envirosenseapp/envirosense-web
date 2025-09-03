@@ -114,10 +114,11 @@ namespace EnviroSense.Web.Controllers
                 return NotFound();
             }
         }
-
-        public async Task<ActionResult> Measurements(Guid deviceId)
+        
+        [HttpGet]
+        public async Task<ActionResult> Measurements(Guid deviceId, int pageIndex)
         {
-            var measurementList = await _measurementService.List(new MeasurementFilters { DeviceId = deviceId, });
+            var measurementList = await _measurementService.List(new MeasurementFilters { DeviceId = deviceId, PageIndex = pageIndex});
 
             //TOOD: handle pagination
             var viewModelList = measurementList.Records
@@ -131,7 +132,7 @@ namespace EnviroSense.Web.Controllers
                     RecordingDate = m.RecordingDate
                 })
                 .ToList();
-
+            ViewBag.DeviceId = deviceId;
             return View(viewModelList);
         }
 
