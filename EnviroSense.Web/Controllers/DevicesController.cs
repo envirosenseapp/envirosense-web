@@ -114,11 +114,11 @@ namespace EnviroSense.Web.Controllers
                 return NotFound();
             }
         }
-        
+
         [HttpGet]
         public async Task<ActionResult> Measurements(Guid deviceId, int pageIndex)
         {
-            var measurementList = await _measurementService.List(new MeasurementFilters { DeviceId = deviceId, PageIndex = pageIndex});
+            var measurementList = await _measurementService.List(new MeasurementFilters { DeviceId = deviceId, PageIndex = pageIndex });
 
             //TOOD: handle pagination
             var viewModelList = measurementList.Records
