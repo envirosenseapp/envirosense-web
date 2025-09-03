@@ -116,30 +116,36 @@ namespace EnviroSense.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Measurements(Guid deviceId, int pageIndex)
+        public async Task<ActionResult> Measurements(MeasurementViewModel model)
         {
-            var maximumPageIndex = await _measurementService.TakeMaximumMeasurementPageIndex();
             var measurementList =
-                await _measurementService.List(new MeasurementFilters { DeviceId = deviceId, PageIndex = pageIndex });
-
-            //TOOD: handle pagination
+                await _measurementService.List(new MeasurementFilters { DeviceId = model.DeviceId, PageIndex = model.PageIndex, PageSize = model.PageSize });
+            var maxIndex = 0;
+            var totalmeasurements = measurementList.TotalCount;
+            var rest = totalmeasurements % model.PageSize;
+            if (rest == 0)
+            {
+                maxIndex = totalmeasurements / model.PageSize - 1;
+            }
+            else
+            {
+                maxIndex = totalmeasurements / model.PageSize;
+            }
             var viewModelList = new MeasurementViewModel
             {
                 DeviceId = measurementList.Records.First().DeviceId,
-                PageIndex = pageIndex,
-                MaximumPageIndex = maximumPageIndex,
+                PageIndex = model.PageIndex,
+                MaximumPageIndex = maxIndex,
                 Measurements = measurementList.Records.Select(m => new MeasurementsListViewModel
                 {
                     Id = m.Id,
                     DeviceName = m.Device.Name,
-                    DeviceId = m.DeviceId,
                     Temperature = m.Temperature,
                     Humidity = m.Humidity,
                     RecordingDate = m.RecordingDate
                 })
                     .ToList()
             };
-            ViewBag.DeviceId = deviceId;
             return View(viewModelList);
         }
 

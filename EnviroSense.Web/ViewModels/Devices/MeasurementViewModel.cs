@@ -14,6 +14,8 @@ public class MeasurementViewModel
     [Required] public DateTime RecordingDate { get; set; }
 
     public int PageIndex { get; set; } = 0;
+    
+    public int PageSize { get; set; } = 20;
 
     public int MaximumPageIndex { get; set; } = 0;
 

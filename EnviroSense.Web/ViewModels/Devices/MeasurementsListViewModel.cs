@@ -6,10 +6,7 @@ public class MeasurementsListViewModel
 {
     public Guid Id { get; set; }
     public string? DeviceName { get; set; }
-    [Required] public Guid DeviceId { get; set; }
-
-    [Range(-80, 50)] public float? Temperature { get; set; }
-
-    [Range(0, 180)] public float? Humidity { get; set; }
-    [Required] public DateTime RecordingDate { get; set; }
+    public float? Temperature { get; set; }
+    public float? Humidity { get; set; }
+    public DateTime RecordingDate { get; set; }
 }

@@ -11,5 +11,4 @@ public interface IMeasurementRepository
     Task<PagedList<Measurement>> ListAsync(MeasurementFilters filters);
     Task<Measurement?> GetLastestAsync(Guid deviceId);
     Task<List<Measurement>> TakeMeasurementsForGivenDay(Guid deviceId, DateTime date);
-    Task<int> CountMeasurements();
 }

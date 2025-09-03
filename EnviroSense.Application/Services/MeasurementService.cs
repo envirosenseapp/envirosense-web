@@ -75,22 +75,4 @@ public class MeasurementService : IMeasurementService
             .ToList();
         return hourlyAverage;
     }
-
-    public async Task<int> TakeMaximumMeasurementPageIndex()
-    {
-        var maxIndex = 0;
-        var totalmeasurements = await _measureRepository.CountMeasurements();
-        var rest = totalmeasurements % new PagedFilter().PageSize;
-        if (rest == 0)
-        {
-            maxIndex = totalmeasurements / new PagedFilter().PageSize - 1;
-        }
-        else
-        {
-            maxIndex = totalmeasurements / new PagedFilter().PageSize;
-        }
-
-        return maxIndex;
-
-    }
 }
