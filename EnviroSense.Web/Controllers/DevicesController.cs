@@ -125,37 +125,17 @@ namespace EnviroSense.Web.Controllers
                     PageIndex = model.PageIndex,
                     PageSize = model.PageSize
                 });
-            if (measurementList.Records.Any())
+            model.TolalPages = measurementList.TotalPages;
+            model.Measurements = measurementList.Records.Select(m => new MeasurementsListViewModel
             {
-                var viewModelList = new MeasurementViewModel
-                {
-                    DeviceId = measurementList.Records.First().DeviceId,
-                    PageIndex = model.PageIndex,
-                };
-                model.TolalPages = measurementList.TotalPages;
-                model.Measurements = measurementList.Records.Select(m => new MeasurementsListViewModel
-                {
-                    Id = m.Id,
-                    DeviceName = m.Device.Name,
-                    Temperature = m.Temperature,
-                    Humidity = m.Humidity,
-                    RecordingDate = m.RecordingDate
-                })
-                    .ToList();
-                ;
-                return View(model);
-            }
-            else
-            {
-                var emptyViewModel = new MeasurementViewModel()
-                {
-                    DeviceId = model.DeviceId,
-                    PageIndex = model.PageIndex,
-                    Measurements = new List<MeasurementsListViewModel>()
-                };
-
-                return View(emptyViewModel);
-            }
+                Id = m.Id,
+                DeviceName = m.Device.Name,
+                Temperature = m.Temperature,
+                Humidity = m.Humidity,
+                RecordingDate = m.RecordingDate
+            })
+                .ToList();
+            return View(model);
         }
 
         private async Task<GraphViewModel> GetHourlyMeasurement(Guid id, DateTime date)
