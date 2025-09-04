@@ -40,7 +40,14 @@ public class MeasurementService : IMeasurementService
 
     public async Task<PagedList<Measurement>> List(MeasurementFilters filters)
     {
-        return await _measureRepository.ListAsync(filters);
+
+        var measurements = await _measureRepository.ListAsync(filters);
+        if (!measurements.Records.Any())
+        {
+            throw new MeasurementNotFoundException(filters.DeviceId);
+        }
+
+        return measurements;
     }
 
     public async Task<Measurement?> GetLastest(Guid deviceId)

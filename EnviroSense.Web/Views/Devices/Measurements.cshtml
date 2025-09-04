@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Device Measurements";
-    var name = Model.DeviceName?? "Unknown Device";
+    var name = Model.DeviceName ?? "Unknown Device";
     var deviceId = Model.DeviceId;
 }
 
@@ -17,29 +17,33 @@
                 <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
                     <i class="bi bi-arrow-left-circle"></i> Back to Devices
                 </a>
-                <a asp-controller="Devices" 
-                   asp-action="Graph" 
-                   asp-route-id="@deviceId" 
+                <a asp-controller="Devices"
+                   asp-action="Graph"
+                   asp-route-id="@deviceId"
                    class="btn btn-outline-warning btn-sm">
                     <i class="bi bi-graph-up"></i> Switch to graph mode
                 </a>
-                <a asp-controller="Devices" asp-action="Details" asp-route-id="@deviceId" class="btn btn-outline-primary btn-sm">
+                <a asp-controller="Devices" asp-action="Details" asp-route-id="@deviceId"
+                   class="btn btn-outline-primary btn-sm">
                     <i class="bi bi-info-circle"></i> View Device Details
                 </a>
-                <a asp-controller="Devices" asp-action="AddMeasurements" asp-route-id="@deviceId" class="btn btn-success btn-sm">
-                    <i class="bi bi-plus-circle"></i> Add Measurement
+                <a href="@Url.Action("AddMeasurements", "Devices", new { deviceId = @deviceId })"
+                   class="btn btn-outline-success btn-sm shadow-sm">
+                    <i class="bi bi-plus-circle-dotted me-1"></i> Add Measurement
                 </a>
             </div>
         </div>
 
         <div class="card-body">
-            @if (Model.Measurements== null || !Model.Measurements.Any())
+
+            @if (Model.Measurements == null || !Model.Measurements.Any())
             {
                 <div class="text-center py-5">
                     <h5 class="text-muted mb-3">No measurements found</h5>
                     <p class="mb-4">You can add a measurement to start tracking your device data.</p>
-                    <a asp-controller="Devices" asp-action="AddMeasurements" asp-route-id="@deviceId" class="btn btn-success btn-lg shadow-sm">
-                        <i class="bi bi-plus-circle"></i> Add First Measurement
+                    <a href="@Url.Action("AddMeasurements", "Devices", new { deviceId = @deviceId })"
+                       class="btn btn-outline-success btn-sm shadow-sm">
+                        <i class="bi bi-plus-circle-dotted me-1"></i> New Measurement
                     </a>
                 </div>
             }
@@ -87,13 +91,13 @@
             {
                 <a asp-action="Measurements"
                    asp-route-deviceId="@Model.DeviceId"
-                   asp-route-pageIndex="@(Model.PageIndex - 1)"
+                   asp-route-pageIndex="@(Model.PageIndex-1)"
                    class="btn btn-outline-primary btn-sm me-2">
                     Previous page
                 </a>
             }
 
-            @if (Model.PageIndex < Model.MaximumPageIndex)
+            @if (Model.PageIndex < Model.TolalPages)
             {
                 <a asp-action="Measurements"
                    asp-route-deviceId="@Model.DeviceId"

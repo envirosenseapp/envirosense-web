@@ -17,7 +17,7 @@ public class MeasurementViewModel
 
     public int PageSize { get; set; } = 20;
 
-    public int MaximumPageIndex { get; set; } = 0;
+    public int TolalPages { get; set; } = 0;
 
     public List<MeasurementsListViewModel> Measurements { get; set; } = new List<MeasurementsListViewModel>();
 }

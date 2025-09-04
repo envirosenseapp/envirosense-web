@@ -118,35 +118,43 @@ namespace EnviroSense.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Measurements(MeasurementViewModel model)
         {
-            var measurementList =
-                await _measurementService.List(new MeasurementFilters { DeviceId = model.DeviceId, PageIndex = model.PageIndex, PageSize = model.PageSize });
-            var maxIndex = 0;
-            var totalmeasurements = measurementList.TotalCount;
-            var rest = totalmeasurements % model.PageSize;
-            if (rest == 0)
+            try
             {
-                maxIndex = totalmeasurements / model.PageSize - 1;
-            }
-            else
-            {
-                maxIndex = totalmeasurements / model.PageSize;
-            }
-            var viewModelList = new MeasurementViewModel
-            {
-                DeviceId = measurementList.Records.First().DeviceId,
-                PageIndex = model.PageIndex,
-                MaximumPageIndex = maxIndex,
-                Measurements = measurementList.Records.Select(m => new MeasurementsListViewModel
+                var measurementList =
+                    await _measurementService.List(new MeasurementFilters
+                    {
+                        DeviceId = model.DeviceId,
+                        PageIndex = model.PageIndex,
+                        PageSize = model.PageSize
+                    });
+                var viewModelList = new MeasurementViewModel
                 {
-                    Id = m.Id,
-                    DeviceName = m.Device.Name,
-                    Temperature = m.Temperature,
-                    Humidity = m.Humidity,
-                    RecordingDate = m.RecordingDate
-                })
-                    .ToList()
-            };
-            return View(viewModelList);
+                    DeviceId = measurementList.Records.First().DeviceId,
+                    PageIndex = model.PageIndex,
+                    TolalPages = measurementList.TotalPages,
+                    Measurements = measurementList.Records.Select(m => new MeasurementsListViewModel
+                    {
+                        Id = m.Id,
+                        DeviceName = m.Device.Name,
+                        Temperature = m.Temperature,
+                        Humidity = m.Humidity,
+                        RecordingDate = m.RecordingDate
+                    })
+                        .ToList()
+                };
+                return View(viewModelList);
+            }
+            catch (MeasurementNotFoundException)
+            {
+                var emptyViewModel = new MeasurementViewModel()
+                {
+                    DeviceId = model.DeviceId,
+                    PageIndex = model.PageIndex,
+                    Measurements = new List<MeasurementsListViewModel>()
+                };
+
+                return View(emptyViewModel);
+            }
         }
 
         private async Task<GraphViewModel> GetHourlyMeasurement(Guid id, DateTime date)
