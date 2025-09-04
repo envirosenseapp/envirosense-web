@@ -3,6 +3,7 @@ using EnviroSense.Application.MeasurementsAggregation;
 using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
 using EnviroSense.Domain.Filters;
+using EnviroSense.Domain.Filters.Core;
 using EnviroSense.Repositories.Core;
 using EnviroSense.Repositories.Repositories;
 
@@ -39,7 +40,8 @@ public class MeasurementService : IMeasurementService
 
     public async Task<PagedList<Measurement>> List(MeasurementFilters filters)
     {
-        return await _measureRepository.ListAsync(filters);
+        var measurements = await _measureRepository.ListAsync(filters);
+        return measurements;
     }
 
     public async Task<Measurement?> GetLastest(Guid deviceId)
@@ -62,6 +64,7 @@ public class MeasurementService : IMeasurementService
         {
             throw new MeasurementsForThisDayNotFoundException();
         }
+
         var hourlyAverage = measurementsList
             .GroupBy(m => m.RecordingDate.Hour)
             .Select(g => new HourlyMeasurement

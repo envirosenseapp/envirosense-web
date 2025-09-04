@@ -2,6 +2,6 @@
 
 public class MeasurementNotFoundException : Exception
 {
-    public MeasurementNotFoundException(Guid deviceId) : base($"measurement with ID {deviceId} not found") { }
+    public MeasurementNotFoundException(Guid deviceId) : base($"measurements for ID {deviceId} not found") { }
 }
 

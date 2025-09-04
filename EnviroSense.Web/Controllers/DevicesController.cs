@@ -115,24 +115,27 @@ namespace EnviroSense.Web.Controllers
             }
         }
 
-        public async Task<ActionResult> Measurements(Guid deviceId)
+        [HttpGet]
+        public async Task<ActionResult> Measurements(MeasurementViewModel model)
         {
-            var measurementList = await _measurementService.List(new MeasurementFilters { DeviceId = deviceId, });
-
-            //TOOD: handle pagination
-            var viewModelList = measurementList.Records
-                .Select(m => new MeasurementViewModel
+            var measurementList =
+                await _measurementService.List(new MeasurementFilters
                 {
-                    Id = m.Id,
-                    DeviceName = m.Device.Name,
-                    DeviceId = m.DeviceId,
-                    Temperature = m.Temperature,
-                    Humidity = m.Humidity,
-                    RecordingDate = m.RecordingDate
-                })
+                    DeviceId = model.DeviceId,
+                    PageIndex = model.PageIndex,
+                    PageSize = model.PageSize
+                });
+            model.TolalPages = measurementList.TotalPages;
+            model.Measurements = measurementList.Records.Select(m => new MeasurementsListViewModel
+            {
+                Id = m.Id,
+                DeviceName = m.Device.Name,
+                Temperature = m.Temperature,
+                Humidity = m.Humidity,
+                RecordingDate = m.RecordingDate
+            })
                 .ToList();
-
-            return View(viewModelList);
+            return View(model);
         }
 
         private async Task<GraphViewModel> GetHourlyMeasurement(Guid id, DateTime date)
