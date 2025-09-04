@@ -118,33 +118,33 @@ namespace EnviroSense.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Measurements(MeasurementViewModel model)
         {
-            try
+            var measurementList =
+                await _measurementService.List(new MeasurementFilters
+                {
+                    DeviceId = model.DeviceId,
+                    PageIndex = model.PageIndex,
+                    PageSize = model.PageSize
+                });
+            if (measurementList.Records.Any())
             {
-                var measurementList =
-                    await _measurementService.List(new MeasurementFilters
-                    {
-                        DeviceId = model.DeviceId,
-                        PageIndex = model.PageIndex,
-                        PageSize = model.PageSize
-                    });
                 var viewModelList = new MeasurementViewModel
                 {
-                    DeviceId = measurementList.Records.First().DeviceId,
-                    PageIndex = model.PageIndex,
-                    TolalPages = measurementList.TotalPages,
-                    Measurements = measurementList.Records.Select(m => new MeasurementsListViewModel
-                    {
-                        Id = m.Id,
-                        DeviceName = m.Device.Name,
-                        Temperature = m.Temperature,
-                        Humidity = m.Humidity,
-                        RecordingDate = m.RecordingDate
-                    })
-                        .ToList()
+                    DeviceId = measurementList.Records.First().DeviceId, PageIndex = model.PageIndex,
                 };
-                return View(viewModelList);
+                model.TolalPages = measurementList.TotalPages;
+                model.Measurements = measurementList.Records.Select(m => new MeasurementsListViewModel
+                {
+                    Id = m.Id,
+                    DeviceName = m.Device.Name,
+                    Temperature = m.Temperature,
+                    Humidity = m.Humidity,
+                    RecordingDate = m.RecordingDate
+                })
+                    .ToList();
+                ;
+                return View(model);
             }
-            catch (MeasurementNotFoundException)
+            else
             {
                 var emptyViewModel = new MeasurementViewModel()
                 {

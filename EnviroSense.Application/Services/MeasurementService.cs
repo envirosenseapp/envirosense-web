@@ -40,13 +40,7 @@ public class MeasurementService : IMeasurementService
 
     public async Task<PagedList<Measurement>> List(MeasurementFilters filters)
     {
-
         var measurements = await _measureRepository.ListAsync(filters);
-        if (!measurements.Records.Any())
-        {
-            throw new MeasurementNotFoundException(filters.DeviceId);
-        }
-
         return measurements;
     }
 
@@ -70,6 +64,7 @@ public class MeasurementService : IMeasurementService
         {
             throw new MeasurementsForThisDayNotFoundException();
         }
+
         var hourlyAverage = measurementsList
             .GroupBy(m => m.RecordingDate.Hour)
             .Select(g => new HourlyMeasurement
