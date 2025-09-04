@@ -129,7 +129,8 @@ namespace EnviroSense.Web.Controllers
             {
                 var viewModelList = new MeasurementViewModel
                 {
-                    DeviceId = measurementList.Records.First().DeviceId, PageIndex = model.PageIndex,
+                    DeviceId = measurementList.Records.First().DeviceId,
+                    PageIndex = model.PageIndex,
                 };
                 model.TolalPages = measurementList.TotalPages;
                 model.Measurements = measurementList.Records.Select(m => new MeasurementsListViewModel
