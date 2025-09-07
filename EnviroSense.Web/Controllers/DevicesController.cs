@@ -21,11 +21,12 @@ namespace EnviroSense.Web.Controllers
             _measurementService = measurementService;
         }
 
-        public async Task<ActionResult> Index()
+        [HttpGet]
+        public async Task<ActionResult> Index(DeviceViewModel model)
         {
-            var deviceList = await _deviceService.List();
-
-            var viewModelList = deviceList.Select(d => new DeviceViewModel
+            var deviceList = await _deviceService.List(model.PageIndex);
+            model.TotalPages = deviceList.TotalPages;
+            model.Devices = deviceList.Records.Select(d => new DeviceListViewModel
             {
                 Id = d.Id,
                 Name = d.Name,
@@ -33,7 +34,7 @@ namespace EnviroSense.Web.Controllers
                 CreatedAt = d.CreatedAt
             }).ToList();
 
-            return View(viewModelList);
+            return View(model);
         }
 
         public async Task<ActionResult> Details(Guid iD)

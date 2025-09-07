@@ -21,10 +21,10 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var deviceList = await _deviceService.List();
+        var deviceList = await _deviceService.List(0);
         var allMeasurements = new List<DeviceMeasurmentViewModel>();
 
-        foreach (var device in deviceList)
+        foreach (var device in deviceList.Records)
         {
             var measurement = await _measurementService.GetLastest(device.Id);
 
