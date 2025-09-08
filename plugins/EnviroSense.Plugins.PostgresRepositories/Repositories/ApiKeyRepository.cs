@@ -1,5 +1,8 @@
 ﻿using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
+using EnviroSense.Domain.Filters;
+using EnviroSense.Plugins.PostgresRepositories.Extensions;
+using EnviroSense.Repositories.Core;
 using EnviroSense.Repositories.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,9 +17,9 @@ internal class ApiKeyRepository : IApiKeyRepository
         _context = context;
     }
 
-    public Task<List<ApiKey>> ListAsync(Guid accountId)
+    public Task<PagedList<ApiKey>> ListAsync(ApiKeyFilters filters)
     {
-        var list = _context.ApiKeys.Where(x => x.AccountId == accountId).ToListAsync();
+        var list = _context.ApiKeys.Where(x => x.AccountId == filters.AccountId).ToPagedListAsync(filters);
         return list;
 
     }

@@ -623,7 +623,48 @@ VALUES (
     'c237acfd-2a83-4390-923f-26bf4e84065c',
     null,
     '2025-08-18 20:28:27.231119'
-)
+),
+       (gen_random_uuid(), 'API Key 1', 'hash1_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 2
+       (gen_random_uuid(), 'API Key 2', 'hash2_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 3
+       (gen_random_uuid(), 'API Key 3', 'hash3_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 4
+       (gen_random_uuid(), 'API Key 4', 'hash4_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 5
+       (gen_random_uuid(), 'API Key 5', 'hash5_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 6
+       (gen_random_uuid(), 'API Key 6', 'hash6_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 7
+       (gen_random_uuid(), 'API Key 7', 'hash7_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 8
+       (gen_random_uuid(), 'API Key 8', 'hash8_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 9
+       (gen_random_uuid(), 'API Key 9', 'hash9_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 10
+       (gen_random_uuid(), 'API Key 10', 'hash10_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 11
+       (gen_random_uuid(), 'API Key 11', 'hash11_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 12
+       (gen_random_uuid(), 'API Key 12', 'hash12_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 13
+       (gen_random_uuid(), 'API Key 13', 'hash13_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 14
+       (gen_random_uuid(), 'API Key 14', 'hash14_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 15
+       (gen_random_uuid(), 'API Key 15', 'hash15_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 16
+       (gen_random_uuid(), 'API Key 16', 'hash16_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 17
+       (gen_random_uuid(), 'API Key 17', 'hash17_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 18
+       (gen_random_uuid(), 'API Key 18', 'hash18_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 19
+       (gen_random_uuid(), 'API Key 19', 'hash19_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW()),
+-- API Key 20
+       (gen_random_uuid(), 'API Key 20', 'hash20_example', '0198c711-99a7-7377-b70b-9753db34a1b3', null, NOW())
+
+       
 
 ON CONFLICT (id) DO UPDATE
     SET

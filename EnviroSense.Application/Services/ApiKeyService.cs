@@ -2,6 +2,8 @@
 using EnviroSense.Application.Authentication;
 using EnviroSense.Application.Authorization;
 using EnviroSense.Domain.Entities;
+using EnviroSense.Domain.Filters;
+using EnviroSense.Repositories.Core;
 using EnviroSense.Repositories.Repositories;
 using Microsoft.Extensions.Logging;
 
@@ -34,10 +36,11 @@ public class ApiKeyService : IApiKeyService
 
     }
 
-    public async Task<List<ApiKey>> List()
+    public async Task<PagedList<ApiKey>> List(int pageIndex)
     {
         var accountId = await _authenticationContext.CurrentAccountId();
-        return await _apiKeyRepository.ListAsync(accountId.Value);
+        var filter = new ApiKeyFilters { AccountId = accountId.Value, PageIndex = pageIndex };
+        return await _apiKeyRepository.ListAsync(filter);
     }
 
     public async Task<ApiKey> GetByIdAsync(Guid id)
