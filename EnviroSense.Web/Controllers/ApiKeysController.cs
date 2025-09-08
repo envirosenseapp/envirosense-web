@@ -30,7 +30,7 @@ public class ApiKeysController : Controller
     {
         var list = await _apiKeyService.List(model.PageIndex);
 
-        model.TotalPages = list.TotalPages-1;
+        model.TotalPages = list.TotalPages - 1;
         model.ApiKeyList = list.Records.Select(a => new ApiKeyListViewModel
         {
             Id = a.Id,

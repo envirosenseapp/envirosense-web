@@ -9,6 +9,6 @@ public class ApiKeyViewModel
     public int PageIndex { get; set; } = 0;
 
     public int TotalPages { get; set; } = 0;
-    
+
     public List<ApiKeyListViewModel> ApiKeyList { get; set; } = new List<ApiKeyListViewModel>();
 }
