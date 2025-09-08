@@ -122,6 +122,7 @@ namespace EnviroSense.Web.Controllers
             var measurementList =
                 await _measurementService.List(new MeasurementFilters
                 {
+
                     DeviceId = model.DeviceId,
                     PageIndex = model.PageIndex,
                     PageSize = model.PageSize
@@ -134,6 +135,7 @@ namespace EnviroSense.Web.Controllers
                 Temperature = m.Temperature,
                 Humidity = m.Humidity,
                 RecordingDate = m.RecordingDate
+
             })
                 .ToList();
             return View(model);
