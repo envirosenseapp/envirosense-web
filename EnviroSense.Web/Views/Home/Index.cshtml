@@ -1,4 +1,4 @@
-﻿@model List<EnviroSense.Web.ViewModels.Home.DeviceMeasurmentViewModel>
+﻿@model EnviroSense.Web.ViewModels.Home.DeviceMeasurementViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -7,7 +7,7 @@
     <h2 class="text-center mb-5 fw-bold text-primary">Device Dashboard</h2>
 
     <div class="row g-4">
-        @if (Model == null || !Model.Any())
+        @if (!Model.DeviceMeasurementList.Any())
         {
             <div class="col-12 text-center py-5">
                 <p class="lead mb-3 text-muted fst-italic">
@@ -20,7 +20,7 @@
         }
         else
         {
-            @foreach (var measurement in Model)
+            @foreach (var measurement in Model.DeviceMeasurementList)
             {
                 var hasMeasurement = measurement.Temperature != null || measurement.Humidity != null;
                 var cardHeaderClass = hasMeasurement ? "bg-primary text-white" : "bg-warning text-dark";
@@ -64,6 +64,15 @@
                         </div>
                     </div>
                 </div>
+            }
+            
+            @if (Model.TotalPages > 1)
+            {
+                <a asp-controller="Devices" asp-action="Index"
+                   asp-route-pageIndex="@(Model.PageIndex+1)"
+                   class="btn btn-outline-primary btn-sm me-2">
+                    View more
+                </a>
             }
         }
     </div>

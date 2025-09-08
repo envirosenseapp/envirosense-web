@@ -1,5 +1,8 @@
 ﻿using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
+using EnviroSense.Domain.Filters;
+using EnviroSense.Plugins.PostgresRepositories.Extensions;
+using EnviroSense.Repositories.Core;
 using EnviroSense.Repositories.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,10 +17,10 @@ internal class DeviceRepository : IDeviceRepository
         _context = context;
     }
 
-    public async Task<List<Device>> ListAsync(Guid accountId)
+    public async Task<PagedList<Device>> ListAsync(DeviceFilters filters)
     {
-        return await _context.Devices.OrderByDescending(a => a.CreatedAt).Where(a => a.AccountId == accountId)
-            .ToListAsync();
+        return await _context.Devices.OrderByDescending(a => a.CreatedAt).Where(a => a.AccountId == filters.AccountId)
+            .ToPagedListAsync(filters);
     }
 
     public async Task<Device> GetAsync(Guid id)

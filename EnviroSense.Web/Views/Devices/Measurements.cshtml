@@ -36,7 +36,8 @@
 
         <div class="card-body">
 
-            @if (Model.Measurements == null || !Model.Measurements.Any())
+            @if (!Model.Measurements.Any())
+
             {
                 <div class="text-center py-5">
                     <h5 class="text-muted mb-3">No measurements found</h5>

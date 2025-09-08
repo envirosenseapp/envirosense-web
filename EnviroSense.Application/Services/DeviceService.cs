@@ -2,6 +2,8 @@
 using EnviroSense.Application.Authorization;
 using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
+using EnviroSense.Domain.Filters;
+using EnviroSense.Repositories.Core;
 using EnviroSense.Repositories.Repositories;
 
 namespace EnviroSense.Application.Services;
@@ -23,7 +25,7 @@ public class DeviceService : IDeviceService
         _authenticationContext = authenticationContext;
     }
 
-    public async Task<List<Device>> List()
+    public async Task<PagedList<Device>> List(int pageIndex)
     {
         var accountId = await _authenticationContext.CurrentAccountId();
         if (accountId == null)
@@ -31,7 +33,14 @@ public class DeviceService : IDeviceService
             throw new SessionIsNotAvailableException();
         }
 
-        return await _deviceRepository.ListAsync(accountId.Value);
+        var filters = new DeviceFilters
+        {
+            AccountId = accountId.Value,
+            PageIndex = pageIndex,
+        };
+
+
+        return await _deviceRepository.ListAsync(filters);
     }
 
     public async Task<Device?> Get(Guid id)

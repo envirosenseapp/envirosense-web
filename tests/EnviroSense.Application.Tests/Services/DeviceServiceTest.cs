@@ -2,6 +2,8 @@
 using EnviroSense.Application.Authorization;
 using EnviroSense.Application.Services;
 using EnviroSense.Domain.Entities;
+using EnviroSense.Domain.Filters;
+using EnviroSense.Repositories.Core;
 using EnviroSense.Repositories.Repositories;
 using Moq;
 
@@ -26,33 +28,51 @@ public class DeviceServiceTest : IDisposable
     [Fact]
     public async Task List_It_successfully_fetches_data()
     {
-        _authenticationContext.Setup(e => e.CurrentAccountId()).ReturnsAsync(Guid.Parse("01a4260a-ef07-47ef-97f8-1ca333fd930a"));
+        // Arrange
+        var accountId = Guid.Parse("01a4260a-ef07-47ef-97f8-1ca333fd930a");
+        _authenticationContext
+            .Setup(e => e.CurrentAccountId())
+            .ReturnsAsync(accountId);
 
-        _deviceRepository.Setup(e => e.ListAsync(It.IsAny<Guid>())).Returns(Task.FromResult(new List<Device>()
+        var devices = new List<Device>
         {
             new Device
             {
                 Name = "test 2",
-                Account = new Account() {Email = "123", Password = "123", },
+                Account = new Account { Email = "123", Password = "123" }
             },
             new Device
             {
                 Name = "test",
-                Account = new Account() { Email = "123", Password = "123", },
-            },
-        }));
+                Account = new Account { Email = "123", Password = "123" }
+            }
+        };
 
-        var res = await _deviceService.List();
+        var pagedDevices = new PagedList<Device>(
+            devices,
+            pageSize: 10,
+            pageIndex: 0,
+            totalCount: devices.Count,
+            totalPages: 1
+        );
 
-        Assert.True(res.Count == 2);
+        _deviceRepository
+            .Setup(e => e.ListAsync(It.Is<DeviceFilters>(f => f.AccountId == accountId)))
+            .ReturnsAsync(pagedDevices);
+
+
+        var res = await _deviceService.List(0);
+
+        Assert.Equal(2, res.TotalCount);
     }
+
 
     [Fact]
     public async Task List_It_fails_when_account_id_from_session_is_not_found()
     {
         _authenticationContext.Setup(e => e.CurrentAccountId()).Throws(new Exception("Session is available"));
 
-        await Assert.ThrowsAsync<Exception>(async () => await _deviceService.List());
+        await Assert.ThrowsAsync<Exception>(async () => await _deviceService.List(0));
     }
 
     [Fact]

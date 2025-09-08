@@ -1,4 +1,4 @@
-﻿@model List<EnviroSense.Web.ViewModels.Devices.DeviceViewModel>
+﻿@model EnviroSense.Web.ViewModels.Devices.DeviceViewModel
 @{
     ViewData["Title"] = "Devices";
 }
@@ -12,7 +12,7 @@
             </a>
         </div>
         <div class="card-body">
-            @if (Model == null || !Model.Any())
+            @if (!Model.Devices.Any())
             {
                 <div class="text-center py-5">
                     <h5 class="text-muted mb-3">No devices found.</h5>
@@ -27,13 +27,13 @@
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead class="table-light text-primary">
-                            <tr>
-                                <th>Device Name</th>
-                                <th class="text-center">Actions</th>
-                            </tr>
+                        <tr>
+                            <th>Device Name</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
                         </thead>
                         <tbody>
-                        @foreach (var device in Model)
+                        @foreach (var device in Model.Devices)
                         {
                             <tr>
                                 <td class="fw-semibold">@device.Name</td>
@@ -59,6 +59,25 @@
                     </table>
                 </div>
             }
+            <div class="d-flex justify-content-center mt-3 mb-3">
+                @if (Model.PageIndex > 0)
+                {
+                    <a asp-action="Index"
+                       asp-route-pageIndex="@(Model.PageIndex-1)"
+                       class="btn btn-outline-primary btn-sm me-2">
+                        Previous page
+                    </a>
+                }
+
+                @if (Model.PageIndex < Model.TotalPages)
+                {
+                    <a asp-action="Index"
+                       asp-route-pageIndex="@(Model.PageIndex + 1)"
+                       class="btn btn-outline-primary btn-sm ms-2">
+                        Next page
+                    </a>
+                }
+            </div>
         </div>
     </div>
 </div>
