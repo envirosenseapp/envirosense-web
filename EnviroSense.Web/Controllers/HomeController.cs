@@ -22,7 +22,7 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         var deviceList = await _deviceService.List(0);
-        var allMeasurements = new List<DeviceMeasurmentViewModel>();
+        var allMeasurements = new List<DeviceMeasurementListViewModel>();
 
         foreach (var device in deviceList.Records)
         {
@@ -30,7 +30,7 @@ public class HomeController : Controller
 
             if (measurement == null)
             {
-                allMeasurements.Add(new DeviceMeasurmentViewModel
+                allMeasurements.Add(new DeviceMeasurementListViewModel()
                 {
                     DeviceName = device.Name,
                     Temperature = null,
@@ -40,7 +40,7 @@ public class HomeController : Controller
             }
             else
             {
-                allMeasurements.Add(new DeviceMeasurmentViewModel
+                allMeasurements.Add(new DeviceMeasurementListViewModel()
                 {
                     DeviceId = device.Id,
                     DeviceName = device.Name,
@@ -50,8 +50,13 @@ public class HomeController : Controller
                 });
             }
         }
+        var model = new DeviceMeasurementViewModel
+        {
+            TotalPages = deviceList.TotalPages,
+            DeviceMeasurementList = allMeasurements
+        };
 
-        return View(allMeasurements);
+        return View(model);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

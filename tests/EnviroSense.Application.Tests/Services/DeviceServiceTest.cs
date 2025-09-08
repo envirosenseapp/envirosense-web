@@ -57,7 +57,7 @@ public class DeviceServiceTest : IDisposable
         );
 
         _deviceRepository
-            .Setup(e => e.ListAsync(It.Is<DeviceFiltres>(f => f.AccountId == accountId)))
+            .Setup(e => e.ListAsync(It.Is<DeviceFilters>(f => f.AccountId == accountId)))
             .ReturnsAsync(pagedDevices);
 
 

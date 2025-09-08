@@ -6,7 +6,7 @@ namespace EnviroSense.Repositories.Repositories;
 
 public interface IDeviceRepository
 {
-    Task<PagedList<Device>> ListAsync(DeviceFiltres filters);
+    Task<PagedList<Device>> ListAsync(DeviceFilters filters);
     Task<Device> GetAsync(Guid id);
     Task<Device> CreateAsync(Device device);
 }

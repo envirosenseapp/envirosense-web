@@ -33,7 +33,7 @@ public class DeviceService : IDeviceService
             throw new SessionIsNotAvailableException();
         }
 
-        var filters = new DeviceFiltres
+        var filters = new DeviceFilters
         {
             AccountId = accountId.Value,
             PageIndex = pageIndex,

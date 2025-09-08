@@ -17,7 +17,7 @@ internal class DeviceRepository : IDeviceRepository
         _context = context;
     }
 
-    public async Task<PagedList<Device>> ListAsync(DeviceFiltres filters)
+    public async Task<PagedList<Device>> ListAsync(DeviceFilters filters)
     {
         return await _context.Devices.OrderByDescending(a => a.CreatedAt).Where(a => a.AccountId == filters.AccountId)
             .ToPagedListAsync(filters);

@@ -2,7 +2,7 @@
 
 namespace EnviroSense.Domain.Filters;
 
-public class DeviceFiltres : PagedFilter
+public class DeviceFilters : PagedFilter
 {
     public required Guid AccountId { get; set; }
 }
