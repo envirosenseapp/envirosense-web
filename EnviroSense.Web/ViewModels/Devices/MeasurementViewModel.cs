@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using EnviroSense.Web.ViewModels.Pagination;
 
 namespace EnviroSense.Web.ViewModels.Devices;
 
-public class MeasurementViewModel
+public class MeasurementViewModel : PagedViewModel
 {
     public Guid Id { get; set; }
     public string? DeviceName { get; set; }
@@ -12,12 +13,5 @@ public class MeasurementViewModel
 
     [Range(0, 180)] public float? Humidity { get; set; }
     [Required] public DateTime RecordingDate { get; set; }
-
-    public int PageIndex { get; set; } = 0;
-
-    public int PageSize { get; set; } = 20;
-
-    public int TolalPages { get; set; } = 0;
-
     public List<MeasurementsListViewModel> Measurements { get; set; } = new List<MeasurementsListViewModel>();
 }

@@ -127,7 +127,7 @@ namespace EnviroSense.Web.Controllers
                     PageIndex = model.PageIndex,
                     PageSize = model.PageSize
                 });
-            model.TolalPages = measurementList.TotalPages;
+            model.TotalPages = measurementList.TotalPages;
             model.Measurements = measurementList.Records.Select(m => new MeasurementsListViewModel
             {
                 Id = m.Id,
