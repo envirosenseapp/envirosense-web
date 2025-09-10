@@ -5,6 +5,6 @@ public class PagedViewModel<T>
     public int PageIndex { get; set; } = 0;
     public int PageSize { get; set; } = 20;
     public int TotalPages { get; set; } = 0;
-    
+
     public List<T> Items { get; set; } = new List<T>();
 }
