@@ -26,7 +26,7 @@ namespace EnviroSense.Web.Controllers
         {
             var deviceList = await _deviceService.List(model.PageIndex);
             model.TotalPages = deviceList.TotalPages;
-            model.Devices = deviceList.Records.Select(d => new DeviceListViewModel
+            model.Items = deviceList.Records.Select(d => new DeviceListViewModel
             {
                 Id = d.Id,
                 Name = d.Name,
@@ -128,7 +128,7 @@ namespace EnviroSense.Web.Controllers
                     PageSize = model.PageSize
                 });
             model.TotalPages = measurementList.TotalPages;
-            model.Measurements = measurementList.Records.Select(m => new MeasurementsListViewModel
+            model.Items = measurementList.Records.Select(m => new MeasurementsListViewModel
             {
                 Id = m.Id,
                 DeviceName = m.Device.Name,

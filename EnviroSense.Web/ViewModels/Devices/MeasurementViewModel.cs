@@ -3,7 +3,7 @@ using EnviroSense.Web.ViewModels.Pagination;
 
 namespace EnviroSense.Web.ViewModels.Devices;
 
-public class MeasurementViewModel : PagedViewModel
+public class MeasurementViewModel : PagedViewModel<MeasurementsListViewModel>
 {
     public Guid Id { get; set; }
     public string? DeviceName { get; set; }
@@ -13,5 +13,4 @@ public class MeasurementViewModel : PagedViewModel
 
     [Range(0, 180)] public float? Humidity { get; set; }
     [Required] public DateTime RecordingDate { get; set; }
-    public List<MeasurementsListViewModel> Measurements { get; set; } = new List<MeasurementsListViewModel>();
 }

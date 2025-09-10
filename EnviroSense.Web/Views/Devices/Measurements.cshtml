@@ -36,7 +36,7 @@
 
         <div class="card-body">
 
-            @if (!Model.Measurements.Any())
+            @if (!Model.Items.Any())
 
             {
                 <div class="text-center py-5">
@@ -63,7 +63,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach (var measurement in Model.Measurements)
+                        @foreach (var measurement in Model.Items)
                         {
                             <tr>
                                 <td class="fw-bold">@measurement.Id</td>
