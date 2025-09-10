@@ -55,7 +55,7 @@
                     </a>
                 }
 
-                @if (Model.PageIndex < Model.TotalPages)
+                @if (Model.PageIndex < Model.TotalPages-1)
                 {
                     <a asp-action="ApiKeys"
                        asp-route-pageIndex="@(Model.PageIndex + 1)"
