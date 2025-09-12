@@ -24,7 +24,7 @@ builder.Services.AddDistributedPostgresCache(options =>
 });
 builder.Services.AddSMTPClient(builder.Configuration.GetRequiredSection("EmailSettings") ?? throw new Exception("Missing email settings"));
 builder.Services.AddRazorEmailing();
-builder.Services.AddAPIServices();
+builder.Services.AddAPIServices(builder.Configuration);
 
 var app = builder.Build();
 
