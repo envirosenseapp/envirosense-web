@@ -25,16 +25,19 @@ public class ApiKeysController : Controller
         _accountService = accountService;
     }
 
-    public async Task<IActionResult> ApiKeys()
+    [HttpGet]
+    public async Task<IActionResult> ApiKeys(ApiKeyViewModel model)
     {
-        var list = await _apiKeyService.List();
-        var viewModel = list.Select(a => new ApiKeyViewModel
+        var list = await _apiKeyService.List(model.PageIndex);
+
+        model.CopyPaginationParamsFrom(list);
+        model.Items = list.Records.Select(a => new ApiKeyListViewModel
         {
             Id = a.Id,
             Name = a.Name,
             DisabledAt = a.DisabledAt,
         }).ToList();
-        return View(viewModel);
+        return View(model);
     }
 
     [HttpGet]

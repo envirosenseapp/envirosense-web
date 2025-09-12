@@ -25,8 +25,8 @@ namespace EnviroSense.Web.Controllers
         public async Task<ActionResult> Index(DeviceViewModel model)
         {
             var deviceList = await _deviceService.List(model.PageIndex);
-            model.TotalPages = deviceList.TotalPages;
-            model.Devices = deviceList.Records.Select(d => new DeviceListViewModel
+            model.CopyPaginationParamsFrom(deviceList);
+            model.Items = deviceList.Records.Select(d => new DeviceListViewModel
             {
                 Id = d.Id,
                 Name = d.Name,
@@ -127,8 +127,8 @@ namespace EnviroSense.Web.Controllers
                     PageIndex = model.PageIndex,
                     PageSize = model.PageSize
                 });
-            model.TolalPages = measurementList.TotalPages;
-            model.Measurements = measurementList.Records.Select(m => new MeasurementsListViewModel
+            model.CopyPaginationParamsFrom(measurementList);
+            model.Items = measurementList.Records.Select(m => new MeasurementsListViewModel
             {
                 Id = m.Id,
                 DeviceName = m.Device.Name,

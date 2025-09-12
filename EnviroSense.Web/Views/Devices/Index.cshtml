@@ -12,7 +12,7 @@
             </a>
         </div>
         <div class="card-body">
-            @if (!Model.Devices.Any())
+            @if (!Model.Items.Any())
             {
                 <div class="text-center py-5">
                     <h5 class="text-muted mb-3">No devices found.</h5>
@@ -33,7 +33,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach (var device in Model.Devices)
+                        @foreach (var device in Model.Items)
                         {
                             <tr>
                                 <td class="fw-semibold">@device.Name</td>
