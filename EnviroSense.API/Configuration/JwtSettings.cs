@@ -1,4 +1,4 @@
-namespace EnviroSense.API.Configuration;
+﻿namespace EnviroSense.API.Configuration;
 
 public class JwtSettings
 {

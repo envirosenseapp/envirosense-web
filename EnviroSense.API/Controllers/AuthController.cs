@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using EnviroSense.API.Authentication;
 using EnviroSense.API.Models.Auth;
 using EnviroSense.Domain.Exceptions;
@@ -27,7 +27,7 @@ public class AuthController : BaseController
         try
         {
             var token = await _tokenAuthentication.Login(request.Email, request.Password);
-            
+
             var response = new SignInResponse
             {
                 Token = token

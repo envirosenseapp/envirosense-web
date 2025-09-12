@@ -12,6 +12,7 @@ using EnviroSense.Repositories.Repositories;
 using JWT.Algorithms;
 using JWT.Builder;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace EnviroSense.API.Authentication;
@@ -59,11 +60,20 @@ public class MixedAuthentication : IAuthenticationContext, ITokenAuthentication
             throw new Exception("could not get http context");
         }
 
-        if (!_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("X-Api-Key", out var headerValues))
+        if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("X-Api-Key", out var headerValues))
         {
-            return null;
+            return await CurrentAccountFromApiKey(headerValues);
+        }
+        if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Authorization", out headerValues))
+        {
+            return await CurrentAccountFromAuthorization(headerValues);
         }
 
+        return null;
+    }
+
+    public async Task<Account?> CurrentAccountFromApiKey(StringValues headerValues)
+    {
         if (headerValues.Count != 1)
         {
             throw new InvalidApiKeyException("multiple values found, but expected one");
@@ -81,6 +91,35 @@ public class MixedAuthentication : IAuthenticationContext, ITokenAuthentication
         catch (DeviceApiKeyNotFound)
         {
             throw new InvalidApiKeyException("api key not found");
+        }
+    }
+
+    public async Task<Account?> CurrentAccountFromAuthorization(StringValues headerValues)
+    {
+        if (headerValues.Count != 1)
+        {
+            throw new InvalidBearerException("multiple values found, but expected one");
+        }
+
+        var authorizationValue = headerValues[0] ?? throw new InvalidBearerException("expecting a value");
+        if (!authorizationValue.StartsWith("Bearer"))
+        {
+            throw new InvalidBearerException("Authorization header must start with Bearer");
+        }
+
+        var token = authorizationValue.Remove(0, "Bearer".Length);
+        token = token.Trim();
+
+        try
+        {
+            var accountId = GetAccountIDFromToken(token);
+            var account = await _accountService.GetAccountById(accountId);
+
+            return account;
+        }
+        catch (AccountNotFoundException)
+        {
+            throw new Exception("Could not find account from JWT issuer. Really weird situation.");
         }
     }
 
@@ -102,24 +141,55 @@ public class MixedAuthentication : IAuthenticationContext, ITokenAuthentication
         return token;
     }
 
-    private string BuildToken(Account account)
+    private JwtBuilder CreateJwtBuilder()
     {
         var jwtSecret = _jwtSettings.Value.Secret;
         if (string.IsNullOrEmpty(jwtSecret))
         {
             throw new InvalidOperationException("JWT Secret not configured");
         }
-        
-        var expirationHours = _jwtSettings.Value.ExpirationHours;
-        var expirationTime = DateTime.UtcNow.AddHours(expirationHours);
-        
+
         return JwtBuilder.Create()
             .WithAlgorithm(new HMACSHA256Algorithm())
-            .WithSecret(jwtSecret)
+            .WithSecret(jwtSecret);
+    }
+
+    private string BuildToken(Account account)
+    {
+        var expirationHours = _jwtSettings.Value.ExpirationHours;
+        var expirationTime = DateTime.UtcNow.AddHours(expirationHours);
+
+        return CreateJwtBuilder()
             .AddClaim("exp", ((DateTimeOffset)expirationTime).ToUnixTimeSeconds())
             .AddClaim("iat", ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds())
             .AddClaim("sub", account.Id.ToString())
             .AddClaim("email", account.Email)
             .Encode();
+    }
+
+    private Guid GetAccountIDFromToken(string token)
+    {
+        try
+        {
+            var payload = CreateJwtBuilder()
+                .MustVerifySignature()
+                .Decode<IDictionary<string, object>>(token);
+
+            if (!payload.TryGetValue("sub", out var subClaim) || subClaim == null)
+            {
+                throw new InvalidBearerException("Token does not contain valid subject claim");
+            }
+
+            if (!Guid.TryParse(subClaim.ToString(), out var accountId))
+            {
+                throw new InvalidBearerException("Token subject claim is not a valid GUID");
+            }
+
+            return accountId;
+        }
+        catch (Exception ex) when (!(ex is InvalidBearerException))
+        {
+            throw new InvalidBearerException("Invalid or expired token");
+        }
     }
 }

@@ -1,6 +1,6 @@
-namespace EnviroSense.API.Models.Auth;
+﻿namespace EnviroSense.API.Models.Auth;
 
 public class SignInResponse
 {
-    public string Token {get;set;}
+    public string? Token { get; set; }
 }
