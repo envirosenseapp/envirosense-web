@@ -1,5 +1,4 @@
-﻿using EnviroSense.API.Models;
-using EnviroSense.API.Models.Core;
+﻿using EnviroSense.API.Models.Core;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnviroSense.API.Controllers;

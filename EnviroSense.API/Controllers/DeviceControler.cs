@@ -1,14 +1,14 @@
 ﻿using EnviroSense.API.Filters;
+using EnviroSense.API.Models;
 using EnviroSense.API.Models.Core;
 using EnviroSense.API.Models.Filters;
 using EnviroSense.Application.Services;
-using EnviroSense.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Entities = EnviroSense.Domain.Entities;
 
 namespace EnviroSense.API.Controllers;
 [TypeFilter(typeof(ApiKeyProtected))]
-[Route("/device")]
+[Route("/Devices")]
 public class DeviceControler : BaseController
 {
     IDeviceService _deviceService;
@@ -32,12 +32,11 @@ public class DeviceControler : BaseController
         return Success(result);
     }
 
-    private static Device MapModel(Entities.Device source)
+    private static Devices MapModel(Entities.Device source)
     {
-        return new Device
+        return new Devices
         {
             Id = source.Id,
-            Account = source.Account,
             Name = source.Name,
             CreatedAt = source.CreatedAt,
             UpdatedAt = source.UpdatedAt,
