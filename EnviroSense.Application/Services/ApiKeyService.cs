@@ -51,13 +51,6 @@ public class ApiKeyService : IApiKeyService
         return apiKey;
     }
 
-    public async Task<ApiKey> GetByRawAPIKey(string rawKey)
-    {
-        var hash = _apiKeyGenerator.Hash(rawKey);
-
-        return await _apiKeyRepository.GetByHashAsync(hash);
-    }
-
     public async Task<(ApiKey key, string revealedApiKey)> CreateAsync(string name)
     {
         var account = await _authenticationContext.CurrentAccount();

@@ -1,4 +1,5 @@
 ﻿using EnviroSense.API.Exceptions;
+using EnviroSense.Application.Algorithms;
 using EnviroSense.Application.Authentication;
 using EnviroSense.Application.Services;
 using EnviroSense.Domain.Entities;
@@ -11,12 +12,14 @@ namespace EnviroSense.API.Authentication;
 public class APIKeyAuthentication : IAuthenticationContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IApiKeyService _apiKeyService;
+    private readonly IApiKeyRepository _apiKeyRepository;
+    private readonly IApiKeyGenerator _apiKeyGenerator;
 
-    public APIKeyAuthentication(IHttpContextAccessor httpContextAccessor, IApiKeyService apiKeyService)
+    public APIKeyAuthentication(IHttpContextAccessor httpContextAccessor, IApiKeyRepository apiKeyRepository, IApiKeyGenerator apiKeyGenerator)
     {
         _httpContextAccessor = httpContextAccessor;
-        _apiKeyService = apiKeyService;
+        _apiKeyRepository = apiKeyRepository;
+        _apiKeyGenerator = apiKeyGenerator;
     }
 
     public async Task<Guid?> CurrentAccountId()
@@ -47,7 +50,8 @@ public class APIKeyAuthentication : IAuthenticationContext
 
         try
         {
-            var apiKey = await _apiKeyService.GetByRawAPIKey(key);
+            var hash = _apiKeyGenerator.Hash(key);
+            var apiKey = await _apiKeyRepository.GetByHashAsync(hash);
 
             return apiKey.Account;
         }
