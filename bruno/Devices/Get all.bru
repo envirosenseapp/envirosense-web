@@ -1,0 +1,19 @@
+meta {
+  name: Get all
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{apiUrl}}/Devices?pageIndex=0
+  body: none
+  auth: inherit
+}
+
+params:query {
+  pageIndex: 0
+}
+
+settings {
+  encodeUrl: true
+}
