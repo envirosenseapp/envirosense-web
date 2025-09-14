@@ -13,21 +13,17 @@ public class HomeController : Controller
 {
     private readonly IDeviceService _deviceService;
     private readonly IMeasurementService _measurementService;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public HomeController(IDeviceService deviceService, IMeasurementService measurementService, IHttpContextAccessor httpContextAccessor)
+    public HomeController(IDeviceService deviceService, IMeasurementService measurementService)
     {
         _deviceService = deviceService;
         _measurementService = measurementService;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<IActionResult> Index()
     {
-        var accountId = Guid.Parse(_httpContextAccessor.HttpContext.Session.GetString("authenticated_account_id"));
         var deviceFilter = new DeviceFilters
         {
-            AccountId = accountId,
             PageIndex = 0,
             PageSize = 6
         };

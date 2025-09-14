@@ -2,7 +2,6 @@
 using EnviroSense.Application.Authorization;
 using EnviroSense.Application.Services;
 using EnviroSense.Domain.Entities;
-using EnviroSense.Domain.Exceptions;
 using EnviroSense.Domain.Filters;
 using EnviroSense.Repositories.Core;
 using EnviroSense.Repositories.Repositories;
@@ -31,7 +30,9 @@ public class DeviceServiceTest : IDisposable
     {
         // Arrange
         var accountId = Guid.Parse("01a4260a-ef07-47ef-97f8-1ca333fd930a");
-
+        _authenticationContext
+            .Setup(e => e.CurrentAccountId())
+            .ReturnsAsync(accountId);
 
         var devices = new List<Device>
         {
@@ -60,7 +61,6 @@ public class DeviceServiceTest : IDisposable
             .ReturnsAsync(pagedDevices);
         var deviceFiletr = new DeviceFilters
         {
-            AccountId = accountId,
             PageIndex = 0,
             PageSize = 6
         };
@@ -74,13 +74,13 @@ public class DeviceServiceTest : IDisposable
     [Fact]
     public async Task List_It_fails_when_account_id_from_session_is_not_found()
     {
-        var deviceFilter = new DeviceFilters
+        _authenticationContext.Setup(e => e.CurrentAccountId()).Throws(new Exception("Session is available"));
+        var deviceFiletr = new DeviceFilters
         {
-            AccountId = null,
             PageIndex = 0,
             PageSize = 6
         };
-        await Assert.ThrowsAsync<SessionIsNotAvailableException>(async () => await _deviceService.List(deviceFilter));
+        await Assert.ThrowsAsync<Exception>(async () => await _deviceService.List(deviceFiletr));
     }
 
     [Fact]

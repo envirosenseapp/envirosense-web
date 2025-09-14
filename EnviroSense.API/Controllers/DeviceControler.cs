@@ -2,6 +2,7 @@
 using EnviroSense.API.Models;
 using EnviroSense.API.Models.Core;
 using EnviroSense.API.Models.Filters;
+using EnviroSense.Application.Authentication;
 using EnviroSense.Application.Services;
 using EnviroSense.Domain.Filters;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,12 @@ namespace EnviroSense.API.Controllers;
 public class DeviceControler : BaseController
 {
     IDeviceService _deviceService;
+    IAuthenticationContext _authContext;
 
-    public DeviceControler(IDeviceService deviceService)
+    public DeviceControler(IDeviceService deviceService, IAuthenticationContext authContext)
     {
         _deviceService = deviceService;
+        _authContext = authContext;
     }
     [HttpGet]
     public async Task<IActionResult> List([FromQuery]
@@ -26,8 +29,12 @@ public class DeviceControler : BaseController
         {
             return ValidationError();
         }
-
-        var devices = await _deviceService.List(MapFilters(queryFilters));
+        var accountId = await _authContext.CurrentAccountId();
+        if (accountId == null)
+        {
+            throw new UnauthorizedAccessException();
+        }
+        var devices = await _deviceService.List(MapFilters(queryFilters, accountId));
         var result = devices.ToPagedApiResult(MapModel);
 
         return Success(result);
@@ -45,11 +52,11 @@ public class DeviceControler : BaseController
         };
     }
 
-    private static DeviceFilters MapFilters(DeviceQueryFilters queryFilters)
+    private static DeviceFilters MapFilters(DeviceQueryFilters queryFilters, Guid? accountId)
     {
         return new DeviceFilters()
         {
-            AccountId = Guid.Parse("0198c711-99a7-7377-b70b-9753db34a1b3"),
+            AccountId = accountId,
             PageIndex = queryFilters.PageIndex,
             PageSize = queryFilters.PageSize,
         };

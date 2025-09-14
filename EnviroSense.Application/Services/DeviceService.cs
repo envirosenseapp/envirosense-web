@@ -27,11 +27,13 @@ public class DeviceService : IDeviceService
 
     public async Task<PagedList<Device>> List(DeviceFilters filters)
     {
-
-        if (filters.AccountId == null)
+        var accountId = await _authenticationContext.CurrentAccountId();
+        if (accountId == null)
         {
             throw new SessionIsNotAvailableException();
         }
+
+        filters.AccountId = accountId;
 
         return await _deviceRepository.ListAsync(filters);
     }
