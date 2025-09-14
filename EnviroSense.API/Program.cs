@@ -35,6 +35,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MustMigrate();
+
+app.UseCors("Base");
 app.UseRouting();
 app.MapControllers();
 
