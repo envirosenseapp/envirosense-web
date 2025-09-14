@@ -14,12 +14,9 @@ namespace EnviroSense.API.Controllers;
 public class DeviceControler : BaseController
 {
     IDeviceService _deviceService;
-    IAuthenticationContext _authContext;
-
-    public DeviceControler(IDeviceService deviceService, IAuthenticationContext authContext)
+    public DeviceControler(IDeviceService deviceService)
     {
         _deviceService = deviceService;
-        _authContext = authContext;
     }
     [HttpGet]
     public async Task<IActionResult> List([FromQuery]
@@ -29,12 +26,8 @@ public class DeviceControler : BaseController
         {
             return ValidationError();
         }
-        var accountId = await _authContext.CurrentAccountId();
-        if (accountId == null)
-        {
-            throw new UnauthorizedAccessException();
-        }
-        var devices = await _deviceService.List(MapFilters(queryFilters, accountId));
+
+        var devices = await _deviceService.List(MapFilters(queryFilters));
         var result = devices.ToPagedApiResult(MapModel);
 
         return Success(result);
@@ -52,11 +45,10 @@ public class DeviceControler : BaseController
         };
     }
 
-    private static DeviceFilters MapFilters(DeviceQueryFilters queryFilters, Guid? accountId)
+    private static DeviceFilters MapFilters(DeviceQueryFilters queryFilters)
     {
         return new DeviceFilters()
         {
-            AccountId = accountId,
             PageIndex = queryFilters.PageIndex,
             PageSize = queryFilters.PageSize,
         };
