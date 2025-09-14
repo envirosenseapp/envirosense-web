@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using EnviroSense.Application.Services;
+using EnviroSense.Domain.Filters;
 using EnviroSense.Web.Filters;
 using EnviroSense.Web.ViewModels;
 using EnviroSense.Web.ViewModels.Home;
@@ -12,16 +13,25 @@ public class HomeController : Controller
 {
     private readonly IDeviceService _deviceService;
     private readonly IMeasurementService _measurementService;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public HomeController(IDeviceService deviceService, IMeasurementService measurementService)
+    public HomeController(IDeviceService deviceService, IMeasurementService measurementService, IHttpContextAccessor httpContextAccessor)
     {
         _deviceService = deviceService;
         _measurementService = measurementService;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<IActionResult> Index()
     {
-        var deviceList = await _deviceService.List(0);
+        var accountId = Guid.Parse(_httpContextAccessor.HttpContext.Session.GetString("authenticated_account_id"));
+        var deviceFilter = new DeviceFilters
+        {
+            AccountId = accountId,
+            PageIndex = 0,
+            PageSize = 6
+        };
+        var deviceList = await _deviceService.List(deviceFilter);
         var allMeasurements = new List<DeviceMeasurementListViewModel>();
 
         foreach (var device in deviceList.Records)

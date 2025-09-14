@@ -3,6 +3,7 @@ using EnviroSense.API.Models;
 using EnviroSense.API.Models.Core;
 using EnviroSense.API.Models.Filters;
 using EnviroSense.Application.Services;
+using EnviroSense.Domain.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Entities = EnviroSense.Domain.Entities;
 
@@ -26,7 +27,7 @@ public class DeviceControler : BaseController
             return ValidationError();
         }
 
-        var devices = await _deviceService.List(queryFilters.PageIndex);
+        var devices = await _deviceService.List(MapFilters(queryFilters));
         var result = devices.ToPagedApiResult(MapModel);
 
         return Success(result);
@@ -41,6 +42,16 @@ public class DeviceControler : BaseController
             CreatedAt = source.CreatedAt,
             UpdatedAt = source.UpdatedAt,
 
+        };
+    }
+
+    private static DeviceFilters MapFilters(DeviceQueryFilters queryFilters)
+    {
+        return new DeviceFilters()
+        {
+            AccountId = Guid.Parse("0198c711-99a7-7377-b70b-9753db34a1b3"),
+            PageIndex = queryFilters.PageIndex,
+            PageSize = queryFilters.PageSize,
         };
     }
 

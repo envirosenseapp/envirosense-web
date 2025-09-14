@@ -4,5 +4,5 @@ namespace EnviroSense.Domain.Filters;
 
 public class DeviceFilters : PagedFilter
 {
-    public required Guid AccountId { get; set; }
+    public required Guid? AccountId { get; set; }
 }

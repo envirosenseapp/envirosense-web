@@ -6,7 +6,7 @@ namespace EnviroSense.Application.Services;
 
 public interface IDeviceService
 {
-    Task<PagedList<Device>> List(int pageIndex);
+    Task<PagedList<Device>> List(DeviceFilters filters);
     Task<Device?> Get(Guid id);
     Task<Device> Create(string name);
 }

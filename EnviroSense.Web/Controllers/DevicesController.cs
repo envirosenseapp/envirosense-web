@@ -14,17 +14,26 @@ namespace EnviroSense.Web.Controllers
     {
         private readonly IDeviceService _deviceService;
         private readonly IMeasurementService _measurementService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public DevicesController(IDeviceService deviceService, IMeasurementService measurementService)
+        public DevicesController(IDeviceService deviceService, IMeasurementService measurementService, IHttpContextAccessor httpContextAccessor)
         {
             _deviceService = deviceService;
             _measurementService = measurementService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
         public async Task<ActionResult> Index(DeviceViewModel model)
         {
-            var deviceList = await _deviceService.List(model.PageIndex);
+            model.AccountId = Guid.Parse(_httpContextAccessor.HttpContext.Session.GetString("authenticated_account_id"));
+            var deviceFilter = new DeviceFilters
+            {
+                AccountId = model.AccountId,
+                PageIndex = model.PageIndex,
+                PageSize = model.PageSize
+            };
+            var deviceList = await _deviceService.List(deviceFilter);
             model.CopyPaginationParamsFrom(deviceList);
             model.Items = deviceList.Records.Select(d => new DeviceListViewModel
             {
