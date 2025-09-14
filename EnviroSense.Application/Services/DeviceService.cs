@@ -25,7 +25,7 @@ public class DeviceService : IDeviceService
         _authenticationContext = authenticationContext;
     }
 
-    public async Task<PagedList<Device>> List(int pageIndex)
+    public async Task<PagedList<Device>> List(DeviceFilters filters)
     {
         var accountId = await _authenticationContext.CurrentAccountId();
         if (accountId == null)
@@ -33,12 +33,7 @@ public class DeviceService : IDeviceService
             throw new SessionIsNotAvailableException();
         }
 
-        var filters = new DeviceFilters
-        {
-            AccountId = accountId.Value,
-            PageIndex = pageIndex,
-        };
-
+        filters.AccountId = accountId;
 
         return await _deviceRepository.ListAsync(filters);
     }

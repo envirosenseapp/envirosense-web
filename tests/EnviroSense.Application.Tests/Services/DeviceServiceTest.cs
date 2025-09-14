@@ -50,7 +50,7 @@ public class DeviceServiceTest : IDisposable
 
         var pagedDevices = new PagedList<Device>(
             devices,
-            pageSize: 10,
+            pageSize: 6,
             pageIndex: 0,
             totalCount: devices.Count,
             totalPages: 1
@@ -59,9 +59,13 @@ public class DeviceServiceTest : IDisposable
         _deviceRepository
             .Setup(e => e.ListAsync(It.Is<DeviceFilters>(f => f.AccountId == accountId)))
             .ReturnsAsync(pagedDevices);
+        var deviceFiletr = new DeviceFilters
+        {
+            PageIndex = 0,
+            PageSize = 6
+        };
 
-
-        var res = await _deviceService.List(0);
+        var res = await _deviceService.List(deviceFiletr);
 
         Assert.Equal(2, res.TotalCount);
     }
@@ -71,8 +75,12 @@ public class DeviceServiceTest : IDisposable
     public async Task List_It_fails_when_account_id_from_session_is_not_found()
     {
         _authenticationContext.Setup(e => e.CurrentAccountId()).Throws(new Exception("Session is available"));
-
-        await Assert.ThrowsAsync<Exception>(async () => await _deviceService.List(0));
+        var deviceFiletr = new DeviceFilters
+        {
+            PageIndex = 0,
+            PageSize = 6
+        };
+        await Assert.ThrowsAsync<Exception>(async () => await _deviceService.List(deviceFiletr));
     }
 
     [Fact]

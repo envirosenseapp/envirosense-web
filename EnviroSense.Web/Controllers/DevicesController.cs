@@ -24,7 +24,12 @@ namespace EnviroSense.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Index(DeviceViewModel model)
         {
-            var deviceList = await _deviceService.List(model.PageIndex);
+            var deviceFilter = new DeviceFilters
+            {
+                PageIndex = model.PageIndex,
+                PageSize = model.PageSize
+            };
+            var deviceList = await _deviceService.List(deviceFilter);
             model.CopyPaginationParamsFrom(deviceList);
             model.Items = deviceList.Records.Select(d => new DeviceListViewModel
             {

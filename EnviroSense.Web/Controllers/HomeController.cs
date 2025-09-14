@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using EnviroSense.Application.Services;
+using EnviroSense.Domain.Filters;
 using EnviroSense.Web.Filters;
 using EnviroSense.Web.ViewModels;
 using EnviroSense.Web.ViewModels.Home;
@@ -21,7 +22,12 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var deviceList = await _deviceService.List(0);
+        var deviceFilter = new DeviceFilters
+        {
+            PageIndex = 0,
+            PageSize = 6
+        };
+        var deviceList = await _deviceService.List(deviceFilter);
         var allMeasurements = new List<DeviceMeasurementListViewModel>();
 
         foreach (var device in deviceList.Records)
