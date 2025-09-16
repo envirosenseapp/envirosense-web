@@ -55,6 +55,30 @@ public class DevicesControler : BaseController
 
     }
 
+    [HttpPost]
+
+    public async Task<IActionResult> Create([FromBody][Required] CreateDevice model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return ValidationError();
+        }
+
+        if (model.Name == null)
+        {
+            return BadRequest();
+        }
+
+        var device = await _deviceService.Create(model.Name);
+
+        return CreatedAtAction(
+            nameof(Get),
+            new { id = device.Id },
+            MapModel(device)
+        );
+
+    }
+
     private static Device MapModel(Entities.Device source)
     {
         return new Device
