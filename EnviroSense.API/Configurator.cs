@@ -26,11 +26,11 @@ public static class Configurator
         serviceCollection.AddHttpContextAccessor();
         serviceCollection.AddScoped<IAuthenticationContext, MixedAuthentication>();
         serviceCollection.AddScoped<ITokenAuthentication, MixedAuthentication>();
-        
+
         serviceCollection.AddCors(options =>
         {
             options.AddPolicy(name: "Base",
-                policy  =>
+                policy =>
                 {
                     policy.AllowAnyHeader()
                         .AllowAnyMethod().AllowAnyOrigin();
