@@ -1,6 +1,6 @@
 ﻿namespace EnviroSense.API.Models;
 
-public class Devices
+public class Device
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = null!;
