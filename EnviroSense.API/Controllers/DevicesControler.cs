@@ -64,18 +64,9 @@ public class DevicesControler : BaseController
             return ValidationError();
         }
 
-        if (model.Name == null)
-        {
-            return BadRequest();
-        }
-
         var device = await _deviceService.Create(model.Name);
 
-        return CreatedAtAction(
-            nameof(Get),
-            new { id = device.Id },
-            MapModel(device)
-        );
+        return SuccessfullyCreated(MapModel(device));
 
     }
 
