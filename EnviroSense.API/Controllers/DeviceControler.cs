@@ -46,7 +46,7 @@ public class DeviceControler : BaseController
         try
         {
             var device = await _deviceService.Get(id);
-            return Ok();
+            return Success(MapModel(device));
         }
         catch (DeviceNotFoundException)
         {
