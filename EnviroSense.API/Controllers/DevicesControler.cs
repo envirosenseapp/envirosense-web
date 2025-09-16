@@ -13,10 +13,10 @@ using Entities = EnviroSense.Domain.Entities;
 namespace EnviroSense.API.Controllers;
 [TypeFilter(typeof(ApiKeyProtected))]
 [Route("/Devices")]
-public class DeviceControler : BaseController
+public class DevicesControler : BaseController
 {
     IDeviceService _deviceService;
-    public DeviceControler(IDeviceService deviceService)
+    public DevicesControler(IDeviceService deviceService)
     {
         _deviceService = deviceService;
     }
@@ -55,9 +55,9 @@ public class DeviceControler : BaseController
 
     }
 
-    private static Devices MapModel(Entities.Device source)
+    private static Device MapModel(Entities.Device source)
     {
-        return new Devices
+        return new Device
         {
             Id = source.Id,
             Name = source.Name,
