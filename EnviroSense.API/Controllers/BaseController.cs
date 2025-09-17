@@ -10,6 +10,14 @@ public abstract class BaseController : Controller
         return Json(result);
     }
 
+    protected IActionResult SuccessfullyCreated<T>(T result)
+    {
+        return new JsonResult(result)
+        {
+            StatusCode = 201
+        };
+    }
+
     public IActionResult ValidationError()
     {
         return BadRequest(new ValidationError(ModelState));

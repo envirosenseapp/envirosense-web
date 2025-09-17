@@ -62,7 +62,7 @@ public class MeasurementsController : BaseController
                 RecordingDate = model.RecordingDate,
             });
 
-            return Success(MapModel(measurement));
+            return SuccessfullyCreated(MapModel(measurement));
         }
         catch (DeviceNotFoundException)
         {
