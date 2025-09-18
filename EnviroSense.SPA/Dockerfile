@@ -6,7 +6,7 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 
 # Install deps first (better layer caching)
-COPY package*.json ./
+COPY package.json package-lock.json ./
 RUN npm ci --no-audit --no-fund
 
 # Copy sources and build
