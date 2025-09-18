@@ -1,0 +1,72 @@
+@if (isLoading()) {
+  <div class="flex justify-center items-center h-full">
+    <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+  </div>
+}
+
+@if (!isLoading()) {
+  <div>
+    @if (data().records.length > 0) {
+      <div nz-row nzJustify="end" class="p-4">
+        <button nz-button nzType="primary">Add new device</button>
+      </div>
+      <div nz-row [nzGutter]="[16, 16]">
+        @for (device of data().records; track device.id) {
+          <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="6">
+            <nz-card [nzTitle]="device.name" [nzActions]="[actionGraph, actionList, actionEdit]">
+              <!-- Card Body with Statistics -->
+              <div class="py-2">
+                <div class="flex justify-around mb-3">
+                  <nz-statistic
+                    nzValue="20"
+                    nzTitle="Temperature"
+                    nzSuffix="°C"
+                  ></nz-statistic>
+                  <nz-statistic
+                    nzValue="50"
+                    nzTitle="Humidity"
+                    nzSuffix="%"
+                  ></nz-statistic>
+                </div>
+                <div class="text-center text-gray-400 text-xs">
+                  <span>Last: {{ ( now | date: 'short') || 'No readings yet' }}</span>
+                </div>
+              </div>
+            </nz-card>
+          </div>
+        }
+      </div>
+
+      <div nz-row nzJustify="center" class="my-4">
+        <nz-pagination
+          [nzPageIndex]="filters().pageIndex + 1"
+          [nzPageSize]="filters().pageSize"
+          [nzTotal]="data().totalCount"
+          [nzPageSizeOptions]="[5, 10, 20]"
+          [nzShowSizeChanger]="true"
+          (nzPageIndexChange)="setPage($event - 1)"
+          (nzPageSizeChange)="setPageSize($event)"
+        ></nz-pagination>
+      </div>
+    }
+
+    @if (data().records.length === 0) {
+      <div class="text-center text-slate-500 mt-8">
+        <p>No devices found. Get started by adding a new device.</p>
+        <button nz-button nzType="primary">Add first device</button>
+      </div>
+    }
+  </div>
+}
+
+<ng-template #actionGraph>
+  <nz-icon nzType="line-chart" nzTheme="outline" />
+</ng-template>
+
+<ng-template #actionList>
+  <nz-icon nzType="unordered-list" nzTheme="outline" />
+</ng-template>
+
+<ng-template #actionEdit>
+  <nz-icon nzType="edit"/>
+</ng-template>

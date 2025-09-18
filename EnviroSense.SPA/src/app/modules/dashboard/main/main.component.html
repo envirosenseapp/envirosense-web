@@ -1,0 +1,44 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzWidth]="256">
+    <div class="sidebar-logo">
+      <a routerLink="/dashboard">
+        <span class="sidebar-logo-icon">ES</span>
+        <h1 *ngIf="!isCollapsed">EnviroSense</h1>
+      </a>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-menu-item>
+        <span nz-icon nzType="dashboard"></span>
+        <span>Dashboard</span>
+      </li>
+      <li nz-menu-item>
+        <span nz-icon nzType="hdd"></span>
+        <span>Devices</span>
+      </li>
+      <li nz-menu-item>
+        <span nz-icon nzType="key"></span>
+        <span>API Keys</span>
+      </li>
+      <li nz-menu-item>
+        <span nz-icon nzType="setting"></span>
+        <span>Settings</span>
+      </li>
+      <li nz-menu-item (click)="signOut()">
+        <span nz-icon nzType="logout"></span>
+        <span>Sign Out</span>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header class="app-header">
+      <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+          <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+      </span>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

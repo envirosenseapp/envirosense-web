@@ -1,0 +1,21 @@
+node_modules
+npm-debug.log
+Dockerfile*
+.dockerignore
+.git
+.gitignore
+.dist
+.out-tsc
+.angular
+**/.DS_Store
+**/Thumbs.db
+**/*.local
+
+# Angular
+/dist
+/out-tsc
+/.angular
+
+# IDE
+.vscode
+.idea

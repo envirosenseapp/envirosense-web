@@ -1,0 +1,66 @@
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService, SignInRequest, SessionService } from '../../api';
+import { catchError, finalize, of } from 'rxjs';
+import { withLoading, WithLoading, Empty } from '../../../mixin';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+
+@Component({
+  selector: 'app-guest-sign-in',
+  standalone: false,
+  templateUrl: './sign-in.component.html',
+})
+export class SignInComponent extends withLoading(Empty) implements WithLoading {
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly notification = inject(NzNotificationService);
+  private readonly sessionService = inject(SessionService);
+
+  form: FormGroup;
+
+  constructor() {
+    super();
+    this.form = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      remember: [true],
+    });
+  }
+
+  submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+
+    const credentials: SignInRequest = {
+      email: this.form.value.email,
+      password: this.form.value.password,
+    };
+
+    this.startLoading();
+    this.authService.signIn(credentials)
+      .pipe(
+        this.loadingAndErrorPipe.bind(this),
+      )
+      .subscribe(this.handleSignInSuccess.bind(this));
+  }
+
+  private handleSignInSuccess(response: { token: string }): void {
+    // Store token
+    this.sessionService.setToken(response.token);
+
+    // Show success notification
+    this.notification.success(
+      'Welcome back!',
+      'You have successfully signed in to EnviroSense.',
+      { nzDuration: 3000 }
+    );
+
+    // Redirect to dashboard
+    this.router.navigate(['/dashboard']);
+  }
+}

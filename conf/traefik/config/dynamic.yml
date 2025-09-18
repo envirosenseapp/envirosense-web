@@ -10,6 +10,11 @@ http:
       rule:
         Host(`web.envirosense.local`)
       service: web-service
+    spa:
+      entryPoints: http
+      rule:
+        Host(`spa.envirosense.local`)
+      service: spa-service
 
   services:
     api-service:
@@ -20,3 +25,7 @@ http:
       loadBalancer:
         servers:
           - url: http://web-service:8080/
+    spa-service:
+      loadBalancer:
+        servers:
+          - url: http://spa-service:8080/

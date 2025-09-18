@@ -70,6 +70,17 @@ services:
     volumes:
       - "./conf/secrets/appsettings.Production.json:/etc/secrets/appsettings.Production.json"
 
+  spa-service:
+    profiles:
+      - full
+    build:
+      context: EnviroSense.SPA/
+      dockerfile: Dockerfile
+    ports:
+      - "5052:80"
+    networks:
+      - envirosense-network
+
   traefik:
     profiles:
       - full
