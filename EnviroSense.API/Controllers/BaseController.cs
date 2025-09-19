@@ -22,6 +22,13 @@ public abstract class BaseController : Controller
     {
         return BadRequest(new ValidationError(ModelState));
     }
+    public IActionResult EmailIsTaken()
+    {
+        return BadRequest(new
+        {
+            message = "Email is already taken"
+        });
+    }
 
     public IActionResult CustomValidationError(params BaseError.Entry[] entries)
     {

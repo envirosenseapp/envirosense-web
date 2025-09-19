@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EnviroSense.API.Authentication;
 using EnviroSense.API.Models.Auth;
+using EnviroSense.Application.Services;
+using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +12,12 @@ namespace EnviroSense.API.Controllers;
 public class AuthController : BaseController
 {
     private readonly ITokenAuthentication _tokenAuthentication;
+    private readonly IAccountService _accountService;
 
-    public AuthController(ITokenAuthentication tokenAuthentication)
+    public AuthController(ITokenAuthentication tokenAuthentication, IAccountService accountService)
     {
         _tokenAuthentication = tokenAuthentication;
+        _accountService = accountService;
     }
 
     [HttpPost("sign_in")]
@@ -42,4 +46,24 @@ public class AuthController : BaseController
             );
         }
     }
+
+    [HttpPost("sign_up")]
+
+    public async Task<IActionResult> SignUp([FromBody][Required] SignUpRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return ValidationError();
+        }
+        var isEmailTaken = await _accountService.IsEmailTaken(request.Email);
+        if (isEmailTaken)
+        {
+            return EmailIsTaken();
+        }
+        var account = await _accountService.Add(request.Email, request.Password);
+
+        return SuccessfullyCreated(account);
+    }
+
+
 }
