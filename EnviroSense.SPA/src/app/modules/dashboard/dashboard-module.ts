@@ -20,6 +20,7 @@ import { CreateDeviceComponent } from './create-device/create-device.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzInputModule} from 'ng-zorro-antd/input';
+import {ViewDeviceComponent} from './view-device';
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import {NzInputModule} from 'ng-zorro-antd/input';
     MainComponent,
     DashboardComponent,
     CreateDeviceComponent,
+    ViewDeviceComponent,
   ],
 })
 export class DashboardModule { }
