@@ -21,6 +21,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzInputModule} from 'ng-zorro-antd/input';
 import {ViewDeviceComponent} from './view-device';
+import {NzDescriptionsComponent, NzDescriptionsItemComponent} from 'ng-zorro-antd/descriptions';
+import {NzEmptyComponent} from 'ng-zorro-antd/empty';
 
 @NgModule({
   imports: [
@@ -40,6 +42,9 @@ import {ViewDeviceComponent} from './view-device';
     ReactiveFormsModule,
     NzFormModule,
     NzInputModule,
+    NzDescriptionsComponent,
+    NzDescriptionsItemComponent,
+    NzEmptyComponent,
   ],
   declarations:[
     MainComponent,
