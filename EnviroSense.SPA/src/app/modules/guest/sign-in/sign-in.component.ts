@@ -1,17 +1,16 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService, SignInRequest, SessionService } from '../../api';
-import { catchError, finalize, of } from 'rxjs';
-import { withLoading, WithLoading, Empty } from '../../../mixin';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
+import {Component, inject} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {AuthService, SignInRequest, SessionService} from '../../api';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {ComponentWithLoading} from '../../../core';
 
 @Component({
   selector: 'app-guest-sign-in',
   standalone: false,
   templateUrl: './sign-in.component.html',
 })
-export class SignInComponent extends withLoading(Empty) implements WithLoading {
+export class SignInComponent extends ComponentWithLoading {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
@@ -57,7 +56,7 @@ export class SignInComponent extends withLoading(Empty) implements WithLoading {
     this.notification.success(
       'Welcome back!',
       'You have successfully signed in to EnviroSense.',
-      { nzDuration: 3000 }
+      {nzDuration: 3000}
     );
 
     // Redirect to dashboard
