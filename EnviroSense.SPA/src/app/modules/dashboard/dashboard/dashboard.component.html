@@ -8,7 +8,7 @@
   <div>
     @if (data().records.length > 0) {
       <div nz-row nzJustify="end" class="p-4">
-        <button nz-button nzType="primary">Add new device</button>
+        <button nz-button nzType="primary" routerLink="/dashboard/devices/create">Add new device</button>
       </div>
       <div nz-row [nzGutter]="[16, 16]">
         @for (device of data().records; track device.id) {
