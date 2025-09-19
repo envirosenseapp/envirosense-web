@@ -1,1 +1,45 @@
-<p>create-device works!</p>
+<div class="p-6">
+  <h1 class="text-2xl font-semibold text-gray-800 mb-4">Create New Device</h1>
+
+  <!-- Error message -->
+  @if (errorMessage() != null){
+    <div class="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+      <p class="text-sm text-red-600">{{ errorMessage()?.message }}</p>
+
+      @for (item of errorMessage()?.context; track item.key){
+        <p class="text-sm text-red-600">{{ item.key }} -- {{ item.message }} </p>
+      }
+    </div>
+  }
+
+  <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" >
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzFor="name" nzRequired>Device Name</nz-form-label>
+      <nz-form-control [nzSpan]="12" [nzErrorTip]="nameErrorTpl">
+        <input type="text" nz-input formControlName="name" id="name" placeholder="Enter device name"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+        <button
+          nz-button
+          nzType="primary"
+          [disabled]="!form.valid || isLoading()"
+          [nzLoading]="isLoading()">Create</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+
+<ng-template #nameErrorTpl let-control>
+  @if (control.hasError('required')) {
+    <ng-container>
+      Device name is required.
+    </ng-container>
+  }
+  @if (control.hasError('maxlength')) {
+    <ng-container>
+      Device name cannot be more than 50 characters long.
+    </ng-container>
+  }
+</ng-template>

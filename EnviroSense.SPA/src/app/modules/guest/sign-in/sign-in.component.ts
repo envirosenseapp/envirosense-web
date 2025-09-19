@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {AuthService, SignInRequest, SessionService} from '../../api';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {ComponentWithLoading} from '../../../core';
+import {NzMessageService} from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-guest-sign-in',
@@ -14,7 +15,7 @@ export class SignInComponent extends ComponentWithLoading {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly notification = inject(NzNotificationService);
+  private readonly messageService = inject(NzMessageService);
   private readonly sessionService = inject(SessionService);
 
   form: FormGroup;
@@ -53,10 +54,8 @@ export class SignInComponent extends ComponentWithLoading {
     this.sessionService.setToken(response.token);
 
     // Show success notification
-    this.notification.success(
-      'Welcome back!',
-      'You have successfully signed in to EnviroSense.',
-      {nzDuration: 3000}
+    this.messageService.success(
+      'You have successfully signed in to EnviroSense.'
     );
 
     // Redirect to dashboard
