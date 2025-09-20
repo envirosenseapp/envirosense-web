@@ -58,7 +58,7 @@ public class AuthController : BaseController
         var isEmailTaken = await _accountService.IsEmailTaken(request.Email);
         if (isEmailTaken)
         {
-            return EmailIsTaken();
+            return ValidationError();
         }
         var account = await _accountService.Add(request.Email, request.Password);
 
