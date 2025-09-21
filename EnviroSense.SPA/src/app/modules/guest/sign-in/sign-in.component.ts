@@ -1,21 +1,21 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService, SignInRequest, SessionService } from '../../api';
-import { catchError, finalize, of } from 'rxjs';
-import { withLoading, WithLoading, Empty } from '../../../mixin';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
+import {Component, inject} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {AuthService, SignInRequest, SessionService} from '../../api';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {ComponentWithLoading, loadingAndErrorPipe} from '../../../core';
+import {NzMessageService} from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-guest-sign-in',
   standalone: false,
   templateUrl: './sign-in.component.html',
 })
-export class SignInComponent extends withLoading(Empty) implements WithLoading {
+export class SignInComponent extends ComponentWithLoading {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly notification = inject(NzNotificationService);
+  private readonly messageService = inject(NzMessageService);
   private readonly sessionService = inject(SessionService);
 
   form: FormGroup;
@@ -44,7 +44,7 @@ export class SignInComponent extends withLoading(Empty) implements WithLoading {
     this.startLoading();
     this.authService.signIn(credentials)
       .pipe(
-        this.loadingAndErrorPipe.bind(this),
+        loadingAndErrorPipe(this),
       )
       .subscribe(this.handleSignInSuccess.bind(this));
   }
@@ -54,10 +54,8 @@ export class SignInComponent extends withLoading(Empty) implements WithLoading {
     this.sessionService.setToken(response.token);
 
     // Show success notification
-    this.notification.success(
-      'Welcome back!',
-      'You have successfully signed in to EnviroSense.',
-      { nzDuration: 3000 }
+    this.messageService.success(
+      'You have successfully signed in to EnviroSense.'
     );
 
     // Redirect to dashboard

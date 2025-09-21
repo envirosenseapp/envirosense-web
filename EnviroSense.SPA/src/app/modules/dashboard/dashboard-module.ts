@@ -16,6 +16,10 @@ import {NzSpinModule} from 'ng-zorro-antd/spin';
 import {NzGridModule} from 'ng-zorro-antd/grid';
 import {NzPaginationModule} from 'ng-zorro-antd/pagination';
 import {NzStatisticModule} from 'ng-zorro-antd/statistic';
+import { CreateDeviceComponent } from './create-device/create-device.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {NzFormModule} from 'ng-zorro-antd/form';
+import {NzInputModule} from 'ng-zorro-antd/input';
 
 @NgModule({
   imports: [
@@ -32,10 +36,14 @@ import {NzStatisticModule} from 'ng-zorro-antd/statistic';
     NzGridModule,
     NzPaginationModule,
     NzStatisticModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    NzInputModule,
   ],
   declarations:[
     MainComponent,
     DashboardComponent,
+    CreateDeviceComponent,
   ],
 })
 export class DashboardModule { }

@@ -10,3 +10,7 @@ export interface Device {
   updatedAt: Date;
   createdAt: Date;
 }
+
+export interface CreateDevice {
+  name: string;
+}

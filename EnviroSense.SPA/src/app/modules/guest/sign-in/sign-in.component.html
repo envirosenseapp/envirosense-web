@@ -7,7 +7,7 @@
 
       <!-- Error message -->
       @if (errorMessage() != null){
-        <div class="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg" *ngIf="errorMessage()">
+        <div class="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
           <p class="text-sm text-red-600">{{ errorMessage()?.message }}</p>
 
           @for (item of errorMessage()?.context; track item.key){
