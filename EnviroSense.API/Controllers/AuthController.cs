@@ -67,7 +67,7 @@ public class AuthController : BaseController
 
         return SuccessfullyCreated(account);
     }
-    
+
     [HttpPost("forgot_password")]
 
     public async Task<IActionResult> ForgotPassword([FromBody][Required] ForgotPasswordRequest request)
