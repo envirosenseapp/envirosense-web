@@ -58,7 +58,7 @@ public class AuthController : BaseController
         var isEmailTaken = await _accountService.IsEmailTaken(request.Email);
         if (isEmailTaken)
         {
-            return ValidationError();
+            return CustomValidationError(new Models.Core.BaseError.Entry("email", "email already taken"));
         }
         var account = await _accountService.Add(request.Email, request.Password);
 
