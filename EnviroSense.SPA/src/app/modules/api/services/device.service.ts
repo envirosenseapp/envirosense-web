@@ -16,6 +16,10 @@ export class DeviceService {
     return this.http.post<Device>(`${environment.api}/devices`, create);
   }
 
+  getById(id: string): Observable<Device> {
+    return this.http.get<Device>(`${environment.api}/devices/`+id);
+  }
+
   list(filters: DeviceFilters): Observable<PagedApiResult<Device>> {
     return this.http.get<PagedApiResult<Device>>(`${environment.api}/devices`, filters);
   }

@@ -46,8 +46,7 @@ export class CreateDeviceComponent extends ComponentWithLoading  {
           'You have successfully create a new device.'
         );
 
-        // TODO: redirect to device page when we have it
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard/devices',res.id]);
       });
   }
 }

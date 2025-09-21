@@ -12,8 +12,16 @@
       </div>
       <div nz-row [nzGutter]="[16, 16]">
         @for (device of data().records; track device.id) {
+          <ng-template #actionList>
+            <nz-icon nzType="unordered-list" nzTheme="outline" routerLink="/dashboard/devices/{{ device.id }}"/>
+          </ng-template>
+
+          <ng-template #actionEdit>
+            <nz-icon nzType="edit"/>
+          </ng-template>
+
           <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="6">
-            <nz-card [nzTitle]="device.name" [nzActions]="[actionGraph, actionList, actionEdit]">
+            <nz-card [nzTitle]="device.name" [nzActions]="[ actionList, actionEdit]">
               <!-- Card Body with Statistics -->
               <div class="py-2">
                 <div class="flex justify-around mb-3">
@@ -29,7 +37,7 @@
                   ></nz-statistic>
                 </div>
                 <div class="text-center text-gray-400 text-xs">
-                  <span>Last: {{ ( now | date: 'short') || 'No readings yet' }}</span>
+                  <span>Last: {{ (now | date: 'short') || 'No readings yet' }}</span>
                 </div>
               </div>
             </nz-card>
@@ -58,15 +66,3 @@
     }
   </div>
 }
-
-<ng-template #actionGraph>
-  <nz-icon nzType="line-chart" nzTheme="outline" />
-</ng-template>
-
-<ng-template #actionList>
-  <nz-icon nzType="unordered-list" nzTheme="outline" />
-</ng-template>
-
-<ng-template #actionEdit>
-  <nz-icon nzType="edit"/>
-</ng-template>

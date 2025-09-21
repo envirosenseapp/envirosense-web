@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 export class ApiHttpClient {
   constructor(private readonly http: HttpClient) {}
 
-  get<T>(url: string, queryParams: any | null): Observable<T> {
+  get<T>(url: string, queryParams?: any): Observable<T> {
     return this.http.get<T>(url, {
       params: queryParams,
     });
