@@ -1,0 +1,23 @@
+meta {
+  name: Sign up
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{apiUrl}}/auth/sign_up
+  body: none
+  auth: inherit
+}
+body:json {
+  {
+    "email": "new_user@gmail.com",
+    "password": "11111112",
+    "confirmPassword": "11111112"
+    
+  }
+}
+
+settings {
+  encodeUrl: true
+}
