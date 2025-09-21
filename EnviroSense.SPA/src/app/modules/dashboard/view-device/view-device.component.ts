@@ -1,5 +1,5 @@
 import {Component, inject, OnInit, signal, Signal} from '@angular/core';
-import {ComponentWithLoading} from '../../../core';
+import {ComponentWithLoading, loadingAndErrorPipe} from '../../../core';
 import {ActivatedRoute} from '@angular/router';
 import {takeUntil} from 'rxjs';
 import {Device, DeviceService} from '../../api';
@@ -29,7 +29,7 @@ export class ViewDeviceComponent extends ComponentWithLoading implements OnInit 
     this.startLoading();
     this.deviceService.getById(id)
       .pipe(
-        this.loadingAndErrorPipe.bind(this),
+        loadingAndErrorPipe(this),
       )
       .subscribe(
         {
