@@ -2,8 +2,8 @@
 using EnviroSense.API.Authentication;
 using EnviroSense.API.Models.Auth;
 using EnviroSense.Application.Services;
-using EnviroSense.Domain.Entities;
 using EnviroSense.Domain.Exceptions;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnviroSense.API.Controllers;
@@ -12,11 +12,13 @@ namespace EnviroSense.API.Controllers;
 public class AuthController : BaseController
 {
     private readonly ITokenAuthentication _tokenAuthentication;
+    private readonly IAccountPasswordResetService _accountPasswordResetService;
     private readonly IAccountService _accountService;
 
-    public AuthController(ITokenAuthentication tokenAuthentication, IAccountService accountService)
+    public AuthController(ITokenAuthentication tokenAuthentication, IAccountPasswordResetService accountPasswordResetService, IAccountService accountService)
     {
         _tokenAuthentication = tokenAuthentication;
+        _accountPasswordResetService = accountPasswordResetService;
         _accountService = accountService;
     }
 
@@ -47,6 +49,7 @@ public class AuthController : BaseController
         }
     }
 
+
     [HttpPost("sign_up")]
 
     public async Task<IActionResult> SignUp([FromBody][Required] SignUpRequest request)
@@ -64,6 +67,12 @@ public class AuthController : BaseController
 
         return SuccessfullyCreated(account);
     }
+    
+    [HttpPost("forgot_password")]
 
-
+    public async Task<IActionResult> ForgotPassword([FromBody][Required] ForgotPasswordRequest request)
+    {
+        await _accountPasswordResetService.ResetPasswordAsync(request.Email);
+        return NoContent();
+    }
 }
