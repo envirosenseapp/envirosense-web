@@ -2,6 +2,7 @@ import {Component, OnInit, signal, WritableSignal, inject} from '@angular/core';
 import {DeviceService, Device, DeviceFilters} from '../../api';
 import {switchMap, takeUntil, tap} from 'rxjs';
 import {ComponentWithPagedData} from '../../../core/component-with-paged-data';
+import {loadingAndErrorPipe} from '../../../core';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -21,7 +22,7 @@ export class DashboardComponent extends ComponentWithPagedData<DeviceFilters, De
       takeUntil(this.onDestroy$),
       tap(() => this.startLoading()),
       switchMap(filters => this.deviceService.list(filters)),
-      this.loadingAndErrorPipe.bind(this),
+      loadingAndErrorPipe(this),
     )
       .subscribe(this.setData.bind(this));
 

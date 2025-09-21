@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService, SignInRequest, SessionService} from '../../api';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {ComponentWithLoading} from '../../../core';
+import {ComponentWithLoading, loadingAndErrorPipe} from '../../../core';
 import {NzMessageService} from 'ng-zorro-antd/message';
 
 @Component({
@@ -44,7 +44,7 @@ export class SignInComponent extends ComponentWithLoading {
     this.startLoading();
     this.authService.signIn(credentials)
       .pipe(
-        this.loadingAndErrorPipe.bind(this),
+        loadingAndErrorPipe(this),
       )
       .subscribe(this.handleSignInSuccess.bind(this));
   }

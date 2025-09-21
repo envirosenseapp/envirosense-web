@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import { ComponentWithLoading } from '../../../core';
+import {ComponentWithLoading, loadingAndErrorPipe} from '../../../core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {CreateDevice, DeviceService, SignInRequest} from '../../api';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
@@ -39,7 +39,7 @@ export class CreateDeviceComponent extends ComponentWithLoading  {
     this.startLoading();
     this.deviceService.create(createDevice)
       .pipe(
-        this.loadingAndErrorPipe.bind(this),
+        loadingAndErrorPipe(this),
       )
       .subscribe(res => {
         this.messageService.success(
