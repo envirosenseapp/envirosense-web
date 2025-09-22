@@ -30,7 +30,7 @@ public abstract class BaseController : Controller
     {
         return Success(new JsonResult(entries)
         {
-            StatusCode = 201
+            StatusCode = 204
         });
     }
 }
