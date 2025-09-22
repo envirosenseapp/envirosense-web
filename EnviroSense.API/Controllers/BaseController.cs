@@ -26,4 +26,11 @@ public abstract class BaseController : Controller
     {
         return BadRequest(new ValidationError(entries));
     }
+    public IActionResult CustomSuccessMessage(params BaseSuccess.Entry[] entries)
+    {
+        return Success(new JsonResult(entries)
+        {
+            StatusCode = 201
+        });
+    }
 }
