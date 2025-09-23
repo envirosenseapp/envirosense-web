@@ -1,15 +1,24 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {SignUpRequest, AuthService, SignInRequest, SessionService} from '../../api';
+import {ComponentWithLoading, loadingAndErrorPipe} from '../../../core';
+import {Router} from '@angular/router';
+import {NzMessageService} from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-guest-sign-up',
   standalone: false,
   templateUrl: './sign-up.component.html',
 })
-export class SignUpComponent {
+export class SignUpComponent extends ComponentWithLoading {
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly messageService = inject(NzMessageService);
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
+    super();
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -30,6 +39,27 @@ export class SignUpComponent {
       return;
     }
     console.log('Sign up', this.form.value);
+    const credentials: SignUpRequest = {
+      email: this.form.value.email,
+      password: this.form.value.password,
+      confirmPassword: this.form.value.confirmPassword
+    };
+    this.startLoading();
+    this.authService.signUp(credentials).pipe(
+
+      loadingAndErrorPipe(this)
+    )
+    .subscribe(
+      this.handleSignUpSuccess.bind(this),
+    )
+  }
+  private handleSignUpSuccess(): void {
+    // Show success notification
+    this.messageService.success(
+      'You have successfully signed up to EnviroSense.'
+    );
+    // Redirect to dashboard
+    this.router.navigate(['/sign-in']);
   }
 }
 

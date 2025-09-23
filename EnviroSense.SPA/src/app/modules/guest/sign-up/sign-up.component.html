@@ -3,7 +3,15 @@
     <div class="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
       <h1 class="text-2xl font-bold text-slate-900">Create your account</h1>
       <p class="mt-1 text-slate-600">Start linking thermometers in minutes.</p>
+      @if (errorMessage() != null){
+        <div class="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+          <p class="text-sm text-red-600">{{ errorMessage()?.message }}</p>
 
+          @for (item of errorMessage()?.context; track item.key){
+            <p class="text-sm text-red-600">{{ item.key }} -- {{ item.message }} </p>
+          }
+        </div>
+      }
       <form class="mt-6 space-y-4" [formGroup]="form" (ngSubmit)="submit()">
         <div class="space-y-1">
           <label for="email" class="block text-sm text-slate-700">Email</label>
