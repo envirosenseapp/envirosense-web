@@ -63,10 +63,12 @@ public class AccountService : IAccountService
         account.Password = BCryptNet.HashPassword(password, 10);
         var updatedAccount = await _accountRepository.UpdateAsync(account);
         await _emailSender.SendEmailAsync(account.Email,
-            new SendPasswordChangedNotificationEmailPayload()
+            new SendPasswordChangedNotificationEmailPayload
             {
                 ChangedAt = DateTime.UtcNow,
-                PasswordResetEmail = account.Email
+                PasswordResetEmail = account.Email,
+
+
 
             });
         return updatedAccount;

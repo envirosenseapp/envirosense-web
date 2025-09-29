@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EnviroSense.API.Authentication;
 using EnviroSense.API.Models.Auth;
+using EnviroSense.API.Models.Settings;
+using EnviroSense.Application.Authentication;
 using EnviroSense.Application.Services;
 using EnviroSense.Domain.Exceptions;
 using Microsoft.AspNetCore.Identity.Data;
@@ -14,12 +16,14 @@ public class AuthController : BaseController
     private readonly ITokenAuthentication _tokenAuthentication;
     private readonly IAccountPasswordResetService _accountPasswordResetService;
     private readonly IAccountService _accountService;
+    private readonly IAuthenticationContext _authenticationContext;
 
-    public AuthController(ITokenAuthentication tokenAuthentication, IAccountPasswordResetService accountPasswordResetService, IAccountService accountService)
+    public AuthController(ITokenAuthentication tokenAuthentication, IAccountPasswordResetService accountPasswordResetService, IAccountService accountService, IAuthenticationContext authenticationContext)
     {
         _tokenAuthentication = tokenAuthentication;
         _accountPasswordResetService = accountPasswordResetService;
         _accountService = accountService;
+        _authenticationContext = authenticationContext;
     }
 
     [HttpPost("sign_in")]
@@ -73,6 +77,22 @@ public class AuthController : BaseController
     public async Task<IActionResult> ForgotPassword([FromBody][Required] ForgotPasswordRequest request)
     {
         await _accountPasswordResetService.ResetPasswordAsync(request.Email);
+        return NoContent();
+    }
+
+    [HttpPut ("password")]
+
+    public async Task<IActionResult> UpdatePassword([FromBody] [Required] UpdatePasswordRequest request)
+    {
+
+        if (!ModelState.IsValid)
+        {
+            return ValidationError();
+        }
+
+        var accountId = await _authenticationContext.CurrentAccountId();
+        await _accountService.ResetPasswordFromSettings(accountId.Value, request.NewPassword);
+
         return NoContent();
     }
 }
