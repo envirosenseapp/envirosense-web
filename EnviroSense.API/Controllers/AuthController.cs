@@ -90,7 +90,7 @@ public class AuthController : BaseController
         try
         {
             await _accountPasswordResetService.Reset(id, request.NewPassword);
-            return CustomSuccessMessage(new Models.Core.BaseSuccess.Entry("Password has been reset successfully") { });
+            return NoContent();
         }
         catch (ResetPasswordLinkExpiredException)
         {
