@@ -80,9 +80,9 @@ public class AuthController : BaseController
         return NoContent();
     }
 
-    [HttpPut ("password")]
+    [HttpPut("password")]
 
-    public async Task<IActionResult> UpdatePassword([FromBody] [Required] UpdatePasswordRequest request)
+    public async Task<IActionResult> UpdatePassword([FromBody][Required] UpdatePasswordRequest request)
     {
 
         if (!ModelState.IsValid)
