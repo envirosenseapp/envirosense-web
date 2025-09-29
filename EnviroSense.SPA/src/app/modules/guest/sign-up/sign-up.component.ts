@@ -46,7 +46,6 @@ export class SignUpComponent extends ComponentWithLoading {
     };
     this.startLoading();
     this.authService.signUp(credentials).pipe(
-
       loadingAndErrorPipe(this)
     )
     .subscribe(
@@ -62,5 +61,3 @@ export class SignUpComponent extends ComponentWithLoading {
     this.router.navigate(['/sign-in']);
   }
 }
-
-

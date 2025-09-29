@@ -2,8 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { ApiHttpClient } from '../http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import {SignInRequest, SignInResponse} from '../models';
-import {SignUpRequest, SignUpResponse} from '../models';
+import {SignInRequest, SignInResponse, SignUpRequest, SignUpResponse} from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

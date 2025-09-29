@@ -41,7 +41,14 @@
           I agree to the <a routerLink="/terms" class="text-blue-600 hover:underline">Terms</a> and <a routerLink="/privacy" class="text-blue-600 hover:underline">Privacy</a>
         </label>
 
-        <button nz-button nzType="primary" class="w-full" [disabled]="form.invalid">Create account</button>
+        <button
+          nz-button
+          nzType="primary"
+          class="w-full"
+          [disabled]="form.invalid || isLoading()"
+          [nzLoading]="isLoading()">
+          {{ isLoading() ? 'Signing Up...' : 'Sign up' }}
+        </button>
       </form>
 
       <div class="mt-4 text-sm text-slate-600">
