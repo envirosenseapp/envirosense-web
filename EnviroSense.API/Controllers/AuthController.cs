@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EnviroSense.API.Authentication;
 using EnviroSense.API.Models.Auth;
+using EnviroSense.API.Models.ResetPassword;
+using EnviroSense.API.Models.RessetPassword;
 using EnviroSense.Application.Services;
 using EnviroSense.Domain.Exceptions;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnviroSense.API.Controllers;
@@ -74,5 +75,31 @@ public class AuthController : BaseController
     {
         await _accountPasswordResetService.ResetPasswordAsync(request.Email);
         return NoContent();
+    }
+
+    [HttpPost("reset_password/{id}")]
+
+    public async Task<IActionResult> ResetPassword([FromRoute][Required] Guid id,
+        [FromBody][Required] ResetPasswordRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return ValidationError();
+        }
+
+        try
+        {
+            await _accountPasswordResetService.Reset(id, request.NewPassword);
+            return NoContent();
+        }
+        catch (ResetPasswordLinkExpiredException)
+        {
+            return CustomValidationError(new Models.Core.BaseError.Entry("link", "Link expired"));
+        }
+        catch (ResetPasswordAlreadyUsedException)
+        {
+            return CustomValidationError(new Models.Core.BaseError.Entry("link", "Link already used"));
+        }
+
     }
 }
