@@ -1,0 +1,32 @@
+<nz-table
+  nzShowSizeChanger
+  [nzData]="data().records"
+  [nzFrontPagination]="false"
+  [nzLoading]="isLoading()"
+  [nzTotal]="data().totalCount"
+  [nzPageSize]="data().pageSize"
+  [nzPageIndex]="data().pageIndex + 1"
+  (nzQueryParams)="onQueryParamsChange($event)">
+  <thead>
+  <tr>
+    <th>Date</th>
+    <th>Temperature</th>
+    <th>Humidity</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (d of data().records; track d.id) {
+      <tr>
+        <td>{{ d.recordingDate | date:'medium' }}</td>
+        <td>{{ d.temperature }}</td>
+        <td>{{ d.humidity }}</td>
+        <td>
+          <a>View</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a>Delete</a>
+        </td>
+      </tr>
+    }
+  </tbody>
+</nz-table>

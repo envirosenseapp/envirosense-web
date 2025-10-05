@@ -23,6 +23,11 @@ import {NzInputModule} from 'ng-zorro-antd/input';
 import {ViewDeviceComponent} from './view-device';
 import {NzDescriptionsComponent, NzDescriptionsItemComponent} from 'ng-zorro-antd/descriptions';
 import {NzEmptyComponent} from 'ng-zorro-antd/empty';
+import {ViewDeviceMeasurementsComponent} from './view-device-measurements';
+import {NzDividerComponent} from 'ng-zorro-antd/divider';
+import {NzTableComponent, NzTableModule} from 'ng-zorro-antd/table';
+import {NzTabsModule} from 'ng-zorro-antd/tabs';
+import {ViewDeviceGraphComponent} from './view-device-graph';
 
 @NgModule({
   imports: [
@@ -45,12 +50,17 @@ import {NzEmptyComponent} from 'ng-zorro-antd/empty';
     NzDescriptionsComponent,
     NzDescriptionsItemComponent,
     NzEmptyComponent,
+    NzDividerComponent,
+    NzTableModule,
+    NzTabsModule,
   ],
   declarations:[
     MainComponent,
     DashboardComponent,
     CreateDeviceComponent,
     ViewDeviceComponent,
+    ViewDeviceMeasurementsComponent,
+    ViewDeviceGraphComponent,
   ],
 })
 export class DashboardModule { }

@@ -4,6 +4,8 @@ import { MainComponent } from './main/main.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreateDeviceComponent } from './create-device/create-device.component';
 import {ViewDeviceComponent} from './view-device';
+import {ViewDeviceMeasurementsComponent} from './view-device-measurements';
+import {ViewDeviceGraphComponent} from './view-device-graph';
 
 const routes: Routes = [
   {
@@ -21,6 +23,21 @@ const routes: Routes = [
       {
         path: 'devices/:id',
         component: ViewDeviceComponent,
+        children: [
+          {
+            path: '',
+            component: ViewDeviceMeasurementsComponent,
+          },
+          {
+            path: 'graph',
+            component: ViewDeviceGraphComponent,
+          },
+          {
+            path: '**',
+            redirectTo: '',
+            pathMatch: 'full'
+          },
+        ],
       }
     ],
   },
