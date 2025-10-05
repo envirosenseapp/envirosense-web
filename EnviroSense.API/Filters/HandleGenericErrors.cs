@@ -39,6 +39,10 @@ public class HandleGenericErrors : IActionFilter
             {
                 HandleForbiddenError(context);
             }
+            else if (context.Exception is InvalidBearerException)
+            {
+                HandleBearerError(context);
+            }
             else
             {
                 HandleGenericError(context);
@@ -71,5 +75,12 @@ public class HandleGenericErrors : IActionFilter
         context.Result = result;
 
         _logger.LogError(context.Exception, "Unexpected error occured");
+    }
+
+    private void HandleBearerError(ActionExecutedContext context)
+    {
+        var result = new JsonResult(new UnauthenticatedError());
+        result.StatusCode = (int)HttpStatusCode.Unauthorized;
+        context.Result = result;
     }
 }
